@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { siteConfig } from '@/data/siteConfig';
+import { getCollection } from 'astro:content';
+
+const url = new URL(Astro.request.url);
+const category = url.searchParams.get('category') || '';
+const catName = siteConfig.categories.find(c => c.id === category)?.name || '';
+
+const all = await getCollection('articles', ({ data }) => !data.draft);
+const filtered = category ? all.filter(a => a.data.category === category) : all;
+const sorted = filtered.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const catCss = `
+.articles-page{max-width:1100px;margin:40px auto;padding:0 24px}
+.articles-page h1{font-size:1.8rem;text-align:center;margin-bottom:8px}
+.subtitle{text-align:center;color:#64748b;margin-bottom:24px}
+.cat-filters{display:flex;justify-content:center;gap:8px;margin-bottom:32px;flex-wrap:wrap}
+.cat-filter{padding:6px 18px;border-radius:20px;font-size:13px;text-decoration:none;color:#475569;background:#f1f5f9;transition:all .2s}
+.cat-filter:hover{background:#e0f2fe;color:#0369a1}
+.cat-filter.active{background:${siteConfig.colors.primary};color:#fff}
+.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.art-card{background:#fff;border:1px solid #e8ecf1;border-radius:14px;overflow:hidden;transition:transform .2s,box-shadow .2s;display:block}
+.art-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.art-img img{width:100%;height:180px;object-fit:cover}
+.art-info{padding:16px 20px 20px}
+.art-cat{display:inline-block;font-size:11px;padding:3px 10px;border-radius:6px;margin-bottom:8px}
+.art-title{font-size:1rem;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#1e293b}
+.art-desc{color:#64748b;font-size:.85rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.art-meta{margin-top:12px;font-size:.8rem;color:#94a3b8}
+@media(max-width:768px){.art-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.art-grid{grid-template-columns:1fr}}
+`;
+---
+
+<BaseLayout title={`${catName || '所有教程'} — ${siteConfig.name}`}>
+  <section class="articles-page">
+    <h1>{catName || '所有教程'}</h1>
+    <p class="subtitle">共 {filtered.length} 篇教程，持续更新中</p>
+
+    <div class="cat-filters">
+      <a href="/articles/" class:list={["cat-filter", { active: !category }]}>全部</a>
+      {siteConfig.categories.map(c =>
+        <a href={`/articles/?category=${c.id}`} class:list={["cat-filter", { active: category === c.id }]}>{c.name}</a>
+      )}
+    </div>
+
+    <div class="art-grid">
+      {sorted.map(a => {
+        const cat = a.data.category;
+        return (
+          <a href={`/${a.id}/`} class="art-card">
+            {a.data.coverImage && <div class="art-img"><img src={a.data.coverImage} alt={a.data.title} loading="lazy" /></div>}
+            <div class="art-info">
+              <span class="art-cat">{siteConfig.catLabels[cat] || cat}</span>
+              <h3 class="art-title">{a.data.title}</h3>
+              <p class="art-desc">{a.data.description}</p>
+              <div class="art-meta"><span>{a.data.date.toISOString().slice(0, 10)}</span></div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<style set:html={catCss} />
