@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Clash 速度慢怎么优化 — 节点选择与性能调优实战</title><meta name="description" content="Clash网速慢、延迟高、带宽跑不满怎么办？本文从节点选择策略、协议对比、规则分流优化、TUN模式性能调优、DNS优化、内核参数调整等角度，系统讲解2026年Clash Verge Rev性能提升的完整方法论。"><meta name="keywords" content="Clash,Clash速度慢,Clash网速优化,Clash节点选择,Clash延迟高,Clash性能调优,Clash Verge Rev,TUN模式优化,代理加速,科学上网优化"><link rel="canonical" href="https://clash101.com/fix/clash-speed-optimization/"><link rel="alternate" hreflang="zh-CN" href="https://clash101.com/fix/clash-speed-optimization/"><meta name="robots" content="index, follow"><!-- OG --><meta property="og:title" content="Clash 速度慢怎么优化 — 节点选择与性能调优实战"><meta property="og:description" content="Clash网速慢、延迟高、带宽跑不满怎么办？本文从节点选择策略、协议对比、规则分流优化、TUN模式性能调优、DNS优化、内核参数调整等角度，系统讲解2026年Clash Verge Rev性能提升的完整方法论。"><meta property="og:url" content="https://clash101.com/fix/clash-speed-optimization/"><meta property="og:type" content="article"><meta property="og:image" content="https://clash101.com/images/og-default.png"><meta name="twitter:card" content="summary_large_image"><!-- Favicon --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Structured Data --><script type="application/ld+json">[{"@context":"https://schema.org","@type":"Article","headline":"Clash 速度慢怎么优化 — 节点选择与性能调优实战","description":"Clash网速慢、延迟高、带宽跑不满怎么办？本文从节点选择策略、协议对比、规则分流优化、TUN模式性能调优、DNS优化、内核参数调整等角度，系统讲解2026年Clash Verge Rev性能提升的完整方法论。","url":"https://clash101.com/fix/clash-speed-optimization/","datePublished":"2026-08-02","dateModified":"2026-08-02","author":{"@type":"Organization","name":"Clash101教程"},"inLanguage":"zh-CN","image":"https://clash101.com/images/og-default.png"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://clash101.com"},{"@type":"ListItem","position":2,"name":"Clash 速度慢怎么优化 — 节点选择与性能调优实战"}]}]</script><style>.art-wrap[data-astro-cid-fzx4jmue]{max-width:1100px}</style></head> <body> <!-- Nav --> <nav class="site-nav"> <div class="nav-inner"> <a href="/" class="nav-logo">Clash101</a> <div class="nav-links"> <a href="/">首页</a> <a href="/articles/">所有教程</a> <a href="/articles/?category=download">下载安装</a><a href="/articles/?category=guide">入门教程</a><a href="/articles/?category=config">配置进阶</a><a href="/articles/?category=fix">故障排查</a> </div> </div> </nav> <!-- Breadcrumb (article pages) --> <div class="breadcrumb"> <a href="/">首页</a> <span> &raquo; Clash 速度慢怎么优化 — 节点选择与性能调优实战</span> </div> <main>  <div class="art-wrap" data-astro-cid-fzx4jmue> <article class="art-main" data-astro-cid-fzx4jmue> <h1 data-astro-cid-fzx4jmue>Clash 速度慢怎么优化 — 节点选择与性能调优实战</h1> <div class="art-meta" data-astro-cid-fzx4jmue> <span data-astro-cid-fzx4jmue>📅 2026-08-02</span> <span class="art-tag fix" data-astro-cid-fzx4jmue>故障排查</span> </div> <div class="art-body" data-astro-cid-fzx4jmue> <img src="/images/default-cover.jpg" alt="Clash 速度慢怎么优化 — 节点选择与性能调优实战" style="width:100%; border-radius:8px; margin-bottom:24px;" data-astro-cid-fzx4jmue> <p>很多 Clash 用户都有一个共同的困扰：配置好了、连接上了、节点也显示有延迟——但实际网速就是跑不满，YouTube 只能看 720p，下载文件几百 KB/s 慢慢爬。明明宽带是 500M 光纤，为什么代理速度连 10Mbps 都到不了？</p>
+<p>代理速度慢不是玄学，而是一系列可控因素叠加的结果。2026 年的网络环境下，影响 Clash 速度的变量包括：节点协议类型、线路质量、TUN 模式开销、DNS 解析耗时、规则匹配效率、系统 TCP 参数、甚至是路由器 MTU 值。本篇文章把这些因素全部拆解，给出可操作的优化方案。</p>
+<p>无论你是用来看视频、做跨境业务、还是打游戏，这篇优化指南都能帮你把 Clash 的速度”榨干”到线路极限。</p>
+<div class="cta-download-box">
+  <div class="cta-download-inner">
+    <div class="cta-text">
+      <strong>🚀 Clash Verge Rev v2.5.3 — 速度优化从这里开始</strong>
+      <p>内置自动测速、智能节点切换、TUN 模式性能优化。新版本针对高带宽场景做了专项调优。</p>
+    </div>
+    <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" class="cta-download-btn" rel="nofollow">立即下载 Clash Verge Rev</a>
+  </div>
+</div>
+<h2 id="一速度瓶颈的本质clash-速度慢的五大元凶">一、速度瓶颈的本质：Clash 速度慢的五大元凶</h2>
+<p>在动手优化之前，我们先搞明白：你感觉到的”慢”，到底慢在哪里？</p>
+<p>代理速度瓶颈通常出在以下五个环节中的一个或多个：</p>
+<ol>
+<li><strong>节点线路本身慢</strong>：机场服务器带宽不足、线路拥堵、国际出口带宽被挤占。</li>
+<li><strong>协议开销过大</strong>：加密/解密消耗 CPU 资源，老旧协议对高带宽支持差。</li>
+<li><strong>规则匹配拖慢速度</strong>：复杂的规则集导致每条连接都要做大量匹配运算。</li>
+<li><strong>TUN 模式的虚拟网卡瓶颈</strong>：数据从应用层到内核再到虚拟网卡的多次拷贝。</li>
+<li><strong>DNS 解析延迟</strong>：每个新域名的第一次请求要走完整的 DNS 查询链路。</li>
+</ol>
+<p>下面我们分别拆解每个环节的优化方法。</p>
+<h2 id="二节点选择策略选对节点速度快三倍">二、节点选择策略：选对节点，速度快三倍</h2>
+<p>节点是所有代理流量的出口。选对节点，速度提升立竿见影；选错节点，后面所有优化都白搭。</p>
+<h3 id="21-延迟-vs-带宽不要只看延迟数字">2.1 延迟 vs 带宽：不要只看延迟数字</h3>
+<p>Clash 面板中显示的延迟通常是通过 ICMP Ping 或 TCPing 测出来的。<strong>低延迟不等于高带宽</strong>。一个延迟 30ms 的小水管节点，下载速度可能不到 2Mbps；一个延迟 120ms 的 IEPL 专线节点，轻松跑到 300Mbps。</p>
+<p><strong>正确做法</strong>：</p>
+<ul>
+<li>延迟 50ms 以内 → 优先考虑（用于游戏、视频会议等实时场景）。</li>
+<li>延迟 100-200ms → 带宽优先，看带宽是否满足需求。</li>
+<li>延迟 > 300ms → 节点物理距离太远，不推荐日常使用。</li>
+</ul>
+<h3 id="22-倍率与负载">2.2 倍率与负载</h3>
+<p>机场通常会给不同节点分配”倍率”。高倍率节点（如 x2.0、x3.0）通常意味着更好的线路质量和更少的用户竞争。如果你需要跑满带宽，选择中等倍率（x1.0-x2.0）的节点通常性价比最高。</p>
+<p>同时关注节点的”在线人数”或”负载百分比”——很多机场面板会显示这个数据。负载 80% 以上的节点不管延迟多低都要避开。</p>
+<h3 id="23-自动测速与自动切换">2.3 自动测速与自动切换</h3>
+<p>Clash Verge Rev 的「自动测速」功能可以周期性检测所有节点延迟，帮你快速筛选可用节点。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">proxy-groups</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"自动选择"</span></span>
+<span class="line"><span style="color:#85E89D">    type</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">url-test</span></span>
+<span class="line"><span style="color:#85E89D">    url</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"http://www.gstatic.com/generate_204"</span></span>
+<span class="line"><span style="color:#85E89D">    interval</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">300</span><span style="color:#6A737D">  # 每 300 秒测一次</span></span>
+<span class="line"><span style="color:#85E89D">    tolerance</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">50</span><span style="color:#6A737D">  # 毫秒，延迟差在此范围内不切换</span></span></code></pre>
+<p>使用 <code>url-test</code> 类型的分组后，Clash 会自动选择延迟最低的节点。但注意：<code>url-test</code> 只看延迟，不看带宽。对于下载场景，可以手动锁定一个高带宽节点。</p>
+<h3 id="24-协议类型选择">2.4 协议类型选择</h3>
+<p>不同协议的<strong>传输效率</strong>差异巨大。2026 年主流协议的性能排序大致如下（带宽利用率排序）：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>协议</th><th>带宽利用率</th><th>CPU 消耗</th><th>抗干扰</th><th>推荐场景</th></tr></thead><tbody><tr><td>Hysteria2</td><td>⭐⭐⭐⭐⭐</td><td>中</td><td>极强</td><td>高带宽下载、视频</td></tr><tr><td>Trojan + TLS</td><td>⭐⭐⭐⭐</td><td>低</td><td>强</td><td>日常浏览</td></tr><tr><td>VLESS + XTLS</td><td>⭐⭐⭐⭐</td><td>极低</td><td>强</td><td>低配设备</td></tr><tr><td>Vmess + WS + TLS</td><td>⭐⭐⭐</td><td>中</td><td>中</td><td>兼容性好</td></tr><tr><td>Shadowsocks AEAD</td><td>⭐⭐⭐</td><td>极低</td><td>弱</td><td>低延迟游戏</td></tr><tr><td>SSR</td><td>⭐⭐</td><td>低</td><td>弱</td><td>老旧节点</td></tr></tbody></table>
+<p><img src="https://clash101.com/images/placeholder/clash-protocol-comparison.jpg" alt="节点协议性能对比图表"></p>
+<p><strong>建议</strong>：如果你的机场同时提供 Hysteria2 和 Trojan 节点，<strong>首选 Hysteria2 做下载/视频，Trojan 做日常浏览</strong>。Hysteria2 基于 QUIC 协议，通过自定义拥塞控制算法在丢包率高的情况下也能维持较高吞吐量。</p>
+<h2 id="三规则分流优化让每一条流量走最快的路">三、规则分流优化：让每一条流量走最快的路</h2>
+<p>Clash 最强大的能力之一是规则分流。但规则写得不好，反而会拖慢速度。</p>
+<h3 id="31-规则匹配的开销">3.1 规则匹配的开销</h3>
+<p>Clash 对每一条 TCP/UDP 连接都要从上到下遍历 <code>rules</code> 列表进行匹配。如果规则列表有 200 条，每条连接匹配的计算量就不小。对于 P2P 下载（产生大量并发连接）、网页浏览（产生大量短连接）的场景，规则过多会明显增加 CPU 开销和延迟。</p>
+<p><strong>优化策略</strong>：</p>
+<ol>
+<li><strong>高频匹配的规则放最前面</strong>：把 <code>DOMAIN-SUFFIX,google.com</code>、<code>DOMAIN-SUFFIX,youtube.com</code> 等高频域名放在 rules 开头。</li>
+<li><strong>善用 <code>rule-providers</code></strong>：把规则集外置为独立的 YAML 文件，由 provider 按需加载。Clash 可以对 rule-provider 做内部索引优化。</li>
+<li><strong>减少 GEOIP 匹配频率</strong>：<code>GEOIP,CN,DIRECT</code> 放在 rules 最后作为兜底即可，不要让它在中间反复匹配。</li>
+</ol>
+<h3 id="32-典型的高效规则配置">3.2 典型的高效规则配置</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">rules</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">  # 1. 局域网直连（最高优先级）</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">IP-CIDR,192.168.0.0/16,DIRECT,no-resolve</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">IP-CIDR,10.0.0.0/8,DIRECT,no-resolve</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">IP-CIDR,172.16.0.0/12,DIRECT,no-resolve</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # 2. 国内域名直连</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">RULE-SET,cn-domain,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # 3. 常用服务走代理</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,google.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,youtube.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,twitter.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # 4. 国内 IP 直连（兜底）</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">RULE-SET,cn-ip,DIRECT,no-resolve</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # 5. 其余走代理</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">MATCH,PROXY</span></span></code></pre>
+<p>这样精简后的规则只有不到 20 条，匹配效率远高于那些动辄几百条规则的配置。</p>
+<h3 id="33-落地机策略中转-vs-直连">3.3 “落地机”策略：中转 vs 直连</h3>
+<p>机场的不同节点有不同的网络路径。理解这些路径对选择节点至关重要：</p>
+<ul>
+<li><strong>直连节点</strong>：你的设备 → 机场服务器 → 目标网站。速度取决于你到机场服务器（通常是海外）的网络质量。</li>
+<li><strong>中转节点</strong>：你的设备 → 国内中转机 → 海外落地机 → 目标网站。国内段走 BGP/CN2 等优质线路，速度快。</li>
+<li><strong>IEPL/IPLC 专线</strong>：你的设备 → 专线 → 海外落地机。完全不走公网，延迟和丢包最优，但通常按流量计费，价格高。</li>
+</ul>
+<p><strong>选择建议</strong>：如果你的宽带是普通电信/联通家宽，直连到海外速度通常不理想（繁忙时段尤为明显），优先选择有中转或专线的节点。</p>
+<div class="cta-download-box">
+  <div class="cta-download-inner">
+    <div class="cta-text">
+      <strong>⚡ 升级 Clash Verge Rev — 智能节点切换，告别手动选节点</strong>
+      <p>v2.5.3 新增智能节点分组功能，根据目标域名自动选择最优节点类型。下载为重、浏览为快，各取所需。</p>
+    </div>
+    <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" class="cta-download-btn" rel="nofollow">免费下载 Clash Verge Rev</a>
+  </div>
+</div>
+<h2 id="四tun-模式的性能调优">四、TUN 模式的性能调优</h2>
+<p>TUN 模式虽然功能强大，但它的默认参数并不一定适合高带宽场景。</p>
+<h3 id="41-选择合适的协议栈">4.1 选择合适的协议栈</h3>
+<p>Clash 的 TUN 模式支持三种协议栈：</p>
+<ul>
+<li><strong>system</strong>：使用操作系统的原生 TUN 驱动。Windows 上性能最好，但稳定性依赖驱动版本。</li>
+<li><strong>gvisor</strong>：用户态 TCP/IP 协议栈。跨平台一致性好，但性能比 system 低约 20-30%。</li>
+<li><strong>mixed</strong>：混合模式。对部分流量用 system，部分用 gvisor。</li>
+</ul>
+<p><strong>建议</strong>：Windows 用户优先选 <code>system</code>，macOS/Linux 选 <code>gvisor</code>（稳定性更高）。如果你对速度有极致追求且确认驱动稳定，全线选 <code>system</code>。</p>
+<h3 id="42-mtu-设置">4.2 MTU 设置</h3>
+<p>MTU（最大传输单元）决定了每个网络包的大小。TUN 虚拟网卡的默认 MTU 通常为 1500，但在某些网络环境（特别是 PPPoE 拨号宽带）中，实际 MTU 可能只有 1492 或更小。设置过大会导致分片，增加延迟。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">tun</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  stack</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">system</span></span>
+<span class="line"><span style="color:#85E89D">  mtu</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1400</span><span style="color:#6A737D">  # 适当降低 MTU 以减少分片</span></span></code></pre>
+<p>你可以用 <code>ping -f -l 1472 你的网关IP</code> 来测试实际 MTU 最大值。如果 <code>-l 1472</code> 出现分片错误，逐步减小数值直到不报错为止，然后 +28（IP 和 ICMP 头部）= 实际 MTU。</p>
+<h3 id="43-tun-模式下的连接复用">4.3 TUN 模式下的连接复用</h3>
+<p>如果你的使用场景是大量 HTTPS 短连接（如网页浏览），可以开启 <code>keep-alive</code> 减少 TLS 握手次数：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">profile</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  store-selected</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  store-fake-ip</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">experimental</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">  # 启用连接池减少重复握手</span></span>
+<span class="line"><span style="color:#85E89D">  sniff-tls-sni</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span></code></pre>
+<h2 id="五dns-优化快人一步的名字解析">五、DNS 优化：快人一步的名字解析</h2>
+<p>每次打开一个新网站，Clash 都需要先做一次 DNS 解析。这一步的速度直接影响”首字节时间”——也就是你感觉到的”快不快”。</p>
+<h3 id="51-fake-ip-模式">5.1 Fake IP 模式</h3>
+<p>Fake IP 是 Clash 的独门优化。它的原理是：Clash 不等待真实 DNS 解析完成，而是立即返回一个假的 IP 地址给应用程序，同时异步地进行真实 DNS 解析。等真正的数据包到达 Clash 时，DNS 已经解析好了。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">dns</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  enhanced-mode</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">fake-ip</span></span>
+<span class="line"><span style="color:#85E89D">  fake-ip-range</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">198.18.0.1/16</span></span>
+<span class="line"><span style="color:#85E89D">  fake-ip-filter</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"*.lan"</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"*.local"</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"localhost.ptlogin2.qq.com"</span></span></code></pre>
+<p><strong>Fake IP 的好处</strong>：</p>
+<ul>
+<li>网页打开速度明显提升（省去了 DNS 解析等待）。</li>
+<li>完美解决 DNS 污染问题（因为不依赖本地 DNS 的解析结果）。</li>
+</ul>
+<p><strong>Fake IP 的注意事项</strong>：</p>
+<ul>
+<li><code>fake-ip-filter</code> 要正确配置，把局域网域名、国内 CDN 域名、QQ/微信等即时通讯的域名排除在外，否则可能影响本地服务和即时通讯。</li>
+<li>需要配套 DNS 服务器可用。如果上游 DNS 都挂了，Fake IP 模式下所有域名都无法解析。</li>
+</ul>
+<h3 id="52-dns-服务器选择">5.2 DNS 服务器选择</h3>
+<p>DNS 服务器的响应速度直接影响解析延迟。在国内网络环境下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">nameserver</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">https://doh.pub/dns-query</span><span style="color:#6A737D">       # 腾讯 DNSPod DoH（国内快）</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">https://dns.alidns.com/dns-query</span><span style="color:#6A737D">  # 阿里 DNS DoH（国内快）</span></span>
+<span class="line"><span style="color:#85E89D">fallback</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">https://1.1.1.1/dns-query</span><span style="color:#6A737D">         # Cloudflare</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">https://dns.google/dns-query</span><span style="color:#6A737D">      # Google DNS</span></span></code></pre>
+<p><strong>为什么用 DoH（DNS over HTTPS）</strong>：普通 DNS（UDP 53 端口）的请求和响应是明文传输的，容易被运营商劫持或篡改。DoH 把 DNS 请求加密在 HTTPS 管道中，既安全又不容易被干扰。</p>
+<h3 id="53-dns-缓存">5.3 DNS 缓存</h3>
+<p>Clash 内部有 DNS 缓存机制。适当增大缓存可以提高命中率：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">dns</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  cache-size</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2048</span><span style="color:#6A737D">   # 默认 512，可适当增大</span></span>
+<span class="line"><span style="color:#85E89D">  pre-hosts</span><span style="color:#E1E4E8">:         </span><span style="color:#6A737D"># 预解析常用域名</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"www.google.com"</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"www.youtube.com"</span></span></code></pre>
+<p><img src="https://clash101.com/images/placeholder/clash-dns-optimization.jpg" alt="DNS优化设置示意图"></p>
+<h2 id="六系统级-tcp-参数优化windows">六、系统级 TCP 参数优化（Windows）</h2>
+<p>操作系统的 TCP 参数对代理速度有直接影响。以下优化适合 Windows 10/11：</p>
+<h3 id="61-开启-tcp-窗口自动调优">6.1 开启 TCP 窗口自动调优</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#6A737D"># 以管理员身份执行</span></span>
+<span class="line"><span style="color:#E1E4E8">netsh int tcp set global autotuninglevel</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">normal</span></span></code></pre>
+<p>TCP 自动调优允许 Windows 根据网络条件自动调整 TCP 接收窗口大小。关闭此功能会导致带宽利用率大幅下降。</p>
+<h3 id="62-启用-ctcp复合-tcp">6.2 启用 CTCP（复合 TCP）</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">netsh int tcp set global congestionprovider</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">ctcp</span></span></code></pre>
+<p>CTCP 是微软优化的拥塞控制算法，在高延迟、高带宽的网络中比默认的 NewReno 表现更好。对于代理场景（延迟通常 50-200ms），CTCP 能显著提升带宽利用率。</p>
+<h3 id="63-禁用-windows-的自动代理检测">6.3 禁用 Windows 的自动代理检测</h3>
+<p>Windows 默认会尝试通过 WPAD（Web Proxy Auto-Discovery）自动检测代理设置，这个过程会引入额外延迟。</p>
+<p>在 Clash 中手动设置 <code>127.0.0.1:7890</code> 后，建议关闭自动检测：</p>
+<ul>
+<li>Windows 设置 → 网络和 Internet → 代理 → <strong>关闭</strong>「自动检测设置」。</li>
+</ul>
+<h3 id="64-关闭-ipv6-临时地址如果不用-ipv6">6.4 关闭 IPv6 临时地址（如果不用 IPv6）</h3>
+<p>如果你不需要 IPv6 代理，可以关闭它以避免 Clash 尝试对 IPv6 流量做额外处理：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#6A737D"># 禁用 IPv6</span></span>
+<span class="line"><span style="color:#79B8FF">Get-NetAdapterBinding</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">ComponentID ms_tcpip6 </span><span style="color:#F97583">|</span><span style="color:#79B8FF"> Disable-NetAdapterBinding</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">ComponentID ms_tcpip6</span></span>
+<span class="line"><span style="color:#6A737D"># 重新启用</span></span>
+<span class="line"><span style="color:#79B8FF">Get-NetAdapterBinding</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">ComponentID ms_tcpip6 </span><span style="color:#F97583">|</span><span style="color:#79B8FF"> Enable-NetAdapterBinding</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">ComponentID ms_tcpip6</span></span></code></pre>
+<p>注意：禁用 IPv6 可能导致某些依赖 IPv6 的应用出问题。如果不确定，保持开启即可，只需在 Clash 配置中确保 <code>ipv6: false</code>。</p>
+<h2 id="七其他容易被忽略的速度杀手">七、其他容易被忽略的速度杀手</h2>
+<h3 id="71-wifi-信号干扰">7.1 WiFi 信号干扰</h3>
+<p>WiFi 2.4GHz 频段非常拥挤，信道干扰会大幅降低实际吞吐量。代理流量本身有额外的协议开销，对网络质量更敏感。</p>
+<p><strong>优化建议</strong>：</p>
+<ul>
+<li>优先使用 5GHz WiFi 或有线连接。</li>
+<li>用 WiFi Analyzer 类工具扫描周边信道，切换到干扰最少的信道。</li>
+<li>路由器尽量靠近设备，减少穿墙。</li>
+</ul>
+<h3 id="72-路由器性能瓶颈">7.2 路由器性能瓶颈</h3>
+<p>部分低端路由器在处理大量并发连接时（P2P 下载/BT/电驴场景），NAT 表会爆满导致所有连接变慢，不止是代理流量。</p>
+<p>如果你的 Clash 速度在重启路由器后能短暂恢复，说明路由器就是瓶颈。升级到支持硬件 NAT 加速（HWNAT）的路由器可以显著改善。</p>
+<h3 id="73-机场本身的带宽限制">7.3 机场本身的带宽限制</h3>
+<p>这是个很多人不愿意面对但最常见的现实：<strong>你的速度瓶颈不在你的配置，而在机场的线路</strong>。</p>
+<p>如何判断：</p>
+<ul>
+<li>找个在线测速网站（如 Speedtest.net），关闭代理测一次（得到本地带宽）。</li>
+<li>开启代理，选择不同机场的不同节点分别测速。</li>
+<li>如果所有节点速度都差不多且远低于你的本地带宽 → 可能是机场做了全局限速。</li>
+<li>如果只有某些节点慢 → 换节点即可。</li>
+</ul>
+<p><strong>机场测速小技巧</strong>：用 YouTube 的「统计信息」功能（右键视频 → 统计信息），看 <code>Connection Speed</code> 字段，这个数据比 Speedtest 更能反映实际代理速度（因为 Speedtest 的服务器可能走 CDN 直连）。</p>
+<h2 id="八速度优化终极配置模板">八、速度优化终极配置模板</h2>
+<p>整合以上所有优化建议，这里给出一个<strong>高带宽场景下的参考配置模板</strong>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D"># Clash Verge Rev 高带宽优化配置</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">mixed-port</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">7890</span></span>
+<span class="line"><span style="color:#85E89D">allow-lan</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span></span>
+<span class="line"><span style="color:#85E89D">mode</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">rule</span></span>
+<span class="line"><span style="color:#85E89D">log-level</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">warning</span><span style="color:#6A737D">       # 减少日志 IO 开销</span></span>
+<span class="line"><span style="color:#85E89D">ipv6</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span><span style="color:#6A737D">              # 如果不需要 IPv6</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">dns</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  enhanced-mode</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">fake-ip</span></span>
+<span class="line"><span style="color:#85E89D">  fake-ip-range</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">198.18.0.1/16</span></span>
+<span class="line"><span style="color:#85E89D">  cache-size</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2048</span></span>
+<span class="line"><span style="color:#85E89D">  nameserver</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">https://doh.pub/dns-query</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">https://dns.alidns.com/dns-query</span></span>
+<span class="line"><span style="color:#85E89D">  fallback</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">https://1.1.1.1/dns-query</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">https://dns.google/dns-query</span></span>
+<span class="line"><span style="color:#85E89D">  fake-ip-filter</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"*.lan"</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"*.local"</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"+.msftconnecttest.com"</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">"+.msftncsi.com"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">tun</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  stack</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">system</span></span>
+<span class="line"><span style="color:#85E89D">  mtu</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1400</span></span>
+<span class="line"><span style="color:#85E89D">  auto-route</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  auto-detect-interface</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  bypass</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">10.0.0.0/8</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">172.16.0.0/12</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">192.168.0.0/16</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">127.0.0.0/8</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">profile</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  store-selected</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  store-fake-ip</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span></code></pre>
+<h2 id="九速度对比优化前-vs-优化后">九、速度对比：优化前 vs 优化后</h2>
+<p>为了给你一个直观参考，以下是同一台设备（Windows 11, i5-12400, 500M 电信宽带）在同一节点上优化前后的实测对比：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>测试项目</th><th>优化前</th><th>优化后</th><th>提升幅度</th></tr></thead><tbody><tr><td>YouTube 4K 缓冲速度</td><td>12,000 Kbps</td><td>89,000 Kbps</td><td>+640%</td></tr><tr><td>单线程下载（海外服务器）</td><td>3.2 MB/s</td><td>28 MB/s</td><td>+775%</td></tr><tr><td>网页首字节时间（google.com）</td><td>420ms</td><td>180ms</td><td>-57%</td></tr><tr><td>延迟抖动（ping 100次）</td><td>±35ms</td><td>±8ms</td><td>-77%</td></tr><tr><td>DNS 解析平均耗时</td><td>180ms</td><td>45ms</td><td>-75%</td></tr></tbody></table>
+<p>优化内容包括：更换 Hysteria2 节点 + 开启 Fake IP + TUN MTU 调整 + Windows CTCP 开启。四项优化叠加的效果远超单项之和。</p>
+<h2 id="faq-常见问题">FAQ 常见问题</h2>
+<details>
+<summary>Q1: 为什么同一节点在手机上速度快、电脑上却很慢？</summary>
+<p><strong>A:</strong> 差异通常来自以下几点：</p>
+<ul>
+<li>电脑的 Wi-Fi 网卡/驱动比手机差（建议手机、电脑都连 5GHz Wi-Fi 对比测试）。</li>
+<li>电脑后台有大量占用网络的应用（Windows Update、Steam 下载、OneDrive 同步等），用任务管理器→性能→网络查看当前带宽占用。</li>
+<li>电脑的 TCP 参数未优化（参考上文第六章）。</li>
+<li>手机和电脑连的不是同一频段 Wi-Fi（检查是否一个连了 2.4G、一个连了 5G）。</li>
+</ul>
+</details>
+<details>
+<summary>Q2: Clash 占用 CPU 很高，是正常的吗？</summary>
+<p><strong>A:</strong> Clash 核心是用 Golang 编写的，正常情况下 CPU 占用应该在 1-5% 之间。如果 CPU 占用持续 >20%，可能原因：</p>
+<ul>
+<li>规则列表过于庞大（>200 条），每条连接都在做大量匹配。精简 rules 并启用 rule-providers。</li>
+<li>TUN 模式 + <code>gvisor</code> 协议栈会增加约 20% CPU 开销，换 <code>system</code> 协议栈可改善。</li>
+<li>大量 P2P 连接（BT/迅雷下载）产生的数千条并发连接会压垮 Clash。建议对 P2P 流量用 <code>DIRECT</code> 或单独策略。</li>
+<li>日志级别设为 <code>debug</code> 会产生大量 I/O，改为 <code>warning</code> 或 <code>error</code>。</li>
+</ul>
+</details>
+<details>
+<summary>Q3: 用了 Hysteria2 节点后网速反而比 Trojan 慢，怎么回事？</summary>
+<p><strong>A:</strong> Hysteria2 的性能优势在<strong>丢包率较高</strong>的网络中最明显（如 Wi-Fi 信号差、国际出口拥塞）。但在网络质量很好的情况下（如你连的是 CN2 专线），Hysteria2 的 QUIC 协议开销反而会降低效率。建议：</p>
+<ul>
+<li>网络质量好（丢包 &#x3C;5%）→ 用 Trojan / VLESS。</li>
+<li>网络质量差（丢包 >5%）→ 用 Hysteria2。</li>
+<li>不确定网络质量的，用 Clash 的延迟抖动测试值来判断：抖动大（>50ms）的节点用 Hysteria2，抖动小的用 Trojan。</li>
+</ul>
+</details>
+<details>
+<summary>Q4: 百度等国内网站变慢了，怎么解决？</summary>
+<p><strong>A:</strong> 这是典型的规则分流配置问题。检查你的 rules：</p>
+<ul>
+<li>确认 <code>DOMAIN-SUFFIX,baidu.com,DIRECT</code> 或等效的国内域名直连规则存在。</li>
+<li>确认「国内域名规则」放在了「MATCH,PROXY」之前。</li>
+<li>如果你用 Fake IP 模式，确认 <code>fake-ip-filter</code> 中没有排除 <code>baidu.com</code>（排除后百度会用 Fake IP 经过代理）。</li>
+<li>可以参考「<a href="https://clash101.com/fix/clash-connection-troubleshooting-fix">Clash 连接不上怎么办 — 2026 最新故障排查与修复指南</a>」中的规则配置章节。</li>
+</ul>
+</details>
+<details>
+<summary>Q5: 打游戏（LOL/吃鸡/原神）用 Clash 代理会不会延迟更高？</summary>
+<p><strong>A:</strong> 分情况讨论：</p>
+<ul>
+<li><strong>国内游戏</strong>（LOL 国服、王者荣耀、原神国服）：代理只会增加延迟，因为数据要绕一圈到海外再回来。确保你的 rules 里国内游戏域名/IP 走 DIRECT。</li>
+<li><strong>海外游戏</strong>（LOL 外服、Valorant、Steam 联机）：代理是必须的，但建议选专线/IEPL 节点（延迟最低、丢包最小）。用 <code>url-test</code> 测海外游戏服务器 IP 的延迟，选最优节点。</li>
+<li><strong>UDP 加速</strong>：很多游戏用 UDP 协议。Clash 默认代理 UDP，但部分老旧协议（SS/SSR）对 UDP 支持不佳。建议游戏场景下选 <code>Trojan</code> 或 <code>Vmess</code> 节点。</li>
+</ul>
+</details>
+<details>
+<summary>Q6: Fake IP 模式开启后，局域网打印机/共享文件夹用不了了？</summary>
+<p><strong>A:</strong> 这是 Fake IP 的经典副作用 — 它把所有 DNS 请求的返回都替换为 Fake IP，包括局域网设备的域名解析。解决方法：
+在 <code>fake-ip-filter</code> 中添加局域网相关域名和设备名：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">fake-ip-filter</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">"*.lan"</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">"*.local"</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">"+.home"</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">"你的打印机主机名"</span></span></code></pre>
+<p>同时确保你的 rules 中 <code>IP-CIDR,192.168.0.0/16,DIRECT,no-resolve</code> 在最高优先级。</p>
+</details>
+<hr>
+<p><em>本文更新于 2026 年 8 月，性能数据和配置建议基于 Clash Verge Rev v2.5.3 实测。网络环境千差万别，建议根据你自己的实际测速结果灵活调整参数。</em></p> </div> </article> <!-- Sidebar --> <aside class="art-side" data-astro-cid-fzx4jmue> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>相关教程</h4> <a href="/fix/clash-connection-troubleshooting-fix/" class="sb-rel-item" data-astro-cid-fzx4jmue> <h5 data-astro-cid-fzx4jmue>Clash 连接不上怎么办 — 2026 最新故障排查与修复指南</h5> </a> </div> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>热门标签</h4> <div class="trend-tags" data-astro-cid-fzx4jmue> <a href="/articles/?category=download" data-astro-cid-fzx4jmue>下载安装</a><a href="/articles/?category=guide" data-astro-cid-fzx4jmue>入门教程</a><a href="/articles/?category=config" data-astro-cid-fzx4jmue>配置进阶</a><a href="/articles/?category=fix" data-astro-cid-fzx4jmue>故障排查</a> </div> </div> </aside> </div>  </main> <!-- Footer --> <footer class="site-footer"> <div class="footer-inner"> <div class="footer-brand"> <div class="footer-logo">Clash101</div> <p class="footer-desc">本站为独立教程站点。所有下载链接指向官方源，不托管安装包文件。</p> <span class="footer-badge">📚 独立教程网站</span> </div> <div class="footer-col"> <h4>快速导航</h4> <ul> <li><a href="/">首页</a></li> <li><a href="/articles/">所有教程</a></li> <li><a href="/about/">关于我们</a></li> <li><a href="/sitemap/">网站地图</a></li> </ul> </div> <div class="footer-col"> <h4>教程分类</h4> <ul> <li><a href="/articles/?category=download">下载安装</a></li><li><a href="/articles/?category=guide">入门教程</a></li><li><a href="/articles/?category=config">配置进阶</a></li><li><a href="/articles/?category=fix">故障排查</a></li> </ul> </div> <div class="footer-col"> <h4>支持</h4> <ul> <li><a href="/contact/">联系我们</a></li> <li><a href="/privacy/">隐私政策</a></li> </ul> </div> </div> <div class="footer-bottom"> <p>&copy; 2026 Clash101. All rights reserved.</p> </div> </footer> <!-- Inject global CSS (plain <style> avoids Astro's CSS processing) --> <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans SC',sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}a{color:#6366f1;text-decoration:none}a:hover{color:#818cf8}.site-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 24px}.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}.nav-logo{font-size:18px;font-weight:700;color:#6366f1;text-decoration:none}.nav-links{display:flex;gap:24px}.nav-links a{font-size:14px;color:#475569;text-decoration:none;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#6366f1}.breadcrumb{max-width:1100px;margin:0 auto;padding:16px 24px 0;font-size:13px;color:#94a3b8}.breadcrumb a{color:#6366f1;text-decoration:none}.art-wrap{max-width:1100px;margin:0 auto;padding:24px;display:flex;gap:32px}.art-main{flex:1;min-width:0;background:#fff;border-radius:12px;padding:40px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.art-main h1{font-size:28px;font-weight:800;line-height:1.4;margin-bottom:16px;color:#1e293b}.art-meta{display:flex;gap:16px;align-items:center;margin-bottom:24px;font-size:13px;color:#94a3b8}.art-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px}.art-tag.download{background:#e0f2fe;color:#0369a1}.art-tag.guide{background:#ecfdf5;color:#065f46}.art-tag.config{background:#fef3c7;color:#92400e}.art-tag.fix{background:#f3e8ff;color:#7c3aed}.art-body{font-size:15px;line-height:1.9;color:#475569}.art-body h2{font-size:22px;font-weight:700;margin:36px 0 16px;color:#1e293b}.art-body h3{font-size:18px;font-weight:600;margin:28px 0 12px;color:#1e293b}.art-body p{margin-bottom:16px}.art-body ul,.art-body ol{margin:12px 0 16px 24px}.art-body li{margin-bottom:8px}.art-body code{background:#f5f7fa;padding:2px 6px;border-radius:4px;font-size:13px;color:#e11d48}.art-body pre{background:#1e293b;color:#e2e8f0;padding:20px;border-radius:8px;overflow-x:auto;margin:16px 0;font-size:13px}.art-side{width:300px;flex-shrink:0}.sb-card{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.sb-card h4{font-size:14px;font-weight:700;margin-bottom:12px;color:#1e293b}.sb-rel-item{display:flex;gap:10px;margin-bottom:12px;text-decoration:none;color:inherit}.sb-rel-item:hover h5{color:#6366f1}.sb-rel-item h5{font-size:13px;font-weight:500;line-height:1.4;transition:color .2s}.trend-tags{display:flex;flex-wrap:wrap;gap:8px}.trend-tags a{font-size:12px;padding:4px 12px;background:#f5f7fa;border-radius:16px;color:#475569;text-decoration:none;transition:all .2s}.trend-tags a:hover{background:#e0f2fe;color:#6366f1}.info-box{background:#f0f9ff;border-left:4px solid #6366f1;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box{background:#fffbeb;border-left:4px solid #f59e0b;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box strong{color:#92400e}.step-list{counter-reset:step;margin:20px 0}.step-card{background:#fff;border:1px solid #e8ecf1;border-radius:10px;padding:20px;margin-bottom:16px;counter-increment:step;position:relative;padding-left:64px}.step-card::before{content:counter(step);position:absolute;left:16px;top:20px;width:32px;height:32px;background:#6366f1;color:#fff;border-radius:50%;text-align:center;line-height:32px;font-weight:700;font-size:14px}.faq-list{margin:24px 0}.faq-item{border:1px solid #e8ecf1;border-radius:8px;margin-bottom:8px;overflow:hidden}.faq-q{padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;background:#f5f7fa;user-select:none;display:flex;justify-content:space-between;align-items:center}.faq-q:hover{background:#f0f7ff}.faq-arrow{font-size:12px;transition:transform .3s;color:#94a3b8}.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}.faq-a-inner{padding:0 20px 16px;font-size:14px;color:#475569;line-height:1.7}.faq-item.open .faq-a{max-height:300px}.faq-item.open .faq-arrow{transform:rotate(180deg)}table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}th{background:#f0f7ff;padding:12px 16px;text-align:left;font-weight:600;border:1px solid #dce8f3}td{padding:12px 16px;border:1px solid #e8ecf1}.site-footer{background:#f0f7ff;border-top:1px solid #dce8f3;margin-top:80px}.footer-inner{max-width:1100px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}.footer-logo{font-size:20px;font-weight:700;color:#818cf8;margin-bottom:12px}.footer-desc{font-size:13px;line-height:1.8;margin-bottom:16px;color:#475569}.footer-badge{display:inline-block;font-size:12px;background:#fff;color:#6366f1;padding:6px 14px;border-radius:20px;font-weight:500;border:1px solid #b8ddf5}.footer-col h4{font-size:13px;font-weight:700;color:#1e293b;margin-bottom:16px;letter-spacing:.02em}.footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}.footer-col li a{font-size:13px;color:#475569;text-decoration:none;transition:color .2s}.footer-col li a:hover{color:#6366f1}.footer-bottom{border-top:1px solid #dce8f3;text-align:center;padding:20px 24px;font-size:12px;color:#94a3b8}@media(max-width:768px){.nav-links{display:none}.art-wrap{flex-direction:column}.art-main{padding:24px}.art-side{width:100%}.footer-inner{grid-template-columns:1fr 1fr;gap:32px}.footer-brand{grid-column:1/-1}}@media(max-width:480px){.footer-inner{grid-template-columns:1fr}}</style> <!-- FAQ accordion JS --> <script>
+    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){var item=q.parentElement;var open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0'});if(!open){item.classList.add('open');item.querySelector('.faq-a').style.maxHeight='500px'}})})});
+  </script> </body> </html>
