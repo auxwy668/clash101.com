@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { siteConfig } from '@/data/siteConfig';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  return articles.map(a => ({ params: { slug: a.id } }));
+}
+
+const { slug } = Astro.params;
+const articles = await getCollection('articles', ({ data }) => !data.draft);
+const article = articles.find(a => a.id === slug);
+
+if (!article) return Astro.redirect('/404');
+
+const { Content } = await render(article);
+const { title, description, keywords, date, lastmod, category } = article.data;
+const canonical = `${siteConfig.url}/${slug}/`;
+
+const catLabel = siteConfig.catLabels?.[category || 'guide'] || category;
+
+// Related articles: same category, exclude self, up to 4
+const related = articles
+  .filter(a => a.id !== slug && a.data.category === category)
+  .slice(0, 4);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords || siteConfig.keywords}
+  canonicalURL={canonical}
+  ogImage={siteConfig.url + '/images/og-default.png'}
+  isArticle={true}
+  articleMeta={{
+    datePublished: date.toISOString().slice(0, 10),
+    dateModified: (lastmod || date).toISOString().slice(0, 10),
+  }}
+  breadcrumb={[{ name: title }]}
+>
+  <div class="art-wrap">
+    <article class="art-main">
+      <h1>{title}</h1>
+      <div class="art-meta">
+        <span>📅 {date.toISOString().slice(0, 10)}</span>
+        {category && <span class={`art-tag ${category}`}>{catLabel}</span>}
+      </div>
+      <div class="art-body">
+        {article.data.coverImage && (
+          <img src={article.data.coverImage} alt={title} style="width:100%; border-radius:8px; margin-bottom:24px;" />
+        )}
+        <Content />
+      </div>
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="art-side">
+      {related.length > 0 && (
+        <div class="sb-card">
+          <h4>相关教程</h4>
+          {related.map(r => (
+            <a href={`/${r.id}/`} class="sb-rel-item">
+              <h5>{r.data.title}</h5>
+            </a>
+          ))}
+        </div>
+      )}
+      {siteConfig.categories.length > 0 && (
+        <div class="sb-card">
+          <h4>热门标签</h4>
+          <div class="trend-tags">
+            {siteConfig.categories.map(c => (
+              <a href={`/articles/?category=${c.id}`}>{c.name}</a>
+            ))}
+          </div>
+        </div>
+      )}
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Article page overrides — scoped to this component */
+  .art-wrap { max-width: 1100px; }
+</style>
