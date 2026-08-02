@@ -1,0 +1,368 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Clash Verge Rev 使用教程 — 订阅导入与节点管理详解</title><meta name="description" content="Clash Verge Rev 完整使用教程，深入讲解订阅导入、节点分组管理、延迟自动测速、策略组配置和代理规则自定义等功能。从安装后的第一步操作到高级节点管理技巧，覆盖 Clash Verge Rev 所有核心功能的详细图文教程。"><meta name="keywords" content="Clash Verge Rev,Clash订阅导入,Clash节点管理,Clash使用教程,Clash策略组,Clash规则配置,Clash延迟测速,代理客户端教程"><link rel="canonical" href="https://clash101.com/guide/clash-verge-rev-shiyong/"><link rel="alternate" hreflang="zh-CN" href="https://clash101.com/guide/clash-verge-rev-shiyong/"><meta name="robots" content="index, follow"><!-- OG --><meta property="og:title" content="Clash Verge Rev 使用教程 — 订阅导入与节点管理详解"><meta property="og:description" content="Clash Verge Rev 完整使用教程，深入讲解订阅导入、节点分组管理、延迟自动测速、策略组配置和代理规则自定义等功能。从安装后的第一步操作到高级节点管理技巧，覆盖 Clash Verge Rev 所有核心功能的详细图文教程。"><meta property="og:url" content="https://clash101.com/guide/clash-verge-rev-shiyong/"><meta property="og:type" content="article"><meta property="og:image" content="https://clash101.com/images/og-default.png"><meta name="twitter:card" content="summary_large_image"><!-- Favicon --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Structured Data --><script type="application/ld+json">[{"@context":"https://schema.org","@type":"Article","headline":"Clash Verge Rev 使用教程 — 订阅导入与节点管理详解","description":"Clash Verge Rev 完整使用教程，深入讲解订阅导入、节点分组管理、延迟自动测速、策略组配置和代理规则自定义等功能。从安装后的第一步操作到高级节点管理技巧，覆盖 Clash Verge Rev 所有核心功能的详细图文教程。","url":"https://clash101.com/guide/clash-verge-rev-shiyong/","datePublished":"2026-08-02","dateModified":"2026-08-02","author":{"@type":"Organization","name":"Clash101教程"},"inLanguage":"zh-CN","image":"https://clash101.com/images/og-default.png"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://clash101.com"},{"@type":"ListItem","position":2,"name":"Clash Verge Rev 使用教程 — 订阅导入与节点管理详解"}]}]</script><style>.art-wrap[data-astro-cid-fzx4jmue]{max-width:1100px}</style></head> <body> <!-- Nav --> <nav class="site-nav"> <div class="nav-inner"> <a href="/" class="nav-logo">Clash101</a> <div class="nav-links"> <a href="/">首页</a> <a href="/articles/">所有教程</a> <a href="/articles/?category=download">下载安装</a><a href="/articles/?category=guide">入门教程</a><a href="/articles/?category=config">配置进阶</a><a href="/articles/?category=fix">故障排查</a> </div> </div> </nav> <!-- Breadcrumb (article pages) --> <div class="breadcrumb"> <a href="/">首页</a> <span> &raquo; Clash Verge Rev 使用教程 — 订阅导入与节点管理详解</span> </div> <main>  <div class="art-wrap" data-astro-cid-fzx4jmue> <article class="art-main" data-astro-cid-fzx4jmue> <h1 data-astro-cid-fzx4jmue>Clash Verge Rev 使用教程 — 订阅导入与节点管理详解</h1> <div class="art-meta" data-astro-cid-fzx4jmue> <span data-astro-cid-fzx4jmue>📅 2026-08-02</span> <span class="art-tag guide" data-astro-cid-fzx4jmue>入门教程</span> </div> <div class="art-body" data-astro-cid-fzx4jmue> <img src="/images/default-cover.jpg" alt="Clash Verge Rev 使用教程 — 订阅导入与节点管理详解" style="width:100%; border-radius:8px; margin-bottom:24px;" data-astro-cid-fzx4jmue> <h2 id="为什么你需要深入了解-clash-verge-rev">为什么你需要深入了解 Clash Verge Rev？</h2>
+<p>安装完 Clash Verge Rev 之后，很多人只会做”导入订阅→选个节点→开启代理”这三步操作。这当然可以满足 80% 的日常使用场景，但如果你想让网络体验更流畅、延迟更低、切换更智能，你就需要掌握 Clash Verge Rev 的核心功能——订阅管理、节点分组、自动测速和策略组配置。</p>
+<p>Clash Verge Rev 是 Clash 生态中最成熟的图形化客户端之一。它基于 Clash Meta 内核开发，在保留 Clash 全部核心功能的基础上，提供了直观的中文界面和丰富的辅助功能。本文将从安装后的第一个操作开始，带你逐步深入 Clash Verge Rev 的各项核心配置。</p>
+<p>如果你还没有完成安装，可以先阅读 <a href="https://clash101.com/guide/clash-xinshou-rumen/">Clash 新手入门完全指南</a> 了解下载安装和基础配置流程，本文侧重的是安装之后的进阶使用技巧。</p>
+<div class="cpa-download-banner">
+  <p style="margin:0 0 10px;font-weight:700;color:#1e293b">📥 还没安装 Clash？点击下方按钮一键下载官方最新版</p>
+  <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" style="display:inline-block;background:#6366f1;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:600" target="_blank" rel="nofollow noopener">立即下载 Clash Verge Rev</a>
+</div>
+<h2 id="clash-verge-rev-界面概览">Clash Verge Rev 界面概览</h2>
+<p>启动 Clash Verge Rev 后，系统托盘会出现 Clash 图标。右键图标可以快速执行常用操作，但更推荐你双击打开主面板进行详细配置。</p>
+<p>主面板分为以下几个核心区域：</p>
+<h3 id="左侧导航栏">左侧导航栏</h3>
+<ul>
+<li><strong>概览（Dashboard）</strong>：显示当前连接状态、流量统计和最近日志</li>
+<li><strong>代理（Proxies）</strong>：节点管理核心页面，用于选择节点和配置策略组</li>
+<li><strong>规则（Rules）</strong>：查看和管理分流规则</li>
+<li><strong>订阅（Profiles）</strong>：管理订阅链接，导入/更新节点</li>
+<li><strong>连接（Connections）</strong>：查看当前活跃的代理连接</li>
+<li><strong>日志（Logs）</strong>：实时查看 Clash 运行日志，排查问题</li>
+<li><strong>设置（Settings）</strong>：应用配置、外观、内核等全局设置</li>
+</ul>
+<h3 id="顶部状态栏">顶部状态栏</h3>
+<p>顶部显示 Clash 的运行状态：代理开关、TUN 模式开关、当前流量速率（上行/下行）、已运行时长等关键信息。绿色表示一切正常，红色表示存在异常。</p>
+<p><img src="/images/clash101/clash-verge-rev-dashboard.jpg" alt="Clash Verge Rev 主面板界面图解"></p>
+<h2 id="订阅管理从导入到自动更新">订阅管理：从导入到自动更新</h2>
+<p>订阅管理是 Clash Verge Rev 最基本也最重要的功能。一个好的订阅管理习惯能省去你大量手动维护节点的时间。</p>
+<h3 id="导入订阅链接">导入订阅链接</h3>
+<ol>
+<li>打开 Clash Verge Rev 主面板</li>
+<li>点击左侧”订阅”标签</li>
+<li>在页面顶部的输入框中粘贴你的订阅链接（从机场获取）</li>
+<li>点击右侧的”导入”按钮</li>
+<li>Clash 会自动从链接下载配置文件和节点列表</li>
+</ol>
+<p>导入成功后你会看到订阅卡片，包含以下信息：</p>
+<ul>
+<li><strong>订阅名称</strong>：可自定义，方便区分多个机场</li>
+<li><strong>节点数量</strong>：该订阅包含的节点总数</li>
+<li><strong>最后更新时间</strong>：上次同步节点的时间</li>
+<li><strong>过期时间</strong>：订阅链接的有效截止日期</li>
+</ul>
+<h3 id="管理多个订阅">管理多个订阅</h3>
+<p>如果你有多个机场账号，Clash Verge Rev 支持同时导入多个订阅。所有机场的节点会合并在一起，你可以统一管理：</p>
+<ul>
+<li>点击”订阅”页面的”添加”按钮，导入第二个订阅链接</li>
+<li>每个订阅独立更新，互不影响</li>
+<li>在”代理”页面，不同订阅的节点会自动按来源分组</li>
+</ul>
+<blockquote>
+<p>💡 <strong>实用技巧</strong>：给每个订阅取一个有意义的名字，比如”主用机场 - 香港专线”、“备用机场 - 日本”，这样在节点多的时候不会混淆。</p>
+</blockquote>
+<h3 id="手动与自动更新订阅">手动与自动更新订阅</h3>
+<p>机场的节点列表会动态变化——旧节点下线、新节点上线、IP 地址变更等。因此定期更新订阅非常重要：</p>
+<p><strong>手动更新</strong>：</p>
+<ul>
+<li>在订阅卡片上点击”更新”按钮（圆形箭头图标）</li>
+<li>等待几秒钟，Clash 会从订阅链接重新拉取节点列表</li>
+<li>更新完成后节点数量和内容会实时刷新</li>
+</ul>
+<p><strong>自动更新</strong>：</p>
+<ol>
+<li>进入”设置” → “订阅设置”</li>
+<li>找到”自动更新间隔”选项</li>
+<li>设置更新频率（推荐 360 分钟 = 每 6 小时一次）</li>
+<li>开启”启动时自动更新”</li>
+</ol>
+<h3 id="订阅链接失效怎么办">订阅链接失效怎么办？</h3>
+<p>如果你点击更新后提示”更新失败”或”请求超时”，按以下顺序排查：</p>
+<ol>
+<li><strong>链接过期</strong>：登录机场后台，查看订阅链接是否过期，可能需要手动续期</li>
+<li><strong>网络不通</strong>：在不开代理的情况下尝试访问订阅链接（浏览器打开），确认链接本身可用</li>
+<li><strong>机场故障</strong>：联系机场客服确认服务是否正常</li>
+<li><strong>Clash 版本</strong>：更新 Clash Verge Rev 到最新版本</li>
+</ol>
+<h2 id="节点管理分组选择与测试">节点管理：分组、选择与测试</h2>
+<p>节点管理是日常使用最频繁的操作。一个管理得当的节点列表能让你在不同场景下快速切换最优线路。</p>
+<h3 id="节点分组逻辑">节点分组逻辑</h3>
+<p>Clash Verge Rev 会自动按以下维度对节点分组：</p>
+<ul>
+<li><strong>按协议分组</strong>：SS、SSR、VMess、Trojan、Hysteria 等</li>
+<li><strong>按地区分组</strong>：🇺🇸 美国、🇯🇵 日本、🇭🇰 香港、🇸🇬 新加坡、🇹🇼 台湾等</li>
+<li><strong>按策略分组</strong>：自动选择、手动选择、故障转移等</li>
+<li><strong>按来源分组</strong>：不同订阅来源的节点分开显示</li>
+</ul>
+<p>在”代理”页面，每个分组是一个可折叠的卡片，展开后可以看到该组的所有节点。每个节点旁边显示以下信息：</p>
+<ul>
+<li><strong>节点名称</strong>：机场自定义的节点标识</li>
+<li><strong>延迟（ms）</strong>：绿色表示低延迟（&#x3C;200ms），黄色中等（200-500ms），红色高延迟（>500ms）或超时</li>
+<li><strong>流量信息</strong>：部分节点会显示已用流量/总流量</li>
+</ul>
+<p><img src="/images/clash101/clash-verge-nodes-group.jpg" alt="Clash Verge Rev 节点分组与选择"></p>
+<h3 id="延迟自动测速">延迟自动测速</h3>
+<p>延迟测速帮你快速找到当前最快的节点：</p>
+<ol>
+<li>在”代理”页面，右键任意节点</li>
+<li>选择”延迟测试”</li>
+<li>Clash 会对所有节点逐一发送测试请求</li>
+<li>等待几秒到几十秒（取决于节点数量），所有节点的延迟数据会更新</li>
+</ol>
+<p>你也可以点击分组卡片标题右侧的测速图标，只测试该组内的节点。这个功能在节点数量多、全量测试太慢时非常实用。</p>
+<div class="cpa-download-banner">
+  <p style="margin:0 0 10px;font-weight:700;color:#1e293b">📥 还没安装 Clash？点击下方按钮一键下载官方最新版</p>
+  <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" style="display:inline-block;background:#6366f1;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:600" target="_blank" rel="nofollow noopener">立即下载 Clash Verge Rev</a>
+</div>
+<h3 id="手动选择节点">手动选择节点</h3>
+<p>最基础的使用方式：</p>
+<ol>
+<li>打开”代理”页面</li>
+<li>在”手动选择”或”🔰 代理”策略组下，点击你想使用的节点</li>
+<li>当前选中的节点会高亮显示，同时系统托盘图标颜色变化表示连接已切换</li>
+<li>所有走代理的流量都会经过这个节点</li>
+</ol>
+<h3 id="url-延迟测试更精准">URL 延迟测试（更精准）</h3>
+<p>普通的延迟测试只测 TCP 连接延迟，URL 延迟测试则模拟真实请求：</p>
+<ol>
+<li>在”设置” → “连接设置”中，将延迟测试 URL 改为 <code>https://www.gstatic.com/generate_204</code></li>
+<li>这个 URL 是 Google 的连通性检测地址，测试结果更贴近实际使用体验</li>
+<li>你也可以换成自己常用的目标网址</li>
+</ol>
+<h3 id="节点排序与筛选">节点排序与筛选</h3>
+<p>当你有几十甚至上百个节点时，以下技巧能帮你快速定位：</p>
+<ul>
+<li><strong>按延迟排序</strong>：点击延迟列标题，节点按延迟从低到高排列</li>
+<li><strong>按名称搜索</strong>：在搜索框输入关键词（如”香港”、“日本01”），快速筛选</li>
+<li><strong>收藏节点</strong>：对常用的节点右键 → 收藏，它们会出现在独立的收藏分组中</li>
+</ul>
+<h2 id="策略组智能选择节点的进阶玩法">策略组：智能选择节点的进阶玩法</h2>
+<p>策略组是 Clash Verge Rev 最强大的功能之一。它让节点选择不再依赖手动操作，而是根据预设策略自动完成。</p>
+<h3 id="策略组类型详解">策略组类型详解</h3>
+<p>Clash Verge Rev 支持以下策略组类型：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>策略组类型</th><th>功能</th><th>适用场景</th></tr></thead><tbody><tr><td><strong>手动选择（Select）</strong></td><td>手动从候选节点中选择一个</td><td>日常使用，精准控制</td></tr><tr><td><strong>自动选择（URL-Test）</strong></td><td>自动选择延迟最低的节点</td><td>追求速度，不需要固定地区</td></tr><tr><td><strong>故障转移（Fallback）</strong></td><td>首选节点不可用时自动切换备用</td><td>保证连接不中断</td></tr><tr><td><strong>负载均衡（Load-Balance）</strong></td><td>在多个节点间轮询分配流量</td><td>分散流量，避免单节点过载</td></tr></tbody></table>
+<h3 id="配置策略组实战">配置策略组实战</h3>
+<p>以”故障转移”策略组为例，假设你的配置如下：</p>
+<ul>
+<li>首选节点：日本 01（低延迟）</li>
+<li>备用节点：新加坡 01、香港 02、美国 01</li>
+</ul>
+<p>当日本节点正常时，所有流量走日本。一旦日本节点超时或不可用，Clash 自动切换到新加坡节点；新加坡也挂了就切香港，以此类推。这种机制确保了代理连接的高可用性。</p>
+<p>配置方法：</p>
+<ol>
+<li>右键”代理”页面的策略组标题</li>
+<li>选择”编辑”或”修改类型”</li>
+<li>选择”Fallback”（故障转移）</li>
+<li>按优先级排列候选节点（拖拽排序）</li>
+<li>保存配置</li>
+</ol>
+<h3 id="策略组在规则中的应用">策略组在规则中的应用</h3>
+<p>策略组最大的价值体现在和规则的配合使用。比如你可以这样配置：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># 流媒体分组走专门的流媒体节点</span></span>
+<span class="line"><span>策略组：🎬 流媒体 → 类型：Select → 节点：Netflix专线、Disney+专线、YouTube专线</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 规则绑定</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,netflix.com,🎬 流媒体</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,disneyplus.com,🎬 流媒体</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,youtube.com,🎬 流媒体</span></span></code></pre>
+<p>这样当你看 Netflix 时自动走 Netflix 专线，看 YouTube 时走 YouTube 专线，普通网页走默认代理节点，互不干扰。</p>
+<h2 id="规则管理自定义你的分流策略">规则管理：自定义你的分流策略</h2>
+<p>Clash 的规则系统决定了哪些流量走代理、哪些直连。Clash Verge Rev 内置了一套通用规则，但你可以根据自身需求自定义。</p>
+<h3 id="规则语法速查">规则语法速查</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># 域名匹配</span></span>
+<span class="line"><span>DOMAIN,example.com,PROXY           # 精确匹配 example.com</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,google.com,PROXY     # 匹配 *.google.com</span></span>
+<span class="line"><span>DOMAIN-KEYWORD,google,PROXY        # 匹配含 google 的域名</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># IP 匹配</span></span>
+<span class="line"><span>IP-CIDR,1.1.1.0/24,DIRECT          # 匹配 IP 段</span></span>
+<span class="line"><span>GEOIP,CN,DIRECT                     # 中国 IP 直连</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 进程匹配（Windows/macOS）</span></span>
+<span class="line"><span>PROCESS-NAME,telegram.exe,PROXY    # Telegram 走代理</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 兜底规则</span></span>
+<span class="line"><span>MATCH,PROXY                         # 以上都不匹配的全部走代理</span></span></code></pre>
+<h3 id="添加自定义规则">添加自定义规则</h3>
+<ol>
+<li>打开”规则”标签页</li>
+<li>点击页面底部的”添加规则”</li>
+<li>选择规则类型（DOMAIN-SUFFIX 最常用）</li>
+<li>输入目标域名（如 <code>openai.com</code>）</li>
+<li>选择策略：直连（DIRECT）、代理（PROXY）、拒绝（REJECT）或指定策略组</li>
+<li>点击确认，规则立即生效</li>
+</ol>
+<h3 id="规则优先级">规则优先级</h3>
+<p>规则是<strong>从上到下</strong>匹配的，排在前面的规则优先级更高。这意味着：</p>
+<ul>
+<li>特殊规则放在前面（如 <code>DOMAIN,api.openai.com,PROXY</code>）</li>
+<li>通用规则放在后面（如 <code>GEOIP,CN,DIRECT</code>）</li>
+<li>兜底规则 <code>MATCH</code> 必须放在最后一行</li>
+</ul>
+<p>常见的调优操作：如果你发现某个应该走代理的网站走了直连（或者反过来），去”日志”标签查看该域名的实际匹配结果，然后调整规则顺序。</p>
+<h2 id="连接管理与流量监控">连接管理与流量监控</h2>
+<p>“连接”标签页是你排查网络问题的重要工具。</p>
+<h3 id="查看活跃连接">查看活跃连接</h3>
+<p>打开”连接”页面，你会看到一个实时更新的连接列表。每一行代表一个活跃的网络连接，包含以下信息：</p>
+<ul>
+<li><strong>目标地址</strong>：正在访问的域名或 IP</li>
+<li><strong>来源进程</strong>：发起连接的应用（需要开启进程识别）</li>
+<li><strong>规则匹配</strong>：该连接命中了哪条分流规则</li>
+<li><strong>代理链</strong>：流量经过了哪个代理节点</li>
+<li><strong>上传/下载</strong>：该连接的实时速率</li>
+</ul>
+<h3 id="使用连接页排查问题">使用连接页排查问题</h3>
+<p><strong>场景 1：某个网站打不开，不知为什么</strong></p>
+<ol>
+<li>访问目标网站</li>
+<li>快速切换到 Clash 的”连接”页面</li>
+<li>在列表中找到目标域名</li>
+<li>检查”规则匹配”列——如果显示 <code>DIRECT</code> 但你希望走代理，说明规则配错了</li>
+<li>检查”代理链”列——如果显示代理节点但连接失败，说明节点有问题</li>
+</ol>
+<p><strong>场景 2：网速慢，想知道哪个应用在占用带宽</strong></p>
+<ol>
+<li>打开”连接”页面</li>
+<li>按”下载”列排序，看哪个连接的流量最大</li>
+<li>找到来源进程，决定是否需要限制或关闭</li>
+</ol>
+<h3 id="关闭特定连接">关闭特定连接</h3>
+<p>如果某个连接卡住或不想让它继续，可以右键该连接 → “关闭连接”。这在切换节点后清理残留连接时特别有用。</p>
+<h2 id="高级设置性能优化与安全配置">高级设置：性能优化与安全配置</h2>
+<h3 id="内核设置优化">内核设置优化</h3>
+<p>在”设置” → “内核设置”中，有一些影响性能和兼容性的关键选项：</p>
+<ul>
+<li><strong>混合端口（Mixed Port）</strong>：默认 7890。Clash 监听该端口接收 HTTP 和 SOCKS5 代理请求。除非与其他软件端口冲突，一般不需要改动。</li>
+<li><strong>允许局域网连接</strong>：开启后同一 Wi-Fi 下的其他设备（手机、平板）也能通过你的 Clash 上网。适合在公司或家里共享代理的场景。</li>
+<li><strong>IPv6</strong>：如果你的网络支持 IPv6 且代理节点支持，可以开启。否则建议关闭以避免连接问题。</li>
+</ul>
+<h3 id="dns-设置">DNS 设置</h3>
+<p>Clash 的 DNS 模块能防止 DNS 泄漏——即你的 DNS 查询被本地运营商看到。正确配置 DNS 是保护隐私的关键一步：</p>
+<ol>
+<li>进入”设置” → “DNS 设置”</li>
+<li>确保”启用 DNS”已开启</li>
+<li>DNS 服务器建议使用：
+<ul>
+<li><code>https://dns.google/dns-query</code>（Google DNS over HTTPS）</li>
+<li><code>https://cloudflare-dns.com/dns-query</code>（Cloudflare DNS over HTTPS）</li>
+<li><code>223.5.5.5</code>（阿里 DNS，用于国内域名解析加速）</li>
+</ul>
+</li>
+<li>开启”DNS over HTTPS”和”Fake-IP”模式（Fake-IP 可以提高 DNS 解析速度）</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>注意</strong>：DNS 设置不当可能导致部分网站无法访问。如果你不确定如何配置，保持默认设置即可。</p>
+</blockquote>
+<h3 id="外观与操作习惯">外观与操作习惯</h3>
+<p>Clash Verge Rev 支持以下个性化设置：</p>
+<ul>
+<li><strong>主题模式</strong>：亮色 / 暗色 / 跟随系统</li>
+<li><strong>语言</strong>：中文 / English</li>
+<li><strong>启动行为</strong>：开机启动、静默启动（不弹出窗口）、最小化到托盘</li>
+<li><strong>快捷键</strong>：自定义全局快捷键快速开关代理</li>
+</ul>
+<h2 id="常见问题与故障排查">常见问题与故障排查</h2>
+<details>
+<summary><strong>Q1：订阅导入后节点列表为空，怎么办？</strong></summary>
+<p>排查步骤：</p>
+<ol>
+<li>确认订阅链接完整，没有多复制或少复制字符</li>
+<li>在浏览器中直接打开订阅链接，检查是否能正常访问</li>
+<li>如果浏览器也打不开，说明订阅链接本身有问题——联系机场客服</li>
+<li>如果浏览器能打开但 Clash 不能，检查 Clash 版本是否过旧（建议更新到最新版）</li>
+<li>尝试在”订阅”页面点击”强制更新”，而非普通更新</li>
+</ol>
+</details>
+<details>
+<summary><strong>Q2：为什么延迟测速显示超时，但节点仍能使用？</strong></summary>
+<p>延迟测试使用的是 TCP 连接测试，而代理流量可能走的是 UDP 或其他协议。节点能使用但延迟显示超时，通常是因为：</p>
+<ul>
+<li>节点的延迟测试端口被防火墙拦截</li>
+<li>节点使用了非标准代理协议</li>
+</ul>
+<p><strong>解决方案</strong>：在”设置”中切换延迟测试 URL，或者改用 URL 延迟测试（发送真实的 HTTP 请求）。只要节点能正常上网，延迟显示超时可以忽略。</p>
+</details>
+<details>
+<summary><strong>Q3：开启 TUN 模式后，部分国内应用无法联网？</strong></summary>
+<p>TUN 模式下所有流量都经过 Clash，如果规则配置有问题，国内应用可能被错误地代理到了海外节点。</p>
+<p>解决方法：</p>
+<ol>
+<li>检查规则配置，确保 <code>GEOIP,CN,DIRECT</code> 规则存在</li>
+<li>在”规则”页面添加特定应用的直连规则：
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>PROCESS-NAME,WeChat.exe,DIRECT</span></span>
+<span class="line"><span>PROCESS-NAME,dingtalk.exe,DIRECT</span></span></code></pre>
+</li>
+<li>如果是个别网站问题，临时关闭 TUN 模式，使用系统代理即可</li>
+</ol>
+</details>
+<details>
+<summary><strong>Q4：如何让特定网站（如 ChatGPT）强制走某个固定节点？</strong></summary>
+<p>有两种方法：</p>
+<p><strong>方法一：策略组 + 规则</strong></p>
+<ol>
+<li>创建一个新的策略组（如”🤖 AI 服务”），只包含你想用的节点</li>
+<li>在”规则”中添加：
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>DOMAIN-SUFFIX,openai.com,🤖 AI 服务</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,chatgpt.com,🤖 AI 服务</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,claude.ai,🤖 AI 服务</span></span></code></pre>
+</li>
+</ol>
+<p><strong>方法二：直接规则</strong>
+如果你不需要策略组，直接指定节点名：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>DOMAIN-SUFFIX,openai.com,🇺🇸 美国01</span></span></code></pre>
+</details>
+<details>
+<summary><strong>Q5：Clash Verge Rev 内存占用越来越高怎么办？</strong></summary>
+<p>长时间运行后 Clash 的内存占用确实可能上升，这是日志累积和连接缓存导致的：</p>
+<ol>
+<li>定期重启 Clash（建议每 2-3 天重启一次）</li>
+<li>在”设置”中降低日志级别：将”日志级别”从 <code>debug</code> 改为 <code>info</code> 或 <code>warning</code></li>
+<li>关闭不必要的功能，如”流量统计记录”</li>
+<li>更新到最新版本——新版本通常会修复内存泄漏问题</li>
+</ol>
+</details>
+<details>
+<summary><strong>Q6：多个策略组之间的节点可以共享吗？</strong></summary>
+<p>可以。Clash Verge Rev 的节点和策略组是多对多关系。同一个节点可以同时出现在”默认代理”、“流媒体”、“AI 服务”等多个策略组中。</p>
+<p>但需要注意：不同策略组选择同一个节点时，该节点的流量会叠加。如果你流量有限，建议为高流量场景（如 YouTube 4K）使用独立节点，避免影响日常浏览体验。</p>
+</details>
+<details>
+<summary><strong>Q7：Clash Verge Rev 和 Clash for Windows 有什么区别？</strong></summary>
+<ul>
+<li><strong>Clash for Windows（CFW）</strong> 是 Clash 最早的 Windows 图形客户端，由 Fndroid 开发，已于 2023 年停止更新。</li>
+<li><strong>Clash Verge Rev</strong> 是 CFW 的继任者，基于更现代的 Clash Meta 内核，界面更美观、功能更丰富，目前仍在积极维护。</li>
+</ul>
+<p>如果你还在使用 CFW，强烈建议迁移到 Clash Verge Rev。迁移很简单：导出 CFW 的订阅链接 → 在 Clash Verge Rev 中导入 → 完成。配置文件和规则可能需要手动迁移，但大部分功能都有对应的替代方案。</p>
+</details>
+<h2 id="总结clash-verge-rev-核心操作清单">总结：Clash Verge Rev 核心操作清单</h2>
+<p>掌握以下操作，你就能应付 95% 的日常使用场景：</p>
+<ol>
+<li><strong>导入订阅</strong> → 粘贴链接 → 点击导入 → 自动获取节点</li>
+<li><strong>延迟测速</strong> → 右键节点 → 延迟测试 → 选绿色低延迟节点</li>
+<li><strong>切换节点</strong> → 点击节点名称 → 即时切换</li>
+<li><strong>更新订阅</strong> → 点击更新按钮 → 同步最新节点列表</li>
+<li><strong>TUN 模式</strong> → 点击开关 → 全局代理所有应用</li>
+<li><strong>规则自定义</strong> → “规则”标签 → 添加特定域名规则</li>
+<li><strong>策略组配置</strong> → 右键策略组 → 选择类型和候选节点</li>
+</ol>
+<p>如果你还有其他疑问，建议回头阅读 <a href="https://clash101.com/guide/clash-xinshou-rumen/">Clash 新手入门完全指南</a> 巩固基础知识，或者浏览 <a href="https://clash101.com/articles/?category=fix">Clash 故障排查教程</a> 解决具体的使用问题。</p> </div> </article> <!-- Sidebar --> <aside class="art-side" data-astro-cid-fzx4jmue> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>相关教程</h4> <a href="/guide/clash-xinshou-rumen/" class="sb-rel-item" data-astro-cid-fzx4jmue> <h5 data-astro-cid-fzx4jmue>Clash 新手入门完全指南 — 从零开始科学上网</h5> </a> </div> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>热门标签</h4> <div class="trend-tags" data-astro-cid-fzx4jmue> <a href="/articles/?category=download" data-astro-cid-fzx4jmue>下载安装</a><a href="/articles/?category=guide" data-astro-cid-fzx4jmue>入门教程</a><a href="/articles/?category=config" data-astro-cid-fzx4jmue>配置进阶</a><a href="/articles/?category=fix" data-astro-cid-fzx4jmue>故障排查</a> </div> </div> </aside> </div>  </main> <!-- Footer --> <footer class="site-footer"> <div class="footer-inner"> <div class="footer-brand"> <div class="footer-logo">Clash101</div> <p class="footer-desc">本站为独立教程站点。所有下载链接指向官方源，不托管安装包文件。</p> <span class="footer-badge">📚 独立教程网站</span> </div> <div class="footer-col"> <h4>快速导航</h4> <ul> <li><a href="/">首页</a></li> <li><a href="/articles/">所有教程</a></li> <li><a href="/about/">关于我们</a></li> <li><a href="/sitemap/">网站地图</a></li> </ul> </div> <div class="footer-col"> <h4>教程分类</h4> <ul> <li><a href="/articles/?category=download">下载安装</a></li><li><a href="/articles/?category=guide">入门教程</a></li><li><a href="/articles/?category=config">配置进阶</a></li><li><a href="/articles/?category=fix">故障排查</a></li> </ul> </div> <div class="footer-col"> <h4>支持</h4> <ul> <li><a href="/contact/">联系我们</a></li> <li><a href="/privacy/">隐私政策</a></li> </ul> </div> </div> <div class="footer-bottom"> <p>&copy; 2026 Clash101. All rights reserved.</p> </div> </footer> <!-- Inject global CSS (plain <style> avoids Astro's CSS processing) --> <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans SC',sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}a{color:#6366f1;text-decoration:none}a:hover{color:#818cf8}.site-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 24px}.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}.nav-logo{font-size:18px;font-weight:700;color:#6366f1;text-decoration:none}.nav-links{display:flex;gap:24px}.nav-links a{font-size:14px;color:#475569;text-decoration:none;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#6366f1}.breadcrumb{max-width:1100px;margin:0 auto;padding:16px 24px 0;font-size:13px;color:#94a3b8}.breadcrumb a{color:#6366f1;text-decoration:none}.art-wrap{max-width:1100px;margin:0 auto;padding:24px;display:flex;gap:32px}.art-main{flex:1;min-width:0;background:#fff;border-radius:12px;padding:40px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.art-main h1{font-size:28px;font-weight:800;line-height:1.4;margin-bottom:16px;color:#1e293b}.art-meta{display:flex;gap:16px;align-items:center;margin-bottom:24px;font-size:13px;color:#94a3b8}.art-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px}.art-tag.download{background:#e0f2fe;color:#0369a1}.art-tag.guide{background:#ecfdf5;color:#065f46}.art-tag.config{background:#fef3c7;color:#92400e}.art-tag.fix{background:#f3e8ff;color:#7c3aed}.art-body{font-size:15px;line-height:1.9;color:#475569}.art-body h2{font-size:22px;font-weight:700;margin:36px 0 16px;color:#1e293b}.art-body h3{font-size:18px;font-weight:600;margin:28px 0 12px;color:#1e293b}.art-body p{margin-bottom:16px}.art-body ul,.art-body ol{margin:12px 0 16px 24px}.art-body li{margin-bottom:8px}.art-body code{background:#f5f7fa;padding:2px 6px;border-radius:4px;font-size:13px;color:#e11d48}.art-body pre{background:#1e293b;color:#e2e8f0;padding:20px;border-radius:8px;overflow-x:auto;margin:16px 0;font-size:13px}.art-side{width:300px;flex-shrink:0}.sb-card{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.sb-card h4{font-size:14px;font-weight:700;margin-bottom:12px;color:#1e293b}.sb-rel-item{display:flex;gap:10px;margin-bottom:12px;text-decoration:none;color:inherit}.sb-rel-item:hover h5{color:#6366f1}.sb-rel-item h5{font-size:13px;font-weight:500;line-height:1.4;transition:color .2s}.trend-tags{display:flex;flex-wrap:wrap;gap:8px}.trend-tags a{font-size:12px;padding:4px 12px;background:#f5f7fa;border-radius:16px;color:#475569;text-decoration:none;transition:all .2s}.trend-tags a:hover{background:#e0f2fe;color:#6366f1}.info-box{background:#f0f9ff;border-left:4px solid #6366f1;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box{background:#fffbeb;border-left:4px solid #f59e0b;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box strong{color:#92400e}.step-list{counter-reset:step;margin:20px 0}.step-card{background:#fff;border:1px solid #e8ecf1;border-radius:10px;padding:20px;margin-bottom:16px;counter-increment:step;position:relative;padding-left:64px}.step-card::before{content:counter(step);position:absolute;left:16px;top:20px;width:32px;height:32px;background:#6366f1;color:#fff;border-radius:50%;text-align:center;line-height:32px;font-weight:700;font-size:14px}.faq-list{margin:24px 0}.faq-item{border:1px solid #e8ecf1;border-radius:8px;margin-bottom:8px;overflow:hidden}.faq-q{padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;background:#f5f7fa;user-select:none;display:flex;justify-content:space-between;align-items:center}.faq-q:hover{background:#f0f7ff}.faq-arrow{font-size:12px;transition:transform .3s;color:#94a3b8}.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}.faq-a-inner{padding:0 20px 16px;font-size:14px;color:#475569;line-height:1.7}.faq-item.open .faq-a{max-height:300px}.faq-item.open .faq-arrow{transform:rotate(180deg)}table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}th{background:#f0f7ff;padding:12px 16px;text-align:left;font-weight:600;border:1px solid #dce8f3}td{padding:12px 16px;border:1px solid #e8ecf1}.site-footer{background:#f0f7ff;border-top:1px solid #dce8f3;margin-top:80px}.footer-inner{max-width:1100px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}.footer-logo{font-size:20px;font-weight:700;color:#818cf8;margin-bottom:12px}.footer-desc{font-size:13px;line-height:1.8;margin-bottom:16px;color:#475569}.footer-badge{display:inline-block;font-size:12px;background:#fff;color:#6366f1;padding:6px 14px;border-radius:20px;font-weight:500;border:1px solid #b8ddf5}.footer-col h4{font-size:13px;font-weight:700;color:#1e293b;margin-bottom:16px;letter-spacing:.02em}.footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}.footer-col li a{font-size:13px;color:#475569;text-decoration:none;transition:color .2s}.footer-col li a:hover{color:#6366f1}.footer-bottom{border-top:1px solid #dce8f3;text-align:center;padding:20px 24px;font-size:12px;color:#94a3b8}@media(max-width:768px){.nav-links{display:none}.art-wrap{flex-direction:column}.art-main{padding:24px}.art-side{width:100%}.footer-inner{grid-template-columns:1fr 1fr;gap:32px}.footer-brand{grid-column:1/-1}}@media(max-width:480px){.footer-inner{grid-template-columns:1fr}}</style> <!-- FAQ accordion JS --> <script>
+    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){var item=q.parentElement;var open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0'});if(!open){item.classList.add('open');item.querySelector('.faq-a').style.maxHeight='500px'}})})});
+  </script> </body> </html>
