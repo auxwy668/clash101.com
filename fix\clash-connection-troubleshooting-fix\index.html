@@ -1,0 +1,313 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Clash 连接不上怎么办 — 2026 最新故障排查与修复指南</title><meta name="description" content="Clash无法连接、连不上、一直转圈怎么解决？本文从代理端口检查、TUN模式配置、DNS设置、防火墙冲突、订阅过期、节点失效、端口占用等多个角度，系统化梳理2026年Clash Verge Rev常见的连接故障和对应的修复方法。"><meta name="keywords" content="Clash,Clash连不上,Clash无法连接,Clash故障排查,Clash Verge Rev,代理连接失败,Clash修复,TUN模式,Clash端口,科学上网故障"><link rel="canonical" href="https://clash101.com/fix/clash-connection-troubleshooting-fix/"><link rel="alternate" hreflang="zh-CN" href="https://clash101.com/fix/clash-connection-troubleshooting-fix/"><meta name="robots" content="index, follow"><!-- OG --><meta property="og:title" content="Clash 连接不上怎么办 — 2026 最新故障排查与修复指南"><meta property="og:description" content="Clash无法连接、连不上、一直转圈怎么解决？本文从代理端口检查、TUN模式配置、DNS设置、防火墙冲突、订阅过期、节点失效、端口占用等多个角度，系统化梳理2026年Clash Verge Rev常见的连接故障和对应的修复方法。"><meta property="og:url" content="https://clash101.com/fix/clash-connection-troubleshooting-fix/"><meta property="og:type" content="article"><meta property="og:image" content="https://clash101.com/images/og-default.png"><meta name="twitter:card" content="summary_large_image"><!-- Favicon --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Structured Data --><script type="application/ld+json">[{"@context":"https://schema.org","@type":"Article","headline":"Clash 连接不上怎么办 — 2026 最新故障排查与修复指南","description":"Clash无法连接、连不上、一直转圈怎么解决？本文从代理端口检查、TUN模式配置、DNS设置、防火墙冲突、订阅过期、节点失效、端口占用等多个角度，系统化梳理2026年Clash Verge Rev常见的连接故障和对应的修复方法。","url":"https://clash101.com/fix/clash-connection-troubleshooting-fix/","datePublished":"2026-08-02","dateModified":"2026-08-02","author":{"@type":"Organization","name":"Clash101教程"},"inLanguage":"zh-CN","image":"https://clash101.com/images/og-default.png"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://clash101.com"},{"@type":"ListItem","position":2,"name":"Clash 连接不上怎么办 — 2026 最新故障排查与修复指南"}]}]</script><style>.art-wrap[data-astro-cid-fzx4jmue]{max-width:1100px}</style></head> <body> <!-- Nav --> <nav class="site-nav"> <div class="nav-inner"> <a href="/" class="nav-logo">Clash101</a> <div class="nav-links"> <a href="/">首页</a> <a href="/articles/">所有教程</a> <a href="/articles/?category=download">下载安装</a><a href="/articles/?category=guide">入门教程</a><a href="/articles/?category=config">配置进阶</a><a href="/articles/?category=fix">故障排查</a> </div> </div> </nav> <!-- Breadcrumb (article pages) --> <div class="breadcrumb"> <a href="/">首页</a> <span> &raquo; Clash 连接不上怎么办 — 2026 最新故障排查与修复指南</span> </div> <main>  <div class="art-wrap" data-astro-cid-fzx4jmue> <article class="art-main" data-astro-cid-fzx4jmue> <h1 data-astro-cid-fzx4jmue>Clash 连接不上怎么办 — 2026 最新故障排查与修复指南</h1> <div class="art-meta" data-astro-cid-fzx4jmue> <span data-astro-cid-fzx4jmue>📅 2026-08-02</span> <span class="art-tag fix" data-astro-cid-fzx4jmue>故障排查</span> </div> <div class="art-body" data-astro-cid-fzx4jmue> <img src="/images/default-cover.jpg" alt="Clash 连接不上怎么办 — 2026 最新故障排查与修复指南" style="width:100%; border-radius:8px; margin-bottom:24px;" data-astro-cid-fzx4jmue> <p>Clash 是一款跨平台代理客户端，在国内用户群体中使用广泛。但在实际使用中，「连不上」是最让人头疼的问题之一——打开浏览器依旧是”无法访问此网站”，小图标转了半天日志里全是红色报错。</p>
+<p>这个问题在 2026 年的 Clash Verge Rev 环境中尤为典型：新版 TUN 模式的引入、系统代理设置的自动切换、DNS 防泄漏策略的严格化，都让连接失败的原因变得比老版本更多样。但好消息是：绝大多数连接故障都可以通过一套系统化的排查流程快速定位并修复。</p>
+<p>本文从最常见的现象出发，按照<strong>由简到繁</strong>的顺序，帮你一步步排查 Clash 连接不上的问题。看完这篇，你不仅能修好自己的客户端，还能帮朋友当”Clash 维修工”。</p>
+<div class="cta-download-box">
+  <div class="cta-download-inner">
+    <div class="cta-text">
+      <strong>⚡ Clash Verge Rev v2.5.3 — 2026 最新稳定版</strong>
+      <p>支持 TUN 模式自动修复、智能 DNS 防泄漏、一键订阅更新。Windows / Mac / Linux 全平台可用。</p>
+    </div>
+    <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" class="cta-download-btn" rel="nofollow">免费下载 Clash Verge Rev</a>
+  </div>
+</div>
+<h2 id="一先确认最基础的三件事">一、先确认最基础的三件事</h2>
+<p>在你准备卸载重装之前，先花 30 秒检查这三件事——70% 的「连接不上」问题根源就在这里。</p>
+<h3 id="11-系统代理有没有开">1.1 系统代理有没有开？</h3>
+<p>打开 Clash 主界面，看右下角<strong>系统代理开关</strong>。很多朋友只是打开了 Clash 程序，但没有点亮这个开关。Clash 不会自动接管系统代理（除非你设置了开机自启+自动开启），所以<strong>这个开关没亮 = 浏览器流量根本没走 Clash</strong>。</p>
+<p>如果你用的是 Chrome，可以在地址栏输入 <code>chrome://net-export/</code> 导出网络日志查看代理状态。但更简单的方法是：打开 Clash 的「常规」页面，确认「系统代理」是蓝色/绿色的开启状态。</p>
+<h3 id="12-节点选了吗">1.2 节点选了吗？</h3>
+<p>在「代理」页面，确认当前选中的节点不是 <code>DIRECT</code>（直连）、<code>REJECT</code>（拒绝）或 <code>GLOBAL</code>（全局直连模式）。如果选了 DIRECT，所有流量直接走本地网络，相当于没开代理。</p>
+<p><strong>快速自查</strong>：在 Clash 日志页面（Logs）里，如果看到大量 <code>[TCP] 127.0.0.1:xxxx --> DIRECT</code>，说明你的规则把你访问的网站判断为直连了。这时候可以临时切到全局模式（Global）测试一下能否打开目标网站。</p>
+<h3 id="13-节点本身还活着吗">1.3 节点本身还活着吗？</h3>
+<p>打开「代理」页面，看节点列表中的<strong>延迟数值</strong>。数值如果是 <code>Timeout</code>（超时）或者显示灰色不可用，说明节点已经失效。点击右上角的「测速」按钮（如果Clash Verge Rev支持自动测速），或者挨个手动测试。</p>
+<p><strong>节点失效可能是以下几种情况</strong>：</p>
+<ul>
+<li>机场订阅过期，所有节点同时挂掉</li>
+<li>单节点 IP 被墙（端口被封、IP 被干扰等）</li>
+<li>节点协议变更（换了端口、改了加密方式）</li>
+<li>本地网络波动导致的临时超时</li>
+</ul>
+<h2 id="二端口问题clash-的水管被堵了">二、端口问题：Clash 的”水管”被堵了</h2>
+<p>Clash 通过本地 HTTP/SOCKS5 代理端口来接收系统流量。如果这个端口被其他程序占用，或者端口号没对上，就会出现「程序在运行但代理不走」的诡异情况。</p>
+<h3 id="21-检查端口是否被占用">2.1 检查端口是否被占用</h3>
+<p>打开 Clash → 设置 → 端口设置，记下你的 HTTP 代理端口（一般是 7890）和 SOCKS5 端口（一般是 7891）。</p>
+<p><strong>Windows 检查端口占用</strong>：打开 PowerShell（管理员），执行：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>netstat -ano | findstr :7890</span></span></code></pre>
+<p>如果有输出 PID，说明 7890 端口正在使用。再用 <code>tasklist | findstr {PID}</code> 查是哪个进程。如果发现是另一个 Clash 进程、旧版 Clash For Windows 残留进程，或者其他代理软件（V2RayN、Netch、Shadowsocks 客户端等），关掉冲突程序即可。</p>
+<p><strong>macOS / Linux</strong>：用 <code>lsof -i :7890</code> 或 <code>ss -tlnp | grep 7890</code> 查。</p>
+<h3 id="22-端口号不一致">2.2 端口号不一致</h3>
+<p>有些用户把系统代理设置成了 1080（Socks5 默认端口），但 Clash 的 HTTP 代理是 7890。打开 Windows 设置 → 网络和 Internet → 代理，确认「使用代理服务器」的地址是 <code>127.0.0.1</code>，端口和 Clash 中的设置完全一致。</p>
+<h3 id="23-混合端口mixed-port冲突">2.3 混合端口（Mixed Port）冲突</h3>
+<p>Clash 的 Mixed Port 同时提供 HTTP 和 SOCKS5 代理。如果你的机场配置文件中指定了一个 Mixed Port，同时又在 Clash 面板里单独设置了 HTTP 端口，可能产生冲突。<strong>建议</strong>：只设一种，不混用。</p>
+<p><img src="https://clash101.com/images/placeholder/clash-port-settings.jpg" alt="Clash端口设置示意图"></p>
+<h2 id="三tun-模式的特殊排查">三、TUN 模式的特殊排查</h2>
+<p>TUN 模式是 Clash Verge Rev 最强大的功能之一——它通过虚拟网卡接管所有流量，包括那些不走系统代理的软件（如终端、游戏、UWP 应用）。但 TUN 模式也是”故障大户”。</p>
+<h3 id="31-tun-模式开启后全部断网">3.1 TUN 模式开启后全部断网</h3>
+<p>如果你开启 TUN 模式之后，连百度都打不开了，99% 的原因是<strong>路由规则配置错误</strong>。</p>
+<p>TUN 模式下，Clash 接管了操作系统的默认路由。如果配置文件中没有正确设置 <code>bypass</code> 规则（即哪些流量不需要走代理），本地流量、局域网流量、DNS 流量都会被错误地代理出去。</p>
+<p><strong>修复方法</strong>：</p>
+<ol>
+<li>先关掉 TUN 模式开关，恢复网络。</li>
+<li>编辑配置文件（Profiles），在 <code>tun</code> 段下确认以下配置：</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">tun</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  stack</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">system</span><span style="color:#6A737D">  # 或 gvisor（Windows 推荐 system）</span></span>
+<span class="line"><span style="color:#85E89D">  dns-hijack</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">any:53</span></span>
+<span class="line"><span style="color:#85E89D">  auto-route</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  auto-detect-interface</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span></code></pre>
+<ol start="3">
+<li>重点检查 <code>bypass</code> / <code>no-route</code> 段，确保包含私有 IP 段：</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">  bypass</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">10.0.0.0/8</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">172.16.0.0/12</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">192.168.0.0/16</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">127.0.0.0/8</span></span></code></pre>
+<ol start="4">
+<li>保存后重新开启 TUN 模式。</li>
+</ol>
+<h3 id="32-windows-tun-驱动的幽灵驱动问题">3.2 Windows TUN 驱动的”幽灵驱动”问题</h3>
+<p>Windows 系统下，多次安装/卸载代理软件后，可能残留多个 TUN/TAP 虚拟网卡驱动。这些幽灵驱动会抢占网络栈，导致新的 TUN 驱动加载失败。</p>
+<p><strong>排查</strong>：打开 Windows 设备管理器 → 网络适配器，看看有没有多个类似 <code>Clash TUN</code>、<code>TAP-Windows Adapter</code>、<code>wintun</code> 等的设备。如果多于 1 个，右键卸载多余的（一般保留最新的那个版本即可）。</p>
+<h3 id="33-tun-模式下-dns-解析失败">3.3 TUN 模式下 DNS 解析失败</h3>
+<p>TUN 模式劫持了 DNS 请求（53 端口），如果 <code>dns</code> 段的配置有问题，网页会一直显示”正在解析主机”。</p>
+<p><strong>检查 Clash 的 DNS 配置</strong>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">dns</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  listen</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">0.0.0.0:53</span></span>
+<span class="line"><span style="color:#85E89D">  nameserver</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#79B8FF">223.5.5.5</span><span style="color:#6A737D">   # 国内 DNS</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#79B8FF">119.29.29.29</span></span>
+<span class="line"><span style="color:#85E89D">  fallback</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#79B8FF">8.8.8.8</span><span style="color:#6A737D">     # 海外 DNS</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#79B8FF">1.1.1.1</span></span></code></pre>
+<p>确保 <code>nameserver</code>（国内 DNS）和 <code>fallback</code>（海外 DNS）都已配置，且 DNS 服务器地址可访问。</p>
+<div class="cta-download-box">
+  <div class="cta-download-inner">
+    <div class="cta-text">
+      <strong>🔄 下载最新版 Clash Verge Rev — TUN 模式开箱即用</strong>
+      <p>v2.5.3 版本已修复常见 TUN 冲突问题，内置智能 DNS 防泄漏策略，自动适配 Windows 10/11 网络环境。</p>
+    </div>
+    <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" class="cta-download-btn" rel="nofollow">立即下载 Clash Verge Rev</a>
+  </div>
+</div>
+<h2 id="四订阅与配置文件故障">四、订阅与配置文件故障</h2>
+<h3 id="41-订阅链接失效">4.1 订阅链接失效</h3>
+<p>打开 Clash → 配置（Profiles）→ 点击你正在使用的配置旁边的「更新」按钮。如果更新失败（红色提示），可能原因是：</p>
+<ul>
+<li><strong>订阅链接过期</strong>：机场通常会定期更换订阅地址。登录机场网站，重新复制订阅链接。</li>
+<li><strong>订阅被运营商的 DNS 污染</strong>：部分运营商会劫持特定域名的 DNS 解析。解决方法：在 Clash 中先将 DNS 设为 <code>1.1.1.1</code> 或 <code>8.8.8.8</code>，再更新订阅。</li>
+<li><strong>机场服务器宕机</strong>：机场本身故障。这种情况只能等机场恢复，或者换一个备份机场。</li>
+</ul>
+<h3 id="42-配置文件格式错误">4.2 配置文件格式错误</h3>
+<p>如果你是自己手写 YAML 配置的「硬核玩家」，配置文件中的语法错误（如缩进不对、缺少冒号、重复字段）会导致 Clash 加载失败。</p>
+<p><strong>排错技巧</strong>：</p>
+<ol>
+<li>把配置内容粘贴到在线 YAML 校验工具（如 yamllint.com）检查语法。</li>
+<li>逐个注释掉 <code>proxy-groups</code> 和 <code>rules</code> 中的条目，二分法定位出错的行。</li>
+<li>用 Clash 的「配置诊断」功能（如果版本支持），它会标出解析失败的位置。</li>
+</ol>
+<p><strong>常见 YAML 坑</strong>：</p>
+<ul>
+<li>Tab 和空格混用（YAML 仅支持空格缩进）</li>
+<li>一行中用了 <code>#</code> 注释后还有参数</li>
+<li><code>rule-providers</code> 的 path 写了不存在的本地路径</li>
+</ul>
+<h2 id="五防火墙与安全软件冲突">五、防火墙与安全软件冲突</h2>
+<p>安全软件有时会把 Clash 的代理行为误判为「恶意流量劫持」，从而拦截或限速。</p>
+<h3 id="51-windows-defender-防火墙">5.1 Windows Defender 防火墙</h3>
+<ol>
+<li>打开 Windows 安全中心 → 防火墙和网络保护 → 允许应用通过防火墙。</li>
+<li>点击「更改设置」→「允许其他应用」→ 浏览到 Clash Verge Rev 的安装目录，添加 <code>clash-verge.exe</code> 和 <code>clash-verge-service.exe</code>（如果使用了服务模式）。</li>
+<li>勾选「专用」和「公用」两个复选框。</li>
+</ol>
+<h3 id="52-第三方杀毒安全软件">5.2 第三方杀毒/安全软件</h3>
+<p>360、火绒、腾讯电脑管家等安全软件有「网络防护」「流量监控」类功能。<strong>临时关闭这些功能测试</strong>：如果关闭后 Clash 连上了，就在安全软件里把 Clash 加入白名单/信任列表。</p>
+<h3 id="53-系统代理被组策略锁定">5.3 系统代理被组策略锁定</h3>
+<p>在公司电脑或学校机房，IT 管理员可能通过组策略锁定了系统代理设置。这时候 Clash 的「系统代理」开关会无效（看起来亮了，但实际上系统代理没变）。</p>
+<p><strong>检查方法</strong>：打开 <code>gpedit.msc</code> → 计算机配置 → 管理模板 → Windows 组件 → Internet Explorer → 「禁止更改代理设置」，确认是「未配置」或「已禁用」。</p>
+<h2 id="六dns-污染与解析故障">六、DNS 污染与解析故障</h2>
+<p>DNS（域名系统）是代理链路的第一个环节。如果 DNS 解析有问题，整个代理链路从第一步就断了。</p>
+<h3 id="61-现象识别">6.1 现象识别</h3>
+<p>DNS 故障的典型表现：</p>
+<ul>
+<li>浏览器左下角长时间显示「正在解析主机」</li>
+<li>Clash 日志中大量 <code>DNS query error</code> 或 <code>NXDOMAIN</code>（域名不存在）</li>
+<li>部分国外网站能打开，部分打不开（因为不同网站的 DNS 解析走了不同路径）</li>
+</ul>
+<h3 id="62-修复-dns-缓存">6.2 修复 DNS 缓存</h3>
+<p>Windows 的 DNS 缓存可能缓存了错误的解析结果。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#6A737D"># 清除 DNS 缓存</span></span>
+<span class="line"><span style="color:#E1E4E8">ipconfig </span><span style="color:#F97583">/</span><span style="color:#E1E4E8">flushdns</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 查看当前 DNS 缓存（确认是否清空）</span></span>
+<span class="line"><span style="color:#E1E4E8">ipconfig </span><span style="color:#F97583">/</span><span style="color:#E1E4E8">displaydns</span></span></code></pre>
+<p>macOS 下清除 DNS 缓存：<code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code></p>
+<h3 id="63-强制所有-dns-走加密通道">6.3 强制所有 DNS 走加密通道</h3>
+<p>在 Clash 配置中添加 <code>enhanced-mode: fake-ip</code> 或使用 <code>doh</code>（DNS over HTTPS）来绕过本地 DNS 污染：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">dns</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  enable</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  enhanced-mode</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">fake-ip</span></span>
+<span class="line"><span style="color:#85E89D">  fake-ip-range</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">198.18.0.1/16</span></span>
+<span class="line"><span style="color:#85E89D">  nameserver</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">https://doh.pub/dns-query</span><span style="color:#6A737D">      # DNSPod DoH</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">https://dns.alidns.com/dns-query</span><span style="color:#6A737D"> # 阿里 DoH</span></span>
+<span class="line"><span style="color:#85E89D">  fallback</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">https://cloudflare-dns.com/dns-query</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">tls://8.8.8.8:853</span></span></code></pre>
+<p><img src="https://clash101.com/images/placeholder/clash-dns-config.jpg" alt="DNS配置检查流程图"></p>
+<h2 id="七端口被运营商封禁">七、端口被运营商封禁</h2>
+<p>部分运营商（尤其是校园网、企业宽带）会封禁常见的代理端口（如 443 之外的非标准端口）。</p>
+<p><strong>应对方法</strong>：</p>
+<ol>
+<li><strong>换端口</strong>：在机场订阅设置中，选择 <code>80</code>、<code>443</code>、<code>8080</code> 等常见 HTTP 端口的节点。</li>
+<li><strong>换协议</strong>：如果节点支持，选择使用 <code>VLESS + XTLS</code>、<code>Trojan</code> 或 <code>Hysteria2</code> 等基于 TLS/QUIC 的高强度伪装协议，这类流量从运营商视角看和正常 HTTPS 流量无异。</li>
+<li><strong>代理链（套娃代理）</strong>：先用一个可用的代理连上后再转发。不过这种方法有延迟损耗，不太建议日常使用。</li>
+</ol>
+<h2 id="八快速排查自检清单">八、快速排查自检清单</h2>
+<p>如果你不想逐节阅读，可以直接按以下清单逐项检查：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>序号</th><th>检查项</th><th>操作</th></tr></thead><tbody><tr><td>1</td><td>系统代理开关</td><td>打开 Clash → 确认「系统代理」已开启</td></tr><tr><td>2</td><td>节点状态</td><td>「代理」页 → 测速 → 确认延迟不是 Timeout</td></tr><tr><td>3</td><td>规则模式</td><td>临时切到 Global 模式测试 → 能上网说明规则有问题</td></tr><tr><td>4</td><td>端口占用</td><td><code>netstat -ano | findstr :7890</code> → 无冲突即可</td></tr><tr><td>5</td><td>TUN 模式</td><td>关掉 TUN → 只用系统代理 → 能上网说明 TUN 配置有问题</td></tr><tr><td>6</td><td>订阅更新</td><td>「配置」页 → 点更新 → 确认成功</td></tr><tr><td>7</td><td>DNS 缓存</td><td><code>ipconfig /flushdns</code> → 刷新后重试</td></tr><tr><td>8</td><td>防火墙</td><td>Windows 防火墙 → 允许 Clash → 临时关闭安全软件测试</td></tr><tr><td>9</td><td>运营商封端口</td><td>切换 443/80 端口节点 → 换协议类型</td></tr><tr><td>10</td><td>重启大法</td><td>退出 Clash → 开任务管理器结束残留进程 → 重新启动</td></tr></tbody></table>
+<p>如果你已经走到第 10 步还没解决，可以移步我们的另一篇专题文章「<a href="https://clash101.com/fix/clash-speed-optimization">Clash 速度慢怎么优化 — 节点选择与性能调优实战</a>」，从性能角度进一步排查。</p>
+<h2 id="九进阶修复重置所有网络配置">九、进阶修复：重置所有网络配置</h2>
+<p>如果上述方法全部无效，且你能确定不是机场/节点的问题（同一节点在其他设备上可以正常使用），那就祭出终极方案：</p>
+<h3 id="windows-网络重置">Windows 网络重置</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#6A737D"># 以管理员身份运行 PowerShell</span></span>
+<span class="line"><span style="color:#E1E4E8">netsh winsock reset</span></span>
+<span class="line"><span style="color:#E1E4E8">netsh int ip reset</span></span>
+<span class="line"><span style="color:#E1E4E8">ipconfig </span><span style="color:#F97583">/</span><span style="color:#E1E4E8">release</span></span>
+<span class="line"><span style="color:#E1E4E8">ipconfig </span><span style="color:#F97583">/</span><span style="color:#E1E4E8">renew</span></span>
+<span class="line"><span style="color:#E1E4E8">ipconfig </span><span style="color:#F97583">/</span><span style="color:#E1E4E8">flushdns</span></span></code></pre>
+<p>执行完成后<strong>重启电脑</strong>。以上命令的依次含义：</p>
+<ul>
+<li><code>winsock reset</code>：重置 Windows 套接字目录</li>
+<li><code>int ip reset</code>：重置 TCP/IP 协议栈</li>
+<li><code>release / renew</code>：释放并重新获取 IP 地址</li>
+</ul>
+<h3 id="macos-网络重置">macOS 网络重置</h3>
+<p>在网络偏好设置中删除当前网络位置 → 新建一个位置 → 重新连接 Wi-Fi。</p>
+<h2 id="faq-常见问题">FAQ 常见问题</h2>
+<details>
+<summary>Q1: Clash 显示"已连接"但浏览器还是打不开网页，怎么办？</summary>
+<p><strong>A:</strong> 这种情况最常见的原因是系统代理没有正确设置。按以下顺序检查：</p>
+<ol>
+<li>确认 Clash 的「系统代理」开关为开启状态。</li>
+<li>打开 Windows 设置 → 网络和 Internet → 代理 → 确认「使用代理服务器」开关为开，地址 <code>127.0.0.1</code>，端口与 Clash 设置一致。</li>
+<li>如果浏览器装了代理插件（如 SwitchyOmega），确认插件没有设置为「直接连接」。</li>
+<li>尝试换一个浏览器（Edge/Chrome/Firefox）测试，排除浏览器自身问题。</li>
+</ol>
+</details>
+<details>
+<summary>Q2: 为什么 Clash 日志里全是红色的 Timeout？</summary>
+<p><strong>A:</strong> 大量 Timeout 意味着节点不可达，可能原因：</p>
+<ul>
+<li>节点服务器本身宕机或端口被封；</li>
+<li>你的本地网络（Wi-Fi、宽带）本身断网或不稳定；</li>
+<li>运营商的 GFW 干扰（尝试换协议类型：SS → Vmess → Trojan → Hysteria2）；</li>
+<li>防火墙拦截了 Clash 发出的连接请求。</li>
+</ul>
+<p>建议：先测一下所有节点的延迟，换延迟最低的节点；如果所有节点都 Timeout，检查本地网络是否可以正常上网（比如打开百度试试）。</p>
+</details>
+<details>
+<summary>Q3: TUN 模式开启后网速变得特别慢，甚至掉到几十 KB/s？</summary>
+<p><strong>A:</strong> TUN 模式下虚拟网卡增加了数据转发环节，理论上会有轻微性能损耗。但如果掉到几十 KB/s，通常不是正常损耗，而是：</p>
+<ul>
+<li>路由规则导致流量走了不合适的路径（检查 bypass 规则）；</li>
+<li>DNS 解析在 TUN 模式下走了错误的上游（检查 DNS fallback 配置）；</li>
+<li>虚拟网卡的 MTU 设置不匹配（尝试调整 MTU 为 1500 或 1280）。</li>
+</ul>
+<p>你可以参考「<a href="https://clash101.com/fix/clash-speed-optimization">Clash 速度慢怎么优化 — 节点选择与性能调优实战</a>」中的性能调优章节。</p>
+</details>
+<details>
+<summary>Q4: 每次开机 Clash 都能启动，但系统代理没自动开？</summary>
+<p><strong>A:</strong> 这是 Clash Verge Rev 的启动行为问题，需要在设置中开启两个选项：</p>
+<ol>
+<li><strong>「开机自启」</strong>：让 Clash 随系统启动。</li>
+<li><strong>「启动时开启系统代理」</strong>：这个选项有时藏在「常规设置」→「自启行为」中（不同版本位置略有差异）。</li>
+</ol>
+<p>如果你的版本没有第二个选项，可以写一个 Windows 开机脚本，用命令行调用 Clash 的 API 开启系统代理。详情可以查看 <a href="https://clash101.com/download/clash-verge-rev-install">Clash Verge Rev 官方文档</a>。</p>
+</details>
+<details>
+<summary>Q5: 我更新了订阅/换了机场，但节点列表还是旧的？</summary>
+<p><strong>A:</strong> 按以下步骤操作：</p>
+<ol>
+<li>「配置」页面 → 点击当前配置旁边的「更新」按钮，等待提示”更新成功”。</li>
+<li>「代理」页面 → 刷新节点列表（有时需要手动切换一下代理模式再切回来）。</li>
+<li>如果还是旧的，在「配置」页面删除当前配置 → 重新粘贴订阅链接 → 下载新配置。</li>
+<li>最后手段：完全退出 Clash → 删除配置文件目录（通常在 <code>C:\Users\你的用户名\.config\clash-verge-rev\</code>）→ 重新打开 Clash 并导入订阅。</li>
+</ol>
+</details>
+<details>
+<summary>Q6: Clash 在 macOS 上提示"无法验证开发者"，打不开怎么办？</summary>
+<p><strong>A:</strong> 这是因为 macOS Gatekeeper 阻止了未签名的应用。解决方法：</p>
+<ol>
+<li>打开「系统设置」→「隐私与安全性」。</li>
+<li>向下滚动，找到被阻止的 Clash 应用，点击「仍要打开」。</li>
+<li>如果还不行，用终端执行：<code>sudo spctl --master-disable</code>（允许任何来源），然后 <code>sudo xattr -d com.apple.quarantine /Applications/Clash\ Verge.app</code>。</li>
+</ol>
+</details>
+<hr>
+<p><em>本文更新于 2026 年 8 月，基于 Clash Verge Rev v2.5.3 版本。如果你遇到本文未覆盖的故障，欢迎在评论区描述你的情况，我们会及时更新排查方案。</em></p> </div> </article> <!-- Sidebar --> <aside class="art-side" data-astro-cid-fzx4jmue> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>相关教程</h4> <a href="/fix/clash-speed-optimization/" class="sb-rel-item" data-astro-cid-fzx4jmue> <h5 data-astro-cid-fzx4jmue>Clash 速度慢怎么优化 — 节点选择与性能调优实战</h5> </a> </div> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>热门标签</h4> <div class="trend-tags" data-astro-cid-fzx4jmue> <a href="/articles/?category=download" data-astro-cid-fzx4jmue>下载安装</a><a href="/articles/?category=guide" data-astro-cid-fzx4jmue>入门教程</a><a href="/articles/?category=config" data-astro-cid-fzx4jmue>配置进阶</a><a href="/articles/?category=fix" data-astro-cid-fzx4jmue>故障排查</a> </div> </div> </aside> </div>  </main> <!-- Footer --> <footer class="site-footer"> <div class="footer-inner"> <div class="footer-brand"> <div class="footer-logo">Clash101</div> <p class="footer-desc">本站为独立教程站点。所有下载链接指向官方源，不托管安装包文件。</p> <span class="footer-badge">📚 独立教程网站</span> </div> <div class="footer-col"> <h4>快速导航</h4> <ul> <li><a href="/">首页</a></li> <li><a href="/articles/">所有教程</a></li> <li><a href="/about/">关于我们</a></li> <li><a href="/sitemap/">网站地图</a></li> </ul> </div> <div class="footer-col"> <h4>教程分类</h4> <ul> <li><a href="/articles/?category=download">下载安装</a></li><li><a href="/articles/?category=guide">入门教程</a></li><li><a href="/articles/?category=config">配置进阶</a></li><li><a href="/articles/?category=fix">故障排查</a></li> </ul> </div> <div class="footer-col"> <h4>支持</h4> <ul> <li><a href="/contact/">联系我们</a></li> <li><a href="/privacy/">隐私政策</a></li> </ul> </div> </div> <div class="footer-bottom"> <p>&copy; 2026 Clash101. All rights reserved.</p> </div> </footer> <!-- Inject global CSS (plain <style> avoids Astro's CSS processing) --> <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans SC',sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}a{color:#6366f1;text-decoration:none}a:hover{color:#818cf8}.site-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 24px}.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}.nav-logo{font-size:18px;font-weight:700;color:#6366f1;text-decoration:none}.nav-links{display:flex;gap:24px}.nav-links a{font-size:14px;color:#475569;text-decoration:none;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#6366f1}.breadcrumb{max-width:1100px;margin:0 auto;padding:16px 24px 0;font-size:13px;color:#94a3b8}.breadcrumb a{color:#6366f1;text-decoration:none}.art-wrap{max-width:1100px;margin:0 auto;padding:24px;display:flex;gap:32px}.art-main{flex:1;min-width:0;background:#fff;border-radius:12px;padding:40px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.art-main h1{font-size:28px;font-weight:800;line-height:1.4;margin-bottom:16px;color:#1e293b}.art-meta{display:flex;gap:16px;align-items:center;margin-bottom:24px;font-size:13px;color:#94a3b8}.art-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px}.art-tag.download{background:#e0f2fe;color:#0369a1}.art-tag.guide{background:#ecfdf5;color:#065f46}.art-tag.config{background:#fef3c7;color:#92400e}.art-tag.fix{background:#f3e8ff;color:#7c3aed}.art-body{font-size:15px;line-height:1.9;color:#475569}.art-body h2{font-size:22px;font-weight:700;margin:36px 0 16px;color:#1e293b}.art-body h3{font-size:18px;font-weight:600;margin:28px 0 12px;color:#1e293b}.art-body p{margin-bottom:16px}.art-body ul,.art-body ol{margin:12px 0 16px 24px}.art-body li{margin-bottom:8px}.art-body code{background:#f5f7fa;padding:2px 6px;border-radius:4px;font-size:13px;color:#e11d48}.art-body pre{background:#1e293b;color:#e2e8f0;padding:20px;border-radius:8px;overflow-x:auto;margin:16px 0;font-size:13px}.art-side{width:300px;flex-shrink:0}.sb-card{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.sb-card h4{font-size:14px;font-weight:700;margin-bottom:12px;color:#1e293b}.sb-rel-item{display:flex;gap:10px;margin-bottom:12px;text-decoration:none;color:inherit}.sb-rel-item:hover h5{color:#6366f1}.sb-rel-item h5{font-size:13px;font-weight:500;line-height:1.4;transition:color .2s}.trend-tags{display:flex;flex-wrap:wrap;gap:8px}.trend-tags a{font-size:12px;padding:4px 12px;background:#f5f7fa;border-radius:16px;color:#475569;text-decoration:none;transition:all .2s}.trend-tags a:hover{background:#e0f2fe;color:#6366f1}.info-box{background:#f0f9ff;border-left:4px solid #6366f1;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box{background:#fffbeb;border-left:4px solid #f59e0b;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box strong{color:#92400e}.step-list{counter-reset:step;margin:20px 0}.step-card{background:#fff;border:1px solid #e8ecf1;border-radius:10px;padding:20px;margin-bottom:16px;counter-increment:step;position:relative;padding-left:64px}.step-card::before{content:counter(step);position:absolute;left:16px;top:20px;width:32px;height:32px;background:#6366f1;color:#fff;border-radius:50%;text-align:center;line-height:32px;font-weight:700;font-size:14px}.faq-list{margin:24px 0}.faq-item{border:1px solid #e8ecf1;border-radius:8px;margin-bottom:8px;overflow:hidden}.faq-q{padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;background:#f5f7fa;user-select:none;display:flex;justify-content:space-between;align-items:center}.faq-q:hover{background:#f0f7ff}.faq-arrow{font-size:12px;transition:transform .3s;color:#94a3b8}.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}.faq-a-inner{padding:0 20px 16px;font-size:14px;color:#475569;line-height:1.7}.faq-item.open .faq-a{max-height:300px}.faq-item.open .faq-arrow{transform:rotate(180deg)}table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}th{background:#f0f7ff;padding:12px 16px;text-align:left;font-weight:600;border:1px solid #dce8f3}td{padding:12px 16px;border:1px solid #e8ecf1}.site-footer{background:#f0f7ff;border-top:1px solid #dce8f3;margin-top:80px}.footer-inner{max-width:1100px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}.footer-logo{font-size:20px;font-weight:700;color:#818cf8;margin-bottom:12px}.footer-desc{font-size:13px;line-height:1.8;margin-bottom:16px;color:#475569}.footer-badge{display:inline-block;font-size:12px;background:#fff;color:#6366f1;padding:6px 14px;border-radius:20px;font-weight:500;border:1px solid #b8ddf5}.footer-col h4{font-size:13px;font-weight:700;color:#1e293b;margin-bottom:16px;letter-spacing:.02em}.footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}.footer-col li a{font-size:13px;color:#475569;text-decoration:none;transition:color .2s}.footer-col li a:hover{color:#6366f1}.footer-bottom{border-top:1px solid #dce8f3;text-align:center;padding:20px 24px;font-size:12px;color:#94a3b8}@media(max-width:768px){.nav-links{display:none}.art-wrap{flex-direction:column}.art-main{padding:24px}.art-side{width:100%}.footer-inner{grid-template-columns:1fr 1fr;gap:32px}.footer-brand{grid-column:1/-1}}@media(max-width:480px){.footer-inner{grid-template-columns:1fr}}</style> <!-- FAQ accordion JS --> <script>
+    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){var item=q.parentElement;var open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0'});if(!open){item.classList.add('open');item.querySelector('.faq-a').style.maxHeight='500px'}})})});
+  </script> </body> </html>
