@@ -1,0 +1,191 @@
+---
+import { siteConfig } from '@/data/siteConfig';
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  ogImage?: string;
+  canonicalURL?: string;
+  isArticle?: boolean;
+  articleMeta?: { datePublished?: string; dateModified?: string };
+  breadcrumb?: { name: string; url?: string }[];
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  keywords = siteConfig.keywords,
+  ogImage = siteConfig.url + '/images/og-default.png',
+  canonicalURL,
+  isArticle = false,
+  articleMeta,
+  breadcrumb,
+} = Astro.props;
+
+// Canonical: prefer explicit, else construct from siteConfig.url
+const canonical = canonicalURL || (() => {
+  try { const u = new URL(Astro.url.pathname, siteConfig.url); return u.href.replace(/\/$/, ''); }
+  catch { return siteConfig.url; }
+})();
+
+const c = siteConfig.colors;
+
+// Generate dynamic category tag CSS from catTagPalette
+const tagCSS = siteConfig.categories.map((cat, i) => {
+  const p = siteConfig.catTagPalette[i % siteConfig.catTagPalette.length];
+  return `.art-tag.${cat.id}{background:${p.bg};color:${p.color}}`;
+}).join('');
+
+// Generate global CSS with interpolated config values at build time
+const globalCSS = `*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans SC',sans-serif;background:${c.bg};color:${c.textPrimary};line-height:1.6}a{color:${c.primary};text-decoration:none}a:hover{color:${c.primaryHover}}.site-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 24px}.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}.nav-logo{font-size:18px;font-weight:700;color:${c.primary};text-decoration:none}.nav-links{display:flex;gap:24px}.nav-links a{font-size:14px;color:${c.textSecondary};text-decoration:none;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:${c.primary}}.breadcrumb{max-width:1100px;margin:0 auto;padding:16px 24px 0;font-size:13px;color:${c.textMuted}}.breadcrumb a{color:${c.primary};text-decoration:none}.art-wrap{max-width:1100px;margin:0 auto;padding:24px;display:flex;gap:32px}.art-main{flex:1;min-width:0;background:#fff;border-radius:12px;padding:40px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.art-main h1{font-size:28px;font-weight:800;line-height:1.4;margin-bottom:16px;color:${c.textPrimary}}.art-meta{display:flex;gap:16px;align-items:center;margin-bottom:24px;font-size:13px;color:${c.textMuted}}.art-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px}${tagCSS}.art-body{font-size:15px;line-height:1.9;color:${c.textSecondary}}.art-body h2{font-size:22px;font-weight:700;margin:36px 0 16px;color:${c.textPrimary}}.art-body h3{font-size:18px;font-weight:600;margin:28px 0 12px;color:${c.textPrimary}}.art-body p{margin-bottom:16px}.art-body ul,.art-body ol{margin:12px 0 16px 24px}.art-body li{margin-bottom:8px}.art-body code{background:${c.bgCard};padding:2px 6px;border-radius:4px;font-size:13px;color:#e11d48}.art-body pre{background:${c.textPrimary};color:#e2e8f0;padding:20px;border-radius:8px;overflow-x:auto;margin:16px 0;font-size:13px}.art-side{width:300px;flex-shrink:0}.sb-card{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.sb-card h4{font-size:14px;font-weight:700;margin-bottom:12px;color:${c.textPrimary}}.sb-rel-item{display:flex;gap:10px;margin-bottom:12px;text-decoration:none;color:inherit}.sb-rel-item:hover h5{color:${c.primary}}.sb-rel-item h5{font-size:13px;font-weight:500;line-height:1.4;transition:color .2s}.trend-tags{display:flex;flex-wrap:wrap;gap:8px}.trend-tags a{font-size:12px;padding:4px 12px;background:${c.bgCard};border-radius:16px;color:${c.textSecondary};text-decoration:none;transition:all .2s}.trend-tags a:hover{background:#e0f2fe;color:${c.primary}}.info-box{background:#f0f9ff;border-left:4px solid ${c.primary};padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box{background:#fffbeb;border-left:4px solid #f59e0b;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box strong{color:#92400e}.step-list{counter-reset:step;margin:20px 0}.step-card{background:#fff;border:1px solid ${c.border};border-radius:10px;padding:20px;margin-bottom:16px;counter-increment:step;position:relative;padding-left:64px}.step-card::before{content:counter(step);position:absolute;left:16px;top:20px;width:32px;height:32px;background:${c.primary};color:#fff;border-radius:50%;text-align:center;line-height:32px;font-weight:700;font-size:14px}.faq-list{margin:24px 0}.faq-item{border:1px solid ${c.border};border-radius:8px;margin-bottom:8px;overflow:hidden}.faq-q{padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;background:${c.bgCard};user-select:none;display:flex;justify-content:space-between;align-items:center}.faq-q:hover{background:#f0f7ff}.faq-arrow{font-size:12px;transition:transform .3s;color:${c.textMuted}}.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}.faq-a-inner{padding:0 20px 16px;font-size:14px;color:${c.textSecondary};line-height:1.7}.faq-item.open .faq-a{max-height:300px}.faq-item.open .faq-arrow{transform:rotate(180deg)}table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}th{background:#f0f7ff;padding:12px 16px;text-align:left;font-weight:600;border:1px solid #dce8f3}td{padding:12px 16px;border:1px solid ${c.border}}.site-footer{background:#f0f7ff;border-top:1px solid #dce8f3;margin-top:80px}.footer-inner{max-width:1100px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}.footer-logo{font-size:20px;font-weight:700;color:${c.primaryHover};margin-bottom:12px}.footer-desc{font-size:13px;line-height:1.8;margin-bottom:16px;color:${c.textSecondary}}.footer-badge{display:inline-block;font-size:12px;background:#fff;color:${c.primary};padding:6px 14px;border-radius:20px;font-weight:500;border:1px solid #b8ddf5}.footer-col h4{font-size:13px;font-weight:700;color:${c.textPrimary};margin-bottom:16px;letter-spacing:.02em}.footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}.footer-col li a{font-size:13px;color:${c.textSecondary};text-decoration:none;transition:color .2s}.footer-col li a:hover{color:${c.primary}}.footer-bottom{border-top:1px solid #dce8f3;text-align:center;padding:20px 24px;font-size:12px;color:${c.textMuted}}@media(max-width:768px){.nav-links{display:none}.art-wrap{flex-direction:column}.art-main{padding:24px}.art-side{width:100%}.footer-inner{grid-template-columns:1fr 1fr;gap:32px}.footer-brand{grid-column:1/-1}}@media(max-width:480px){.footer-inner{grid-template-columns:1fr}}`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={keywords} />
+
+  <link rel="canonical" href={canonical} />
+  <link rel="alternate" hreflang={siteConfig.language} href={canonical} />
+  <meta name="robots" content="index, follow" />
+
+  <!-- OG -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:type" content={isArticle ? 'article' : 'website'} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Structured Data -->
+  {isArticle ? (
+    <script type="application/ld+json" set:html={JSON.stringify([
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: description,
+        url: canonical,
+        datePublished: articleMeta?.datePublished || '2026-06-24',
+        dateModified: articleMeta?.dateModified || '2026-06-24',
+        author: { '@type': 'Organization', name: siteConfig.author },
+        inLanguage: siteConfig.language,
+        image: ogImage.startsWith('http') ? ogImage : siteConfig.url + ogImage,
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: '首页', item: siteConfig.url },
+          ...(breadcrumb || [{ name: title }]).map((b, i) => ({
+            '@type': 'ListItem', position: i + 2, name: b.name,
+            ...(b.url ? { item: b.url } : {}),
+          })),
+        ],
+      },
+    ])} />
+  ) : (
+    <script type="application/ld+json" set:html={JSON.stringify([
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteConfig.title,
+        url: siteConfig.url,
+        description: siteConfig.description,
+        inLanguage: siteConfig.language,
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: '首页', item: siteConfig.url },
+        ],
+      },
+    ])} />
+  )}
+</head>
+<body>
+  <!-- Nav -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">{siteConfig.logo.text}</a>
+      <div class="nav-links">
+        <a href="/">首页</a>
+        <a href="/articles/">所有教程</a>
+        {siteConfig.categories.map(cat => (
+          <a href={`/articles/?category=${cat.id}`}>{cat.name}</a>
+        ))}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb (article pages) -->
+  {isArticle && breadcrumb && (
+    <div class="breadcrumb">
+      <a href="/">首页</a>
+      {breadcrumb.map((b, i) => (
+        <span> &raquo; {b.url ? <a href={b.url}>{b.name}</a> : b.name}</span>
+      ))}
+    </div>
+  )}
+
+  <main>
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">{siteConfig.logo.text}</div>
+        <p class="footer-desc">{siteConfig.footer.notice}</p>
+        <span class="footer-badge">📚 独立教程网站</span>
+      </div>
+      <div class="footer-col">
+        <h4>快速导航</h4>
+        <ul>
+          <li><a href="/">首页</a></li>
+          <li><a href="/articles/">所有教程</a></li>
+          <li><a href="/about/">关于我们</a></li>
+          <li><a href="/sitemap/">网站地图</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>教程分类</h4>
+        <ul>
+          {siteConfig.categories.map(cat => (
+            <li><a href={`/articles/?category=${cat.id}`}>{cat.name}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>支持</h4>
+        <ul>
+          <li><a href="/contact/">联系我们</a></li>
+          <li><a href="/privacy/">隐私政策</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {new Date().getFullYear()} {siteConfig.logo.text}. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Inject global CSS (plain <style> avoids Astro's CSS processing) -->
+  <style set:html={globalCSS} />
+
+  <!-- FAQ accordion JS -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){var item=q.parentElement;var open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0'});if(!open){item.classList.add('open');item.querySelector('.faq-a').style.maxHeight='500px'}})})});
+  </script>
+
+</body>
+</html>
