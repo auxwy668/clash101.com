@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Clash 新手入门完全指南 — 从零开始科学上网</title><meta name="description" content="Clash 新手入门教程，从零开始手把手教你安装配置 Clash Verge Rev，涵盖 Windows/macOS/Linux/Android 全平台下载安装、订阅导入、节点选择、规则分流和常见问题排查，15 分钟让你从完全不懂到熟练使用 Clash 科学上网。"><meta name="keywords" content="Clash,Clash新手,Clash教程,Clash Verge,科学上网,Clash下载,Clash配置,Clash使用教程,Clash入门"><link rel="canonical" href="https://clash101.com/guide/clash-xinshou-rumen/"><link rel="alternate" hreflang="zh-CN" href="https://clash101.com/guide/clash-xinshou-rumen/"><meta name="robots" content="index, follow"><!-- OG --><meta property="og:title" content="Clash 新手入门完全指南 — 从零开始科学上网"><meta property="og:description" content="Clash 新手入门教程，从零开始手把手教你安装配置 Clash Verge Rev，涵盖 Windows/macOS/Linux/Android 全平台下载安装、订阅导入、节点选择、规则分流和常见问题排查，15 分钟让你从完全不懂到熟练使用 Clash 科学上网。"><meta property="og:url" content="https://clash101.com/guide/clash-xinshou-rumen/"><meta property="og:type" content="article"><meta property="og:image" content="https://clash101.com/images/og-default.png"><meta name="twitter:card" content="summary_large_image"><!-- Favicon --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Structured Data --><script type="application/ld+json">[{"@context":"https://schema.org","@type":"Article","headline":"Clash 新手入门完全指南 — 从零开始科学上网","description":"Clash 新手入门教程，从零开始手把手教你安装配置 Clash Verge Rev，涵盖 Windows/macOS/Linux/Android 全平台下载安装、订阅导入、节点选择、规则分流和常见问题排查，15 分钟让你从完全不懂到熟练使用 Clash 科学上网。","url":"https://clash101.com/guide/clash-xinshou-rumen/","datePublished":"2026-08-02","dateModified":"2026-08-02","author":{"@type":"Organization","name":"Clash101教程"},"inLanguage":"zh-CN","image":"https://clash101.com/images/og-default.png"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://clash101.com"},{"@type":"ListItem","position":2,"name":"Clash 新手入门完全指南 — 从零开始科学上网"}]}]</script><style>.art-wrap[data-astro-cid-fzx4jmue]{max-width:1100px}</style></head> <body> <!-- Nav --> <nav class="site-nav"> <div class="nav-inner"> <a href="/" class="nav-logo">Clash101</a> <div class="nav-links"> <a href="/">首页</a> <a href="/articles/">所有教程</a> <a href="/articles/?category=download">下载安装</a><a href="/articles/?category=guide">入门教程</a><a href="/articles/?category=config">配置进阶</a><a href="/articles/?category=fix">故障排查</a> </div> </div> </nav> <!-- Breadcrumb (article pages) --> <div class="breadcrumb"> <a href="/">首页</a> <span> &raquo; Clash 新手入门完全指南 — 从零开始科学上网</span> </div> <main>  <div class="art-wrap" data-astro-cid-fzx4jmue> <article class="art-main" data-astro-cid-fzx4jmue> <h1 data-astro-cid-fzx4jmue>Clash 新手入门完全指南 — 从零开始科学上网</h1> <div class="art-meta" data-astro-cid-fzx4jmue> <span data-astro-cid-fzx4jmue>📅 2026-08-02</span> <span class="art-tag guide" data-astro-cid-fzx4jmue>入门教程</span> </div> <div class="art-body" data-astro-cid-fzx4jmue> <img src="/images/default-cover.jpg" alt="Clash 新手入门完全指南 — 从零开始科学上网" style="width:100%; border-radius:8px; margin-bottom:24px;" data-astro-cid-fzx4jmue> <h2 id="什么是-clash为什么你需要它">什么是 Clash？为什么你需要它？</h2>
+<p>如果你第一次听到”Clash”这个词，别慌——你不是一个人。Clash 是目前最流行的开源代理客户端之一，它帮你管理网络代理规则，让国内网站直连访问、国外网站走代理通道，两不误。</p>
+<p>简单来说，Clash 就是一个”智能网络分流器”。你不需要手动切换代理开关，Clash 会根据你设定的规则自动判断：访问百度、淘宝走直连，访问 Google、YouTube 走代理。这就是所谓的”规则分流”——Clash 最核心的功能。</p>
+<p>本文是专门为<strong>零基础新手</strong>准备的 Clash 入门教程。无论你是学生、上班族还是技术小白，只要跟着这篇指南一步步操作，15 分钟内你就能完成 Clash 的安装、配置，开始顺畅地访问全球互联网。</p>
+<div class="cpa-download-banner">
+  <p style="margin:0 0 10px;font-weight:700;color:#1e293b">📥 还没安装 Clash？点击下方按钮一键下载官方最新版</p>
+  <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" style="display:inline-block;background:#6366f1;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:600" target="_blank" rel="nofollow noopener">立即下载 Clash Verge Rev</a>
+</div>
+<h2 id="clash-核心概念5-分钟快速理解">Clash 核心概念：5 分钟快速理解</h2>
+<p>在动手之前，我们先花几分钟理解几个关键概念。不用背，理解就行，后面操作时你会反复遇到它们。</p>
+<h3 id="1-代理节点proxy--node">1. 代理节点（Proxy / Node）</h3>
+<p>代理节点就是你的”网络中转站”。当你访问 Google 时，数据先发到代理节点，再由节点转发到 Google，然后把结果返回给你。节点通常由机场服务商提供，一个机场可能包含几十甚至上百个节点，分布在不同国家和地区。</p>
+<h3 id="2-订阅链接subscription">2. 订阅链接（Subscription）</h3>
+<p>订阅链接是机场服务商给你的一个 URL，Clash 通过这个链接自动获取和更新节点列表。你不用手动一个一个添加节点，只需要复制订阅链接、粘贴到 Clash 里，所有节点自动导入。这就是 Clash 相比手动配置代理的高效之处。</p>
+<h3 id="3-规则分流rule-based-routing">3. 规则分流（Rule-based Routing）</h3>
+<p>规则分流是 Clash 的灵魂。它的工作原理是：每条网络请求到达 Clash 后，Clash 按照你设定的规则从上到下匹配，匹配到哪条规则就执行对应策略——直连（DIRECT）、代理（PROXY）或拒绝（REJECT）。</p>
+<p>举个例子：</p>
+<ul>
+<li><code>DOMAIN-SUFFIX,baidu.com,DIRECT</code> → 所有百度域名直连</li>
+<li><code>DOMAIN-SUFFIX,google.com,PROXY</code> → 所有 Google 域名走代理</li>
+<li><code>GEOIP,CN,DIRECT</code> → 中国 IP 直连</li>
+<li><code>MATCH,PROXY</code> → 以上都不匹配的，全部走代理</li>
+</ul>
+<h3 id="4-tun-模式">4. TUN 模式</h3>
+<p>TUN 模式是 Clash 的一项高级功能。普通模式下 Clash 只能代理浏览器和应用层流量，但 TUN 模式会在系统网络层创建一个虚拟网卡，接管<strong>所有</strong>流量——包括命令行工具、游戏、系统更新等。如果你发现某些软件不走代理，开启 TUN 模式通常能解决。</p>
+<h3 id="5-clash-家族clash-core-vs-clash-verge-rev">5. Clash 家族：Clash Core vs Clash Verge Rev</h3>
+<p>Clash 生态中有两个重要的概念需要区分：</p>
+<ul>
+<li><strong>Clash Core（内核）</strong>：核心代理引擎，负责实际的流量处理，没有图形界面，只能通过配置文件操作。</li>
+<li><strong>Clash Verge Rev</strong>：基于 Clash 内核的图形化客户端，提供友好的操作界面，让你可以点点鼠标就完成配置。它是目前最主流的 Clash 桌面客户端。</li>
+</ul>
+<p>后面提到的”Clash Verge Rev 使用教程”可以帮你深入了解客户端的各项功能。如果你已经安装好了，可以直接跳转到 <a href="https://clash101.com/guide/clash-verge-rev-shiyong/">Clash Verge Rev 订阅导入与节点管理详解</a> 查看具体操作步骤。</p>
+<p><img src="/images/clash101/clash-verge-main-interface.jpg" alt="Clash Verge Rev 主界面截图"></p>
+<h2 id="第一步下载与安装-clash-verge-rev">第一步：下载与安装 Clash Verge Rev</h2>
+<h3 id="windows-安装">Windows 安装</h3>
+<ol>
+<li>点击本文上方的下载按钮，下载 Clash Verge Rev 安装包（通常为 <code>.zip</code> 或 <code>.exe</code> 格式）</li>
+<li>解压后双击运行安装程序</li>
+<li>如果 Windows Defender 弹出警告，点击”更多信息”→“仍要运行”</li>
+<li>按照安装向导完成安装，桌面会出现 Clash Verge Rev 图标</li>
+<li>双击图标启动，系统托盘（右下角）出现 Clash 图标即安装成功</li>
+</ol>
+<h3 id="macos-安装">macOS 安装</h3>
+<ol>
+<li>下载 macOS 版本的 <code>.dmg</code> 安装包</li>
+<li>双击打开，将 Clash Verge Rev 拖入 Applications 文件夹</li>
+<li>首次打开时，如果提示”无法验证开发者”，进入<strong>系统设置 → 隐私与安全性</strong>，点击”仍要打开”</li>
+<li>启动后在顶部菜单栏可以看到 Clash 图标</li>
+</ol>
+<h3 id="linux-安装">Linux 安装</h3>
+<p>Linux 用户可以通过命令行安装：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Debian/Ubuntu</span></span>
+<span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> dpkg</span><span style="color:#79B8FF"> -i</span><span style="color:#9ECBFF"> clash-verge-rev_</span><span style="color:#79B8FF">*</span><span style="color:#9ECBFF">.deb</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Arch Linux (AUR)</span></span>
+<span class="line"><span style="color:#B392F0">yay</span><span style="color:#79B8FF"> -S</span><span style="color:#9ECBFF"> clash-verge-rev-bin</span></span></code></pre>
+<h3 id="android-安装">Android 安装</h3>
+<ol>
+<li>下载 APK 文件到手机</li>
+<li>进入<strong>设置 → 安全 → 允许安装未知来源应用</strong></li>
+<li>点击 APK 文件完成安装</li>
+<li>首次启动时授予 VPN 权限</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>注意</strong>：iOS 用户目前需要使用其他客户端如 Shadowrocket 或 Quantumult X，Clash Verge Rev 暂不支持 iOS。</p>
+</blockquote>
+<h2 id="第二步获取订阅链接机场选择指南">第二步：获取订阅链接（机场选择指南）</h2>
+<p>安装好 Clash 之后，你还需要一个”机场”——也就是代理服务商。机场会提供给你代理节点和订阅链接。</p>
+<h3 id="如何选择机场">如何选择机场？</h3>
+<p>选择机场时，建议关注以下几点：</p>
+<ul>
+<li><strong>节点数量与质量</strong>：是否是直连节点（非中转）、延迟高低</li>
+<li><strong>可用地区</strong>：美国、日本、新加坡、香港、台湾等常用地区是否覆盖</li>
+<li><strong>带宽与流量限制</strong>：每月流量是否够用，有无速度限制</li>
+<li><strong>在线率与稳定性</strong>：节点是否经常掉线</li>
+<li><strong>是否支持 Clash 订阅</strong>：绝大多数机场都支持，但购买前确认一下</li>
+<li><strong>价格</strong>：一般月付 10-30 元比较合理，太便宜的可能质量差，太贵的意义不大</li>
+</ul>
+<h3 id="获取订阅链接的步骤">获取订阅链接的步骤</h3>
+<ol>
+<li>注册并购买机场服务</li>
+<li>登录机场的”用户中心”或”控制面板”</li>
+<li>找到”订阅地址”或”Clash 订阅”选项</li>
+<li>点击”复制订阅链接”——这个 URL 通常以 <code>https://</code> 开头，包含一串加密字符</li>
+</ol>
+<blockquote>
+<p>🔒 <strong>安全提示</strong>：订阅链接包含你的账号信息，不要分享给他人。泄露意味着别人也能使用你的流量。</p>
+</blockquote>
+<div class="cpa-download-banner">
+  <p style="margin:0 0 10px;font-weight:700;color:#1e293b">📥 还没安装 Clash？点击下方按钮一键下载官方最新版</p>
+  <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" style="display:inline-block;background:#6366f1;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:600" target="_blank" rel="nofollow noopener">立即下载 Clash Verge Rev</a>
+</div>
+<h2 id="第三步导入订阅与首次连接">第三步：导入订阅与首次连接</h2>
+<p>现在你有了 Clash 客户端和订阅链接，接下来完成首次连接。</p>
+<h3 id="导入订阅">导入订阅</h3>
+<ol>
+<li>右键系统托盘的 Clash 图标 → 选择”打开面板”</li>
+<li>点击左侧菜单的”订阅”标签</li>
+<li>在输入框中粘贴你的订阅链接</li>
+<li>点击”导入”按钮</li>
+<li>Clash 会自动下载节点列表，等待几秒即可</li>
+</ol>
+<p>如果你需要更详细的订阅管理教程，可以参考 <a href="https://clash101.com/guide/clash-verge-rev-shiyong/">Clash Verge Rev 订阅导入与节点管理详解</a>，里面有节点分组、延迟测试和自动切换的完整说明。</p>
+<h3 id="选择节点与开启代理">选择节点与开启代理</h3>
+<ol>
+<li>切换到”代理”标签页</li>
+<li>你会看到按地区分组的节点列表（如 🇺🇸 美国、🇯🇵 日本、🇭🇰 香港）</li>
+<li>点击一个节点即可选中——建议先选香港或日本节点，延迟通常较低</li>
+<li>回到主界面，点击右上角的大开关或系统托盘 → “开启系统代理”</li>
+<li>系统代理开启后，浏览器会自动使用 Clash 的代理设置</li>
+</ol>
+<h3 id="验证是否成功">验证是否成功</h3>
+<p>打开浏览器访问 <code>https://www.google.com</code>，如果能正常打开，恭喜你，Clash 已经配置成功！你也可以访问 <code>https://ip.sb</code> 查看当前 IP 地址，确认是否显示为代理节点的 IP。</p>
+<p><img src="/images/clash101/clash-proxy-nodes-selection.jpg" alt="Clash 代理节点选择界面"></p>
+<h2 id="第四步系统代理-vs-tun-模式该选哪个">第四步：系统代理 vs TUN 模式，该选哪个？</h2>
+<p>Clash 提供两种代理方式，它们的适用场景不同：</p>
+<h3 id="系统代理模式推荐新手">系统代理模式（推荐新手）</h3>
+<ul>
+<li><strong>原理</strong>：修改系统的代理设置，浏览器和大部分应用会自动使用</li>
+<li><strong>优点</strong>：设置简单，关闭不影响正常网络</li>
+<li><strong>缺点</strong>：部分软件不读取系统代理设置（如命令行工具、部分游戏）</li>
+</ul>
+<h3 id="tun-模式进阶推荐">TUN 模式（进阶推荐）</h3>
+<ul>
+<li><strong>原理</strong>：创建虚拟网卡，在网络层接管所有流量</li>
+<li><strong>优点</strong>：真正全局代理，所有软件都生效</li>
+<li><strong>缺点</strong>：需要管理员权限，配置稍复杂</li>
+</ul>
+<p><strong>建议</strong>：新手先用系统代理模式，熟悉后再尝试 TUN 模式。如果你需要代理命令行工具或游戏，再开启 TUN 模式。开启方法：在 Clash 面板中点击”TUN 模式”开关即可。</p>
+<h2 id="第五步进阶技巧--提升你的-clash-体验">第五步：进阶技巧 — 提升你的 Clash 体验</h2>
+<p>熟悉基本操作后，以下技巧会让你用得更顺手：</p>
+<h3 id="延迟自动测速">延迟自动测速</h3>
+<p>在”代理”标签页，右键任意节点 → 选择”延迟测试”，Clash 会遍历所有节点测试延迟。你也可以开启”自动选择最低延迟节点”，让 Clash 帮你自动切换到最快的线路。</p>
+<h3 id="规则组管理">规则组管理</h3>
+<p>Clash 默认规则已经覆盖了大部分常见场景，但你也可以自定义：</p>
+<ul>
+<li>访问面板的”规则”标签</li>
+<li>添加自定义规则，比如强制某个域名走特定节点</li>
+<li>规则语法参考官方文档</li>
+</ul>
+<h3 id="开机自启">开机自启</h3>
+<p>在设置中开启”开机启动”和”静默启动”，Clash 会随系统自动启动并在后台运行，开机就能直接上网。</p>
+<h3 id="更新订阅">更新订阅</h3>
+<p>机场节点会定期更新，你需要同步更新：</p>
+<ul>
+<li>进入”订阅”标签</li>
+<li>点击订阅右侧的”更新”按钮</li>
+<li>或者设置自动更新间隔（建议每 6-12 小时更新一次）</li>
+</ul>
+<h2 id="常见问题与故障排查">常见问题与故障排查</h2>
+<details>
+<summary><strong>Q1：导入订阅后看不到任何节点？</strong></summary>
+<p><strong>可能原因与解决</strong>：</p>
+<ul>
+<li>订阅链接过期：去机场后台重新获取最新订阅链接</li>
+<li>网络不通：确认在不开启代理的情况下能正常访问互联网</li>
+<li>机场服务故障：联系机场客服确认服务状态</li>
+<li>Clash 版本过旧：更新到最新版 Clash Verge Rev 再试</li>
+</ul>
+</details>
+<details>
+<summary><strong>Q2：开启代理后国内网站变慢或打不开？</strong></summary>
+<p>这说明规则分流可能配置有误。检查方法是：</p>
+<ol>
+<li>打开 Clash 面板 → 点击”日志”标签</li>
+<li>访问一个国内网站，观察日志中该域名匹配到的规则</li>
+<li>确认国内域名是否被匹配为 <code>DIRECT</code>（直连），而不是 <code>PROXY</code>（代理）</li>
+<li>如果国内域名走到了代理，检查规则配置或重置为默认规则</li>
+</ol>
+<p>另外，确保你没有把”全局模式”打开——全局模式会让所有流量（包括国内）都走代理。请确认当前模式为”规则模式”。</p>
+</details>
+<details>
+<summary><strong>Q3：为什么我的 Clash 显示"未连接"？</strong></summary>
+<p>按以下顺序排查：</p>
+<ol>
+<li>确认系统代理已开启（系统托盘图标变色）</li>
+<li>检查选中的节点是否有延迟测试结果（超时红色表示不可用，换一个节点）</li>
+<li>查看日志标签页，是否有红色错误信息</li>
+<li>尝试切换为其他节点或更新订阅</li>
+<li>检查防火墙或杀毒软件是否拦截了 Clash</li>
+</ol>
+</details>
+<details>
+<summary><strong>Q4：Clash 开机后不自动启动？</strong></summary>
+<p>Windows 用户：</p>
+<ul>
+<li>进入 Clash 设置 → 开启”开机启动”</li>
+<li>如果仍然无效，手动将 Clash 快捷方式放入 <code>shell:startup</code> 启动文件夹</li>
+</ul>
+<p>macOS 用户：</p>
+<ul>
+<li>系统设置 → 通用 → 登录项 → 添加 Clash Verge Rev</li>
+</ul>
+</details>
+<details>
+<summary><strong>Q5：TUN 模式开启后无法上网？</strong></summary>
+<p>TUN 模式需要管理员/root 权限：</p>
+<ul>
+<li><strong>Windows</strong>：右键 Clash 图标 → 以管理员身份运行</li>
+<li><strong>macOS</strong>：首次开启 TUN 时系统会弹出权限请求，点击”允许”</li>
+<li><strong>Linux</strong>：需要使用 <code>sudo</code> 运行 Clash</li>
+</ul>
+<p>如果权限正常但仍无法上网，尝试：</p>
+<ol>
+<li>关闭 TUN 模式，恢复正常上网后重新开启</li>
+<li>检查防火墙设置是否阻止了 TUN 虚拟网卡</li>
+<li>重启电脑后再试</li>
+</ol>
+</details>
+<details>
+<summary><strong>Q6：手机上 Clash 如何配置？</strong></summary>
+<p>Android 用户：</p>
+<ol>
+<li>下载 Clash Meta for Android（或 Clash Verge Rev 安卓版）</li>
+<li>安装后打开，点击”配置” → 右上角”+” → “从 URL 导入”</li>
+<li>粘贴订阅链接，点击下载</li>
+<li>返回主界面，点击开关启动 VPN</li>
+<li>首次启动需授予 VPN 连接权限</li>
+</ol>
+<p><strong>小技巧</strong>：Android 版 Clash 可以设置分应用代理，在”分流”设置中可以选择哪些应用走代理、哪些直连。比如只让浏览器和 YouTube 走代理，微信和支付宝直连。</p>
+</details>
+<h2 id="总结">总结</h2>
+<p>从完全不懂到成功配置 Clash，你现在已经掌握了科学上网的基础技能。回顾一下关键步骤：</p>
+<ol>
+<li><strong>下载安装</strong> Clash Verge Rev</li>
+<li><strong>获取订阅链接</strong>（选择一个靠谱的机场）</li>
+<li><strong>导入订阅</strong>并选择一个低延迟节点</li>
+<li><strong>开启系统代理</strong>，验证连接成功</li>
+<li>根据需要决定是否使用 <strong>TUN 模式</strong></li>
+</ol>
+<p>Clash 的上手门槛其实很低，真正花时间的不是操作本身，而是理解背后的原理。一旦理解了”节点→订阅→规则分流”这条主线，你就会发现 Clash 其实非常简单好用。</p>
+<p>如果你在使用过程中遇到任何问题，欢迎继续阅读本站的其他教程，包括 <a href="https://clash101.com/guide/clash-verge-rev-shiyong/">Clash Verge Rev 订阅导入与节点管理详解</a> 和 <a href="https://clash101.com/articles/?category=config">Clash 配置进阶教程</a>，我们会持续更新更多实用的 Clash 使用技巧。</p> </div> </article> <!-- Sidebar --> <aside class="art-side" data-astro-cid-fzx4jmue> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>相关教程</h4> <a href="/guide/clash-verge-rev-shiyong/" class="sb-rel-item" data-astro-cid-fzx4jmue> <h5 data-astro-cid-fzx4jmue>Clash Verge Rev 使用教程 — 订阅导入与节点管理详解</h5> </a> </div> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>热门标签</h4> <div class="trend-tags" data-astro-cid-fzx4jmue> <a href="/articles/?category=download" data-astro-cid-fzx4jmue>下载安装</a><a href="/articles/?category=guide" data-astro-cid-fzx4jmue>入门教程</a><a href="/articles/?category=config" data-astro-cid-fzx4jmue>配置进阶</a><a href="/articles/?category=fix" data-astro-cid-fzx4jmue>故障排查</a> </div> </div> </aside> </div>  </main> <!-- Footer --> <footer class="site-footer"> <div class="footer-inner"> <div class="footer-brand"> <div class="footer-logo">Clash101</div> <p class="footer-desc">本站为独立教程站点。所有下载链接指向官方源，不托管安装包文件。</p> <span class="footer-badge">📚 独立教程网站</span> </div> <div class="footer-col"> <h4>快速导航</h4> <ul> <li><a href="/">首页</a></li> <li><a href="/articles/">所有教程</a></li> <li><a href="/about/">关于我们</a></li> <li><a href="/sitemap/">网站地图</a></li> </ul> </div> <div class="footer-col"> <h4>教程分类</h4> <ul> <li><a href="/articles/?category=download">下载安装</a></li><li><a href="/articles/?category=guide">入门教程</a></li><li><a href="/articles/?category=config">配置进阶</a></li><li><a href="/articles/?category=fix">故障排查</a></li> </ul> </div> <div class="footer-col"> <h4>支持</h4> <ul> <li><a href="/contact/">联系我们</a></li> <li><a href="/privacy/">隐私政策</a></li> </ul> </div> </div> <div class="footer-bottom"> <p>&copy; 2026 Clash101. All rights reserved.</p> </div> </footer> <!-- Inject global CSS (plain <style> avoids Astro's CSS processing) --> <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans SC',sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}a{color:#6366f1;text-decoration:none}a:hover{color:#818cf8}.site-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 24px}.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}.nav-logo{font-size:18px;font-weight:700;color:#6366f1;text-decoration:none}.nav-links{display:flex;gap:24px}.nav-links a{font-size:14px;color:#475569;text-decoration:none;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#6366f1}.breadcrumb{max-width:1100px;margin:0 auto;padding:16px 24px 0;font-size:13px;color:#94a3b8}.breadcrumb a{color:#6366f1;text-decoration:none}.art-wrap{max-width:1100px;margin:0 auto;padding:24px;display:flex;gap:32px}.art-main{flex:1;min-width:0;background:#fff;border-radius:12px;padding:40px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.art-main h1{font-size:28px;font-weight:800;line-height:1.4;margin-bottom:16px;color:#1e293b}.art-meta{display:flex;gap:16px;align-items:center;margin-bottom:24px;font-size:13px;color:#94a3b8}.art-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px}.art-tag.download{background:#e0f2fe;color:#0369a1}.art-tag.guide{background:#ecfdf5;color:#065f46}.art-tag.config{background:#fef3c7;color:#92400e}.art-tag.fix{background:#f3e8ff;color:#7c3aed}.art-body{font-size:15px;line-height:1.9;color:#475569}.art-body h2{font-size:22px;font-weight:700;margin:36px 0 16px;color:#1e293b}.art-body h3{font-size:18px;font-weight:600;margin:28px 0 12px;color:#1e293b}.art-body p{margin-bottom:16px}.art-body ul,.art-body ol{margin:12px 0 16px 24px}.art-body li{margin-bottom:8px}.art-body code{background:#f5f7fa;padding:2px 6px;border-radius:4px;font-size:13px;color:#e11d48}.art-body pre{background:#1e293b;color:#e2e8f0;padding:20px;border-radius:8px;overflow-x:auto;margin:16px 0;font-size:13px}.art-side{width:300px;flex-shrink:0}.sb-card{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.sb-card h4{font-size:14px;font-weight:700;margin-bottom:12px;color:#1e293b}.sb-rel-item{display:flex;gap:10px;margin-bottom:12px;text-decoration:none;color:inherit}.sb-rel-item:hover h5{color:#6366f1}.sb-rel-item h5{font-size:13px;font-weight:500;line-height:1.4;transition:color .2s}.trend-tags{display:flex;flex-wrap:wrap;gap:8px}.trend-tags a{font-size:12px;padding:4px 12px;background:#f5f7fa;border-radius:16px;color:#475569;text-decoration:none;transition:all .2s}.trend-tags a:hover{background:#e0f2fe;color:#6366f1}.info-box{background:#f0f9ff;border-left:4px solid #6366f1;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box{background:#fffbeb;border-left:4px solid #f59e0b;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box strong{color:#92400e}.step-list{counter-reset:step;margin:20px 0}.step-card{background:#fff;border:1px solid #e8ecf1;border-radius:10px;padding:20px;margin-bottom:16px;counter-increment:step;position:relative;padding-left:64px}.step-card::before{content:counter(step);position:absolute;left:16px;top:20px;width:32px;height:32px;background:#6366f1;color:#fff;border-radius:50%;text-align:center;line-height:32px;font-weight:700;font-size:14px}.faq-list{margin:24px 0}.faq-item{border:1px solid #e8ecf1;border-radius:8px;margin-bottom:8px;overflow:hidden}.faq-q{padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;background:#f5f7fa;user-select:none;display:flex;justify-content:space-between;align-items:center}.faq-q:hover{background:#f0f7ff}.faq-arrow{font-size:12px;transition:transform .3s;color:#94a3b8}.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}.faq-a-inner{padding:0 20px 16px;font-size:14px;color:#475569;line-height:1.7}.faq-item.open .faq-a{max-height:300px}.faq-item.open .faq-arrow{transform:rotate(180deg)}table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}th{background:#f0f7ff;padding:12px 16px;text-align:left;font-weight:600;border:1px solid #dce8f3}td{padding:12px 16px;border:1px solid #e8ecf1}.site-footer{background:#f0f7ff;border-top:1px solid #dce8f3;margin-top:80px}.footer-inner{max-width:1100px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}.footer-logo{font-size:20px;font-weight:700;color:#818cf8;margin-bottom:12px}.footer-desc{font-size:13px;line-height:1.8;margin-bottom:16px;color:#475569}.footer-badge{display:inline-block;font-size:12px;background:#fff;color:#6366f1;padding:6px 14px;border-radius:20px;font-weight:500;border:1px solid #b8ddf5}.footer-col h4{font-size:13px;font-weight:700;color:#1e293b;margin-bottom:16px;letter-spacing:.02em}.footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}.footer-col li a{font-size:13px;color:#475569;text-decoration:none;transition:color .2s}.footer-col li a:hover{color:#6366f1}.footer-bottom{border-top:1px solid #dce8f3;text-align:center;padding:20px 24px;font-size:12px;color:#94a3b8}@media(max-width:768px){.nav-links{display:none}.art-wrap{flex-direction:column}.art-main{padding:24px}.art-side{width:100%}.footer-inner{grid-template-columns:1fr 1fr;gap:32px}.footer-brand{grid-column:1/-1}}@media(max-width:480px){.footer-inner{grid-template-columns:1fr}}</style> <!-- FAQ accordion JS --> <script>
+    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){var item=q.parentElement;var open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0'});if(!open){item.classList.add('open');item.querySelector('.faq-a').style.maxHeight='500px'}})})});
+  </script> </body> </html>
