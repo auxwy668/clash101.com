@@ -1,0 +1,110 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { siteConfig } from '@/data/siteConfig';
+const desc = `联系${siteConfig.name} — 有问题或建议？通过邮箱联系我们，我们会在1-2个工作日内回复。`;
+---
+
+<BaseLayout title={`联系我们 — ${siteConfig.name}`} description={desc}>
+  <div class="static-page">
+    <h1>联系我们</h1>
+
+    <div class="content">
+
+      <div class="info-box">
+        <strong>💬 欢迎联系</strong> — 无论你是遇到了教程中没覆盖的问题，还是有改进建议，都欢迎通过下方渠道与我们沟通。
+      </div>
+
+      <div class="contact-main">
+        <div class="contact-card">
+          <div class="contact-icon">📧</div>
+          <h3>电子邮件</h3>
+          <a href={`mailto:${siteConfig.email}`} class="email-link">{siteConfig.email}</a>
+          <p class="contact-note">首选联系方式，支持发送截图和附件</p>
+        </div>
+      </div>
+
+      <div class="response-box">
+        <div class="response-item">
+          <span class="resp-dot"></span>
+          <span>工作日 24 小时内回复</span>
+        </div>
+        <div class="response-item">
+          <span class="resp-dot"></span>
+          <span>周末 / 节假日 48 小时内回复</span>
+        </div>
+      </div>
+
+      <h2>哪些情况可以联系我们</h2>
+
+      <div class="contact-grid">
+        <div class="ct-item">
+          <span class="ct-emoji">🐛</span>
+          <div>
+            <strong>教程纠错</strong>
+            <p>教程中的操作步骤与最新版不一致、链接失效、描述有误等</p>
+          </div>
+        </div>
+        <div class="ct-item">
+          <span class="ct-emoji">💡</span>
+          <div>
+            <strong>内容建议</strong>
+            <p>希望我们新增某个主题的教程，或对现有内容有改进想法</p>
+          </div>
+        </div>
+        <div class="ct-item">
+          <span class="ct-emoji">❓</span>
+          <div>
+            <strong>使用求助</strong>
+            <p>教程中没有覆盖到的具体使用问题，我们会尽力协助排查</p>
+          </div>
+        </div>
+        <div class="ct-item">
+          <span class="ct-emoji">🤝</span>
+          <div>
+            <strong>合作咨询</strong>
+            <p>内容合作、友情链接交换等商务或非商务合作意向</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-box" style="margin-top:32px">
+        <p><strong>⚠️ 请注意：</strong>我们<em>不提供</em>网络访问工具与服务，不解答与翻墙、代理、节点相关的问题。所有回复仅限于 Telegram 客户端本地使用教程范围。</p>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .static-page { max-width: 780px; margin: 40px auto; padding: 0 24px 80px; }
+  .static-page h1 { font-size: 2rem; font-weight: 800; margin-bottom: 32px; text-align: center; color: var(--c-text-primary, #1e293b); }
+  .content h2 { font-size: 1.4rem; font-weight: 700; margin: 40px 0 20px; color: var(--c-text-primary, #1e293b); padding-bottom: 8px; border-bottom: 2px solid #0078D4; display: inline-block; }
+  .content p { color: #475569; margin: 0; line-height: 1.7; font-size: 15px; }
+
+  .info-box { background: #f0f7ff; border-left: 4px solid #0078D4; padding: 16px 20px; border-radius: 0 8px 8px 0; font-size: 14px; color: #1e40af; line-height: 1.7; margin-bottom: 24px; }
+
+  .contact-main { margin: 28px 0; }
+  .contact-card { background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%); border: 2px solid #b8ddf5; border-radius: 16px; padding: 36px; text-align: center; }
+  .contact-icon { font-size: 3rem; margin-bottom: 12px; }
+  .contact-card h3 { font-size: 1.2rem; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+  .email-link { display: inline-block; font-size: 1.1rem; color: #0078D4; font-weight: 600; text-decoration: none; padding: 10px 24px; background: #fff; border-radius: 8px; border: 1px solid #b8ddf5; transition: all .2s; }
+  .email-link:hover { background: #0078D4; color: #fff; border-color: #0078D4; }
+  .contact-note { font-size: 13px !important; color: #94a3b8 !important; margin-top: 12px !important; }
+
+  .response-box { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin: 24px 0; }
+  .response-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; }
+  .resp-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block; flex-shrink: 0; }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 16px 0; }
+  .ct-item { display: flex; gap: 14px; background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; }
+  .ct-emoji { font-size: 1.5rem; flex-shrink: 0; }
+  .ct-item strong { display: block; font-size: 14px; color: #1e293b; margin-bottom: 4px; }
+  .ct-item p { font-size: 13px !important; color: #64748b !important; }
+
+  .warn-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 16px 20px; border-radius: 0 8px 8px 0; font-size: 14px; color: #92400e; line-height: 1.8; }
+  .warn-box p { color: #92400e !important; margin: 0 !important; }
+
+  @media (max-width: 540px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+</style>
