@@ -1,0 +1,98 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { siteConfig } from '@/data/siteConfig';
+const desc = `${siteConfig.name}隐私政策 — 了解我们如何收集和使用信息，本站为纯静态站点，不收集用户个人信息，不使用Cookie追踪。`;
+---
+
+<BaseLayout title={`隐私政策 — ${siteConfig.name}`} description={desc}>
+  <div class="static-page">
+    <h1>隐私政策</h1>
+    <p class="update-date">最后更新：2026年6月26日</p>
+
+    <div class="content">
+
+      <div class="info-box">
+        <strong>🔒 一句话总结：</strong>本站为纯静态网站，<em>不收集、不存储、不追踪</em>您的任何个人信息。您可以放心浏览全部内容。
+      </div>
+
+      <h2>一、我们收集什么信息</h2>
+
+      <div class="section-card">
+        <h3>我们不收集的信息</h3>
+        <ul>
+          <li><strong>个人身份信息：</strong>本站无需注册、无需登录，不会要求您提供姓名、邮箱、手机号等任何个人资料。</li>
+          <li><strong>设备与行为数据：</strong>不使用 Cookie、不使用本地存储、不嵌入任何用户行为追踪脚本（如 Google Analytics、百度统计等）。</li>
+          <li><strong>聊天与消息内容：</strong>本站为纯内容展示站点，不具备消息收发功能，无法获取您的任何通讯内容。</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h3>托管服务自动记录的信息</h3>
+        <p>本站使用 Cloudflare Pages 提供静态网页托管和全球 CDN 加速服务。Cloudflare 作为基础设施提供商，可能会自动记录基本的访问日志，包括：</p>
+        <ul>
+          <li>IP 地址（用于安全防护与 DDoS 缓解）</li>
+          <li>User-Agent 字符串（浏览器类型与版本）</li>
+          <li>请求时间戳与访问的页面路径</li>
+        </ul>
+        <p>这些数据由 Cloudflare 按照其<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">隐私政策</a>处理，本站运营方不会主动查看、收集或存储这些日志数据。</p>
+      </div>
+
+      <h2>二、Cookie 使用说明</h2>
+      <p>本站 <strong>不使用任何 Cookie</strong>。我们没有登录系统、不展示个性化广告、不运行 A/B 测试或用户行为分析，因此不需要设置任何 Cookie。您可以在浏览器设置中确认——访问本站时不会有任何 Cookie 被写入。</p>
+
+      <h2>三、第三方服务与外部链接</h2>
+
+      <div class="section-card">
+        <h3>托管与加速</h3>
+        <p>Cloudflare Pages — 提供全球 CDN 加速与 DDoS 防护。详见 <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare 隐私政策</a>。</p>
+      </div>
+
+      <div class="section-card">
+        <h3>外部链接</h3>
+        <p>本站教程中可能包含指向 Telegram 官方网站、Microsoft 官方支持页面及其他第三方网站的链接。点击这些链接后，您将离开本站，适用目标网站的隐私政策。我们对外部网站的隐私实践不承担任何责任，建议您阅读目标网站的隐私政策。</p>
+      </div>
+
+      <h2>四、数据安全</h2>
+      <p>由于本站不收集任何用户数据，因此不存在用户数据泄露的风险。本站通过 Cloudflare 提供的全站 HTTPS 加密传输，确保您在浏览过程中与服务器之间的通信安全。</p>
+
+      <h2>五、未成年人隐私</h2>
+      <p>本站为通用技术教程站点，不针对未成年人设计，亦不主动收集任何年龄段用户的个人信息。如您是未成年人，建议在监护人陪同下使用本站内容。</p>
+
+      <h2>六、隐私政策更新</h2>
+      <p>我们可能会不定期更新本隐私政策。更新后的政策将发布在本页面，并标注更新日期。建议您定期查看以了解最新内容。重大变更时，我们会在首页以醒目方式公告。</p>
+
+      <h2>七、联系我们</h2>
+      <p>如对本隐私政策有任何疑问，请通过以下方式联系我们：</p>
+      <div class="contact-line">
+        <span class="contact-badge">📧</span>
+        <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .static-page { max-width: 780px; margin: 40px auto; padding: 0 24px 80px; }
+  .static-page h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; text-align: center; color: #1e293b; }
+  .update-date { text-align: center; font-size: 13px; color: #94a3b8; margin-bottom: 32px; }
+  .content h2 { font-size: 1.3rem; font-weight: 700; margin: 36px 0 16px; color: #1e293b; padding-bottom: 8px; border-bottom: 2px solid #0078D4; display: inline-block; }
+  .content p { color: #475569; margin: 12px 0; line-height: 1.85; font-size: 15px; }
+  .content a { color: #0078D4; text-decoration: underline; }
+
+  .info-box { background: #f0f7ff; border-left: 4px solid #0078D4; padding: 16px 20px; border-radius: 0 8px 8px 0; font-size: 14px; color: #1e40af; line-height: 1.7; margin-bottom: 24px; }
+  .info-box em { font-style: normal; font-weight: 600; }
+
+  .section-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 16px 0; }
+  .section-card h3 { font-size: 1rem; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+  .section-card p { font-size: 14px !important; margin: 8px 0 !important; }
+  .section-card ul { padding-left: 20px; margin: 8px 0; }
+  .section-card li { font-size: 14px; color: #475569; margin: 8px 0; line-height: 1.7; }
+
+  .content ul { padding-left: 20px; margin: 8px 0; }
+  .content li { font-size: 14px; color: #475569; margin: 8px 0; line-height: 1.7; }
+
+  .contact-line { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .contact-badge { font-size: 1.2rem; }
+  .contact-line a { font-size: 15px; color: #0078D4; font-weight: 600; }
+</style>
