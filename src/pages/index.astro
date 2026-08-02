@@ -1,0 +1,204 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { siteConfig } from '@/data/siteConfig';
+import { getCollection } from 'astro:content';
+
+const articles = await getCollection('articles', ({ data }) => !data.draft);
+const sorted = articles
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 9);
+
+const c = siteConfig.colors;
+
+// Dynamic category tag styles
+const tagCSS = siteConfig.categories.map((cat, i) => {
+  const p = siteConfig.catTagPalette[i % siteConfig.catTagPalette.length];
+  return `.art-tag.${cat.id}{background:${p.bg};color:${p.color}}`;
+}).join('');
+
+const pageCSS = `
+.tl-main{position:relative;padding-bottom:60px}
+.tl-main .tl-news-float{position:absolute;top:80px;right:50px;border-left:5px solid ${c.primary};padding:20px}
+.news-float-title{font-weight:700;margin-bottom:10px}
+.news_1,.news_2,.news_3{font-size:13px;color:${c.textSecondary};line-height:1.8}
+
+.logo-container{text-align:center;overflow:hidden}
+.logo-zone{display:flex;justify-content:center;align-items:center;margin-top:50px}
+.logo{width:128px;height:128px;background-image:url(/images/window_img.png);background-repeat:no-repeat;background-size:cover;border-radius:24px;margin:0 auto}
+.logo-title{font-size:32px;font-weight:700;margin-top:5px;color:${c.textPrimary}}
+.logo-title img{vertical-align:middle}
+
+.download-container{overflow:hidden;display:flex;justify-content:center}
+.download-group{margin-top:40px;display:flex;justify-content:center;flex-wrap:wrap}
+.tl-main .download-group-item{margin-bottom:70px}
+.download-group-item-img-zone{display:flex;justify-content:center;cursor:pointer;align-items:center}
+.download_item_video_window{position:relative}
+.down_load_img{margin:10px 0}
+.download-group-item-content{display:flex;justify-content:center}
+.download-group-item-content a{color:${c.primary};font-weight:700;text-decoration:none}
+
+.myButton{background-color:${c.primary};border-radius:20px;border:1px solid ${c.btnBorder};display:inline-block;cursor:pointer;color:#fff;font-size:20px;padding:16px 31px;text-decoration:none;text-shadow:0 1px 0 rgba(107,212,253,0.55);transition:background .2s}
+.myButton:hover{background-color:${c.primaryHover}}
+.myButton:active{position:relative;top:1px}
+.myButton img{display:block;width:100%;max-width:350px;height:auto}
+
+.introduce-container{margin-bottom:50px}
+.tl-main .introduce-title{text-align:center;font-weight:700;font-size:20px;margin-bottom:30px;color:${c.textPrimary}}
+.introduce-main{display:flex;justify-content:center}
+.introduce-group{display:flex;flex-wrap:wrap;width:100%;justify-content:space-between;max-width:900px}
+.introduce-group-item{width:27%;margin:20px 0}
+.introduce-group-item-img-zone{display:flex;justify-content:center;align-items:center}
+.introduce-group-item-img{width:160px;height:160px}
+.introduce-group-item-img img{width:100%}
+.introduce-group-item-title{text-align:center;color:${c.featTitle};font-size:20px;margin-top:10px;margin-bottom:5px}
+.introduce-group-item-content{text-align:center;font-size:15px;margin-bottom:20px;color:${c.textSecondary}}
+.introduce-group-item-content img{vertical-align:middle;width:70px;height:19px}
+
+/* ── Articles section (after features, matches lccygs grid) ── */
+.articles{max-width:1100px;margin:0 auto;padding:0 24px 60px}
+.articles h2{text-align:center;font-size:22px;font-weight:700;margin-bottom:36px;color:${c.textPrimary}}
+.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.art-card{background:${c.bg};border-radius:12px;overflow:hidden;border:1px solid #e8ecf1;transition:transform .2s,box-shadow .2s;text-decoration:none;color:inherit;display:block}
+.art-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.art-card-body{padding:20px}
+.art-card .art-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px;margin-bottom:10px}
+${tagCSS}
+.art-card h3{font-size:15px;font-weight:700;line-height:1.4;margin-bottom:8px;color:${c.textPrimary};display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.art-card p{font-size:13px;color:${c.textMuted};line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+@media(max-width:768px){
+  .tl-main .tl-news-float{display:none}
+  .logo-title{font-size:22px}
+  .download-group{flex-direction:column;align-items:center}
+  .introduce-group-item{width:45%}
+  .art-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .introduce-group-item{width:100%}
+  .art-grid{grid-template-columns:1fr}
+}
+`;
+---
+
+<BaseLayout>
+  <div class="tl-main">
+
+    <!-- ── 更新浮窗 ── -->
+    <div class="tl-news-float">
+      <div class="news-float-title news-float-time">{siteConfig.newsFloat.date}</div>
+      <div class="news-float-title news-float-lable">{siteConfig.newsFloat.label}</div>
+      {siteConfig.newsFloat.items.map((item, i) => (
+        <div class={`news_${i + 1}`}>{item}</div>
+      ))}
+    </div>
+
+    <!-- ── Logo 区 ── -->
+    <div class="logo-container">
+      <div class="logo-zone">
+        <div class="logo"></div>
+      </div>
+      <h1 class="logo-title">{siteConfig.logo.text}<br><img src={`/images/${siteConfig.logo.img}`} width={siteConfig.logo.imgWidth} height={siteConfig.logo.imgHeight} alt={siteConfig.logo.text} /></h1>
+    </div>
+
+    <!-- ── 下载区 ── -->
+    <div class="download-container">
+      <div class="download-group">
+        {siteConfig.downloadButtons.map(btn => (
+          <div class="download-group-item">
+            <div class="download-group-item-img-zone download_item_video_window">
+              <img class="down_load_img" src={`/images/${btn.img}`} loading="lazy" alt="" />
+            </div>
+            <div class="download-group-item-content">
+              <a href="javascript:void(0)" onclick={btn.onClick}>
+                <div class="myButton">
+                  <img src={`/images/${btn.btnSvg}`} width="350" height="30" alt="下载" />
+                </div>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- ── Features 区 ── -->
+    <div class="introduce-container width">
+      <h2 class="introduce-title why_tg">
+        <img src="/images/TG2.svg" width="250" height="35" alt="" />
+      </h2>
+      <div class="introduce-main">
+        <div class="introduce-group">
+          {siteConfig.features.map((f, i) => (
+            <div class="introduce-group-item">
+              <div class="introduce-group-item-img-zone">
+                <div class={`introduce-group-item-img introduce-group-item-img-${i + 1}`}>
+                  <img class="img_gif" src={`/images/${f.gif}`} alt={f.title} loading="lazy" style="display:inline" />
+                </div>
+              </div>
+              <div class="introduce-group-item-title introduce_title_{i + 1}">{f.title}</div>
+              <h4 class="introduce-group-item-content">
+                <img src="/images/TT.svg" width="70" height="19" alt="" />
+                <span class={`introduce_${i + 1}`}> {f.desc}</span>
+              </h4>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 最新文章区 ── -->
+    <section class="articles">
+      <h2>最新教程</h2>
+      <div class="art-grid">
+        {sorted.map(article => {
+          const cat = article.data.category || 'guide';
+          return (
+            <a href={`/${article.id}/`} class="art-card">
+              <div class="art-card-body">
+                <span class={`art-tag ${cat}`}>{siteConfig.catLabels?.[cat] || article.data.category}</span>
+                <h3>{article.data.title}</h3>
+                <p>{article.data.description}</p>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+      <div style="text-align:center;margin-top:32px">
+        <a href="/articles/" style={`display:inline-block;padding:12px 36px;background:${c.primary};color:#fff;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;transition:background .2s`}>查看全部教程 →</a>
+      </div>
+    </section>
+
+    <!-- ── 常见问题 FAQ ── -->
+    <section class="articles" style="padding-bottom:0">
+      <h2>常见问题</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q">Clash 是什么？和普通 VPN 有什么区别？ <span class="faq-arrow">▼</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Clash 是一个基于规则的代理客户端，不是传统 VPN。它能智能分流国内外流量——国内网站直连访问、国外网站走代理通道，互不干扰。相比 VPN 的"全局代理"模式，Clash 的规则分流更灵活、速度更快、对正常上网影响更小。详见 <a href="/guide/clash-xinshou-rumen/">Clash 新手入门完全指南</a>。</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Clash Verge Rev 怎么导入订阅链接？ <span class="faq-arrow">▼</span></div>
+          <div class="faq-a"><div class="faq-a-inner">打开 Clash Verge Rev → 点击左侧「订阅」→ 点击右上角「新建」→ 粘贴机场提供的订阅链接 → 保存。Clash 会自动拉取节点列表。如果导入失败，检查链接是否完整、网络是否正常、机场是否支持 Clash 格式。详见 <a href="/guide/clash-verge-rev-shiyong/">Clash Verge Rev 使用教程</a>。</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">TUN 模式是什么？需要开启吗？ <span class="faq-arrow">▼</span></div>
+          <div class="faq-a"><div class="faq-a-inner">TUN 模式会在系统网络层创建虚拟网卡，接管所有程序的流量。普通模式下 Clash 只能代理浏览器和应用层流量，但开启 TUN 后，命令行工具、游戏、系统更新等也能走代理。如果你发现某些软件不走代理，开启 TUN 模式通常能解决。详见 <a href="/config/clash-tun-mode-guide/">Clash TUN 模式完整指南</a>。</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Clash 连不上/代理不生效怎么办？ <span class="faq-arrow">▼</span></div>
+          <div class="faq-a"><div class="faq-a-inner">先检查三点：1）系统代理开关是否打开；2）节点是否在线可选；3）规则配置是否正确。常见解决方案：切换节点、开启 TUN 模式、检查防火墙是否拦截、更新 Clash 内核。完整排查步骤见 <a href="/fix/clash-connection-troubleshooting/">Clash 连接故障排查指南</a>。</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Clash 规则分流怎么配置才能不干扰国内网站？ <span class="faq-arrow">▼</span></div>
+          <div class="faq-a"><div class="faq-a-inner">默认规则已内置 GEOIP 和常见域名分流，绝大多数情况下无需修改。核心逻辑：<code>GEOIP,CN,DIRECT</code> 让所有中国 IP 直连；<code>DOMAIN-SUFFIX,google.com,PROXY</code> 让 Google 走代理。如需自定义规则，在「规则」页面添加即可。详见 <a href="/config/clash-rule-routing-guide/">Clash 规则分流配置指南</a>。</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Clash Verge Rev、ClashX、Mihomo Party 哪个最好用？ <span class="faq-arrow">▼</span></div>
+          <div class="faq-a"><div class="faq-a-inner">Windows 用户推荐 Clash Verge Rev（开源、稳定、中文界面）；macOS 用户可选 ClashX Meta 或 Clash Verge Rev；Android 推荐 FlClash。Mihomo Party 适合需要多机场管理和高级配置的用户。所有客户端都可以导入相同的 Clash 订阅。详见 <a href="/guide/clash-verge-rev-shiyong/">Clash 客户端对比与选择指南</a>。</div></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <style set:html={pageCSS} />
+</BaseLayout>
