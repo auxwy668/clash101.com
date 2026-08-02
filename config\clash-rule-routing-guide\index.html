@@ -1,0 +1,382 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Clash 规则分流完全指南 — 自定义规则编写与优化</title><meta name="description" content="Clash Verge Rev 规则分流的全面深入指南，从规则类型、匹配器语法到实际编写技巧，详解 DOMAIN、DOMAIN-SUFFIX、GEOIP、IP-CIDR 等各类规则的使用场景，教你如何构建高效精准的分流策略，让国内外流量各行其道。"><meta name="keywords" content="Clash,规则分流,自定义规则,代理规则,Clash Verge Rev,DOMAIN-SUFFIX,GEOIP,分流策略,规则编写,Clash配置进阶"><link rel="canonical" href="https://clash101.com/config/clash-rule-routing-guide/"><link rel="alternate" hreflang="zh-CN" href="https://clash101.com/config/clash-rule-routing-guide/"><meta name="robots" content="index, follow"><!-- OG --><meta property="og:title" content="Clash 规则分流完全指南 — 自定义规则编写与优化"><meta property="og:description" content="Clash Verge Rev 规则分流的全面深入指南，从规则类型、匹配器语法到实际编写技巧，详解 DOMAIN、DOMAIN-SUFFIX、GEOIP、IP-CIDR 等各类规则的使用场景，教你如何构建高效精准的分流策略，让国内外流量各行其道。"><meta property="og:url" content="https://clash101.com/config/clash-rule-routing-guide/"><meta property="og:type" content="article"><meta property="og:image" content="https://clash101.com/images/og-default.png"><meta name="twitter:card" content="summary_large_image"><!-- Favicon --><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Structured Data --><script type="application/ld+json">[{"@context":"https://schema.org","@type":"Article","headline":"Clash 规则分流完全指南 — 自定义规则编写与优化","description":"Clash Verge Rev 规则分流的全面深入指南，从规则类型、匹配器语法到实际编写技巧，详解 DOMAIN、DOMAIN-SUFFIX、GEOIP、IP-CIDR 等各类规则的使用场景，教你如何构建高效精准的分流策略，让国内外流量各行其道。","url":"https://clash101.com/config/clash-rule-routing-guide/","datePublished":"2026-08-02","dateModified":"2026-08-02","author":{"@type":"Organization","name":"Clash101教程"},"inLanguage":"zh-CN","image":"https://clash101.com/images/og-default.png"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://clash101.com"},{"@type":"ListItem","position":2,"name":"Clash 规则分流完全指南 — 自定义规则编写与优化"}]}]</script><style>.art-wrap[data-astro-cid-fzx4jmue]{max-width:1100px}</style></head> <body> <!-- Nav --> <nav class="site-nav"> <div class="nav-inner"> <a href="/" class="nav-logo">Clash101</a> <div class="nav-links"> <a href="/">首页</a> <a href="/articles/">所有教程</a> <a href="/articles/?category=download">下载安装</a><a href="/articles/?category=guide">入门教程</a><a href="/articles/?category=config">配置进阶</a><a href="/articles/?category=fix">故障排查</a> </div> </div> </nav> <!-- Breadcrumb (article pages) --> <div class="breadcrumb"> <a href="/">首页</a> <span> &raquo; Clash 规则分流完全指南 — 自定义规则编写与优化</span> </div> <main>  <div class="art-wrap" data-astro-cid-fzx4jmue> <article class="art-main" data-astro-cid-fzx4jmue> <h1 data-astro-cid-fzx4jmue>Clash 规则分流完全指南 — 自定义规则编写与优化</h1> <div class="art-meta" data-astro-cid-fzx4jmue> <span data-astro-cid-fzx4jmue>📅 2026-08-02</span> <span class="art-tag config" data-astro-cid-fzx4jmue>配置进阶</span> </div> <div class="art-body" data-astro-cid-fzx4jmue> <img src="/images/default-cover.jpg" alt="Clash 规则分流完全指南 — 自定义规则编写与优化" style="width:100%; border-radius:8px; margin-bottom:24px;" data-astro-cid-fzx4jmue> <h2 id="规则分流是什么为什么你需要它">规则分流是什么？为什么你需要它？</h2>
+<p>很多 Clash 新手刚装好软件、导入机场订阅后，就直接选了全局模式开始用了。这当然能用——所有流量都走代理，要访问的网站一个不落。但用着用着你会发现不对劲：国内视频网站加载慢得离谱，B 站 1080P 一顿一卡，微信发图片要转半天的圈。</p>
+<p>原因很简单：你的国内流量也跟着跑了半个地球。明明可以直接访问的国内网站，却绕到海外节点兜了一圈再回来。延迟翻了几倍不说，还白白消耗了机场的流量配额。</p>
+<p>规则分流就是 Clash 用来解决这个问题的核心机制。它的逻辑很直白：<strong>预先定义好哪些流量应该走代理、哪些流量应该直连</strong>，Clash 在处理每条连接时自动查规则表，匹配到哪条就按哪条执行。配置好分流规则后，刷 B 站看爱奇艺的流量走本地直连（毫秒级响应），访问 Google、YouTube 的流量走代理节点，两边互不干扰，速度快、流量省、体验好。</p>
+<p>你的机场订阅通常已经内置了一套基础分流规则，但这套规则是”通用版”，不一定适合你的实际使用场景。比如你可能有一些小众的外国网站不在内置规则中，或者有些国内 CDN 的前置域名被误判为需要代理。学会自己写规则，你就能从”能用 Clash”升级到”精通 Clash”。</p>
+<div class="cpa-download-banner">
+  <p style="margin:0 0 10px;font-weight:700;color:#1e293b">📥 还没安装 Clash？点击下方按钮一键下载官方最新版</p>
+  <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" style="display:inline-block;background:#6366f1;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:600" target="_blank" rel="nofollow noopener">立即下载 Clash Verge Rev</a>
+</div>
+<p><img src="/images/clash-rules-workflow.jpg" alt="Clash 规则分流工作流程示意图">
+<em>图：Clash 规则匹配的完整流程——从上到下逐条匹配，命中最上面的规则后停止</em></p>
+<h2 id="规则体系全景一张图看懂-clash-的规则类型">规则体系全景：一张图看懂 Clash 的规则类型</h2>
+<p>Clash 支持的规则类型非常丰富，覆盖了从域名、IP、地理位置到进程名等多种匹配方式。先来看一张总览表，帮你快速建立全局认知：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>规则类型</th><th>匹配对象</th><th>精确度</th><th>性能</th><th>使用场景</th></tr></thead><tbody><tr><td><code>DOMAIN</code></td><td>完整域名</td><td>最高</td><td>最高</td><td>精准匹配某个确定的域名</td></tr><tr><td><code>DOMAIN-SUFFIX</code></td><td>域名后缀</td><td>高</td><td>高</td><td>匹配某个域名及其所有子域名</td></tr><tr><td><code>DOMAIN-KEYWORD</code></td><td>域名关键词</td><td>中等</td><td>高</td><td>模糊匹配包含某关键词的域名</td></tr><tr><td><code>GEOSITE</code></td><td>域名分类集</td><td>中等</td><td>中等</td><td>按网站类别批量匹配（如 geosite:google）</td></tr><tr><td><code>GEOIP</code></td><td>IP 地理位置</td><td>中等</td><td>中等</td><td>按国家/地区匹配 IP</td></tr><tr><td><code>IP-CIDR</code></td><td>IP 地址段</td><td>高</td><td>中等</td><td>精确匹配 IP 段</td></tr><tr><td><code>IP-CIDR6</code></td><td>IPv6 地址段</td><td>高</td><td>中等</td><td>匹配 IPv6 地址段</td></tr><tr><td><code>SRC-IP-CIDR</code></td><td>来源 IP 段</td><td>高</td><td>中等</td><td>匹配发起请求的源 IP</td></tr><tr><td><code>PROCESS-NAME</code></td><td>进程名称</td><td>高</td><td>低</td><td>按程序名匹配（如 clash-verge.exe）</td></tr><tr><td><code>MATCH</code></td><td>全匹配</td><td>—</td><td>—</td><td>最终兜底规则，匹配所有剩余流量</td></tr><tr><td><code>RULE-SET</code></td><td>预定义规则集</td><td>取决于内容</td><td>—</td><td>引用外部规则集文件</td></tr></tbody></table>
+<h3 id="底层执行逻辑顺序匹配命中即停">底层执行逻辑：顺序匹配，命中即停</h3>
+<p>Clash 的规则引擎执行起来很简单——<strong>从上到下逐条匹配，命中第一条就执行该规则的策略，后续规则不再检查</strong>。如果所有规则都没命中，最后一条 <code>MATCH</code> 作为兜底（通常配成直连或代理）。</p>
+<p>这个”命中即停”的特性要求你在排列规则时必须讲究顺序：<strong>精确匹配放前面，模糊匹配放后面</strong>。如果把 <code>DOMAIN-KEYWORD, google</code> 放在 <code>DOMAIN, google.com</code> 前面，那 <code>google.com</code> 会被关键词规则先命中，永远不会走到精确的域名规则（虽然在这个例子中效果一样，但在使用不同策略时就是 Bug 了）。</p>
+<h2 id="规则编写实战从零到一构建分流策略">规则编写实战：从零到一构建分流策略</h2>
+<h3 id="基本语法">基本语法</h3>
+<p>Clash 规则的基础格式为：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>规则类型,匹配内容,策略名称[,是否不解析域名]</span></span></code></pre>
+<ul>
+<li><strong>规则类型</strong>：上表中的任何一种</li>
+<li><strong>匹配内容</strong>：域名、IP 段、关键词等</li>
+<li><strong>策略名称</strong>：你的代理组名称，如 <code>PROXY</code>、<code>DIRECT</code>、<code>REJECT</code>、<code>🎯 自动选择</code> 等</li>
+<li><strong>是否不解析域名</strong>（可选）：<code>no-resolve</code>，仅对 IP 类规则生效，表示不进行 DNS 解析</li>
+</ul>
+<h3 id="常见规则的编写示例">常见规则的编写示例</h3>
+<p><strong>1. 域名精确匹配</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>DOMAIN,www.google.com,PROXY</span></span>
+<span class="line"><span>DOMAIN,www.bilibili.com,DIRECT</span></span>
+<span class="line"><span>DOMAIN,edge.microsoft.com,DIRECT</span></span></code></pre>
+<p><code>DOMAIN</code> 是绝对精确匹配。<code>DOMAIN,m.google.com,PROXY</code> 可以匹配 <code>m.google.com</code>，但不会匹配 <code>mail.google.com</code> 或 <code>www.m.google.com</code>。</p>
+<p><strong>2. 域名后缀匹配（最常用）</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>DOMAIN-SUFFIX,google.com,PROXY</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,github.com,PROXY</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,bilibili.com,DIRECT</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,alipay.com,DIRECT</span></span></code></pre>
+<p>这是 Clash 规则中使用频率最高的类型。<code>DOMAIN-SUFFIX,google.com</code> 会匹配 <code>google.com</code>、<code>www.google.com</code>、<code>mail.google.com</code>、<code>accounts.google.com</code>、以及任何 <code>*.google.com</code> 的子域名。一条规则覆盖整个域名体系，非常高效。</p>
+<p>⚠️ 注意：<code>DOMAIN-SUFFIX,google.com</code> 不会匹配 <code>agoogle.com</code> 或 <code>fgoogle.com</code>。它匹配的是以 <code>.google.com</code> 结尾或就是 <code>google.com</code> 本身的域名。</p>
+<p><strong>3. 域名关键词匹配</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>DOMAIN-KEYWORD,google,PROXY</span></span>
+<span class="line"><span>DOMAIN-KEYWORD,facebook,PROXY</span></span>
+<span class="line"><span>DOMAIN-KEYWORD,tencent,DIRECT</span></span></code></pre>
+<p>关键词匹配是”模糊匹配之王”——只要域名中任意位置包含该关键词就命中。但这也是一把双刃剑：<code>DOMAIN-KEYWORD,apple,PROXY</code> 会把 <code>apple.com</code>、<code>pineapple.com</code>、<code>crabapple.net</code> 全都匹配到。用得不好容易造成误伤，建议只在有明确意图时使用。</p>
+<p><strong>4. 按地理位置匹配 IP</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>GEOIP,CN,DIRECT</span></span>
+<span class="line"><span>GEOIP,US,PROXY</span></span></code></pre>
+<p><code>GEOIP</code> 是最省心的 IP 级规则——你不需要关心 Google 到底用了哪些 IP 段，一条 <code>GEOIP,US,PROXY</code> 就能覆盖所有美国 IP。但它的缺点也很明显：依赖 GeoIP 数据库的准确性，而且有些跨国 CDN（如 Cloudflare）同一个 IP 可能承载了国内外多个站点，按 IP 地理位置的判断会出错。</p>
+<p><strong>5. IP 段精确控制</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>IP-CIDR,8.8.8.8/32,PROXY</span></span>
+<span class="line"><span>IP-CIDR,114.114.114.114/32,DIRECT</span></span>
+<span class="line"><span>IP-CIDR,223.5.5.5/32,DIRECT</span></span>
+<span class="line"><span>IP-CIDR,10.0.0.0/8,DIRECT,no-resolve</span></span></code></pre>
+<p><code>IP-CIDR</code> 比 <code>GEOIP</code> 更精确，但你需要自己维护 IP 段列表。<code>no-resolve</code> 参数很重要：它告诉 Clash”只匹配目标 IP 就是该地址的流量，不要先做 DNS 解析再来匹配”。不加 <code>no-resolve</code> 的话，Clash 可能会因为你访问了一个与指定 IP 段相匹配的域名而错误命中规则。</p>
+<p><strong>6. 进程名匹配（高级功能）</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>PROCESS-NAME,clash-verge.exe,DIRECT</span></span>
+<span class="line"><span>PROCESS-NAME,Telegram.exe,PROXY</span></span>
+<span class="line"><span>PROCESS-NAME,qbittorrent.exe,DIRECT</span></span></code></pre>
+<p>按程序名匹配，用于精细控制特定应用的网络行为。比如你会希望 BT 下载软件（qBittorrent 等）走直连，避免消耗代理流量，也避免给机场带来不必要的版权风险。又比如 Clash 自身的进程要直连，不能走代理——否则就是鸡生蛋蛋生鸡的循环。</p>
+<p><strong>7. RULE-SET（规则集引用）</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>RULE-SET,https://ruleset.example.com/proxy.list,PROXY</span></span>
+<span class="line"><span>RULE-SET,https://ruleset.example.com/cn.list,DIRECT</span></span></code></pre>
+<p><code>RULE-SET</code> 允许你引用外部维护的规则集文件，不用把所有规则都塞进主配置文件。常用的规则集包括：</p>
+<ul>
+<li><strong>Loyalsoldier 的 ruleset</strong>：国内维护最活跃的 Clash 规则集，覆盖常见代理/直连域名和 IP</li>
+<li><strong>ACL4SSR 规则集</strong>：更细粒度的分类规则集</li>
+<li><strong>自建规则集</strong>：你可以把自己的域名规则放在 GitHub 上，Clash 自动拉取更新</li>
+</ul>
+<div class="cpa-download-banner">
+  <p style="margin:0 0 10px;font-weight:700;color:#1e293b">📥 还没安装 Clash？点击下方按钮一键下载官方最新版</p>
+  <a href="https://filedn.com/lgoIgH8xpCF88hjULwqNU2S/Public%20Folder/clash-verge.zip" style="display:inline-block;background:#6366f1;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:600" target="_blank" rel="nofollow noopener">立即下载 Clash Verge Rev</a>
+</div>
+<h2 id="规则编排的核心原则让规则既准又快">规则编排的核心原则：让规则既准又快</h2>
+<h3 id="原则一越精确越靠前">原则一：越精确越靠前</h3>
+<p>回忆规则引擎的匹配机制——从上到下，命中即停。因此排列顺序直接影响匹配效率：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># ✅ 正确的顺序</span></span>
+<span class="line"><span>DOMAIN,www.specific-site.com,PROXY          # 精确匹配</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,apple.com,PROXY               # 后缀匹配</span></span>
+<span class="line"><span>DOMAIN-KEYWORD,google,PROXY                 # 关键词匹配</span></span>
+<span class="line"><span>GEOIP,US,PROXY                              # 地理 IP 匹配</span></span>
+<span class="line"><span>MATCH,DIRECT                                # 兜底直连</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># ❌ 错误的顺序</span></span>
+<span class="line"><span>DOMAIN-KEYWORD,apple,PROXY</span></span>
+<span class="line"><span>DOMAIN,www.apple.com,DIRECT     # 永远不会命中！已被上面的 KEYWORD 拦截</span></span></code></pre>
+<p>当你有特殊域名需要走不同于常规的策略时，把它的精确规则放在对应的大范围规则前面。</p>
+<h3 id="原则二直连规则优先于代理规则">原则二：直连规则优先于代理规则</h3>
+<p>从逻辑上来说，Clash 需要明确哪些流量走直连，哪些走代理。但实际上，<strong>“哪些是中国的”比”哪些是外国的”更容易穷举</strong>。所以推荐的规则编排策略是：</p>
+<ol>
+<li>先列出必须直连的国内大站（<code>DOMAIN-SUFFIX,bilibili.com,DIRECT</code>）</li>
+<li>再用 <code>GEOSITE,cn,DIRECT</code> 批量覆盖国内域名</li>
+<li>用 <code>GEOIP,CN,DIRECT</code> 批量覆盖国内 IP</li>
+<li>列出明确需要代理的外国站（<code>DOMAIN-SUFFIX,google.com,PROXY</code>）</li>
+<li>最后 <code>MATCH,PROXY</code> 兜底——剩下的全部代理</li>
+</ol>
+<p>这样一来，国内流量被大量规则快速直连（高性能），剩下的默认走代理（不漏网），兼顾了性能和覆盖率。</p>
+<h3 id="原则三域名规则优先于-ip-规则">原则三：域名规则优先于 IP 规则</h3>
+<p>同一个连接，Clash 会用域名规则（DOMAIN/DOMAIN-SUFFIX 等）优先匹配，然后才用 IP 规则。这不是配置决定的，是 Clash 内核的匹配机制。</p>
+<p>为什么域名规则优先更好？因为现代互联网大量使用 CDN（内容分发网络），同一个 IP 可能同时服务于国内和国外的网站。如果你用 <code>GEOIP,CN,DIRECT</code> 去判断一个托管在 Cloudflare 上的国内网站，它的 IP 可能在 Cloudflare 的美国 IP 段，结果就是本该直连的国内网站走了代理——这叫 IP 误判。而域名规则绝对准确：<code>bilibili.com</code> 肯定是国内的。</p>
+<p>所以记住：<strong>能用域名规则解决的，就不要依赖 IP 规则</strong>。IP 规则作为域名规则的补充，用来兜底那些你不知道具体域名的流量。</p>
+<h3 id="原则四善用-no-resolve-避免不必要的-dns-查询">原则四：善用 no-resolve 避免不必要的 DNS 查询</h3>
+<p>对 IP 类规则（<code>IP-CIDR</code>、<code>GEOIP</code>）来说，如果目标是一个域名而非 IP，Clash 需要先做 DNS 解析才能拿到 IP。如果你希望这条规则只在目标本身就是 IP 地址时才生效（不做额外解析），就加上 <code>no-resolve</code>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>IP-CIDR,10.0.0.0/8,DIRECT,no-resolve</span></span>
+<span class="line"><span>IP-CIDR,127.0.0.0/8,DIRECT,no-resolve</span></span></code></pre>
+<p>对于私有 IP 和回环地址，<code>no-resolve</code> 是必须的——你不可能对外网域名解析出一个 <code>10.x.x.x</code> 地址，不需要也不该为这些规则做 DNS 查询。</p>
+<h3 id="原则五拒绝不需要的流量">原则五：拒绝不需要的流量</h3>
+<p>除了 <code>DIRECT</code>（直连）和 <code>PROXY</code>（代理），Clash 还支持 <code>REJECT</code>——直接拒绝连接。这对于阻断广告、跟踪器、恶意域名非常有效：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>DOMAIN-SUFFIX,doubleclick.net,REJECT</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,googlesyndication.com,REJECT</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,googleadservices.com,REJECT</span></span>
+<span class="line"><span>DOMAIN-SUFFIX,amazon-adsystem.com,REJECT</span></span>
+<span class="line"><span>DOMAIN-KEYWORD,ad,REJECT</span></span></code></pre>
+<p>不过 <code>REJECT</code> 规则要慎用——误伤了正常网站的 CDN 或 API 域名会导致功能异常。建议先用浏览器的开发者工具观察哪些域名跑的是纯广告，确认真的是广告相关再添加 <code>REJECT</code>。</p>
+<p><img src="/images/clash-rules-comparison.jpg" alt="Clash 规则编写对比示意图">
+<em>图：不同规则类型的精确度与性能对比</em></p>
+<h2 id="实战一步步构建你自己的分流规则">实战：一步步构建你自己的分流规则</h2>
+<h3 id="场景一日常使用通用配置">场景一：日常使用通用配置</h3>
+<p>这是最常见的需求——国内直连、国外代理、广告拦截，适合 90% 的用户：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">rules</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">  # === 局域网/私有地址直连 ===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">IP-CIDR,10.0.0.0/8,DIRECT,no-resolve</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">IP-CIDR,127.0.0.0/8,DIRECT,no-resolve</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">IP-CIDR,172.16.0.0/12,DIRECT,no-resolve</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">IP-CIDR,192.168.0.0/16,DIRECT,no-resolve</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # === 苹果服务（国内走直连速度快）===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,apple.com.cn,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,icloud.com.cn,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,apple.com,PROXY</span><span style="color:#6A737D">    # 海外 apple.com 服务</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # === 国内大站直连 ===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,bilibili.com,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,alipay.com,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,weixin.qq.com,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,taobao.com,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,jd.com,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,zhihu.com,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # === 游戏平台 ===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,steampowered.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,steamcommunity.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,epicgames.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # === 开发者工具 ===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,github.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,githubusercontent.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,npmjs.org,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,docker.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,pypi.org,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # === AI / 大模型平台 ===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,openai.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,claude.ai,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,gemini.google.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # === 批量规则 ===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">GEOSITE,cn,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">GEOIP,CN,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # === 广告拦截 ===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-KEYWORD,adservice,REJECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">DOMAIN-KEYWORD,advertisement,REJECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  # === 最终兜底 ===</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">MATCH,PROXY</span></span></code></pre>
+<p>关于 TUN 模式下的规则分流协同，建议配合 <a href="/config/clash-tun-mode-guide/">Clash TUN 模式配置详解</a> 一起阅读，TUN + 分流规则组合使用才能达到最佳效果。</p>
+<h3 id="场景二btpt-下载分流">场景二：BT/PT 下载分流</h3>
+<p>BT 下载会产生大量流量，而且 BT 协议在代理节点上存在版权风险。最好让 BT 流量走直连：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D"># BitTorrent 协议相关规则</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,tracker.example.com,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-KEYWORD,tracker,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">PROCESS-NAME,qbittorrent,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">PROCESS-NAME,transmission,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">PROCESS-NAME,aria2c,DIRECT</span></span></code></pre>
+<p>注意：Clash 不能代理 BitTorrent 协议的 DHT 网络流量（P2P 直连部分），只能代理 tracker 服务器的 HTTP 请求和部分下载流量。如果你的主要用途是 BT/PT 下载，建议直接用网盘或 HTTP 下载方式代替。</p>
+<h3 id="场景三游戏加速分流">场景三：游戏加速分流</h3>
+<p>游戏加速是一个特殊场景——延迟比带宽更重要。你需要游戏连接走低延迟节点，但不能让下载更新包这些大流量也挤占游戏通道：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D"># 游戏平台商店/更新（走大流量节点）</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,steamcontent.com,DIRECT</span><span style="color:#6A737D">   # Steam 下载 CDN 直连</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,epicgames-download.com,DIRECT</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 游戏登录/匹配服务器（走低延迟节点）</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,steam-api.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,riotgames.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,blizzard.com,PROXY</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 语音聊天（走低延迟节点）</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,discord.com,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,discord.gg,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">- </span><span style="color:#9ECBFF">DOMAIN-SUFFIX,discordapp.com,PROXY</span></span></code></pre>
+<h2 id="规则调试如何验证你的规则是否正确工作">规则调试：如何验证你的规则是否正确工作</h2>
+<p>写好了规则不等于万事大吉。验证规则是否正确生效，是配置 Clash 过程中必不可少的一环。</p>
+<h3 id="方法一clash-日志面板">方法一：Clash 日志面板</h3>
+<p>Clash Verge Rev 主界面自带日志面板，可以实时查看每条连接的匹配情况。当你访问一个网站时，日志中会显示：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>[2026-08-02 11:30:00] [TCP] www.google.com:443 --> PROXY[香港01]</span></span>
+<span class="line"><span>matched rule: DOMAIN-SUFFIX,google.com,PROXY</span></span></code></pre>
+<p>这说明 <code>google.com</code> 被 <code>DOMAIN-SUFFIX</code> 规则正确命中，走了代理策略。如果看到某条连接走到了你意想不到的策略（比如该代理的走了直连），就说明规则需要调整。</p>
+<h3 id="方法二浏览器-ip-检测站点">方法二：浏览器 IP 检测站点</h3>
+<p>访问 <code>whatismyip.com</code> 或 <code>ip.sb</code> 这类 IP 检测网站，看显示的 IP 是否是你的代理节点 IP。如果显示的是你本地的运营商 IP，说明当前流量没走代理。</p>
+<h3 id="方法三规则测试工具">方法三：规则测试工具</h3>
+<p>Clash 内核支持一个测试 API——你可以用它来模拟一条规则匹配：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -X POST http://127.0.0.1:9090/rules/test \</span></span>
+<span class="line"><span>  -H "Content-Type: application/json" \</span></span>
+<span class="line"><span>  -d '{"domain":"www.google.com"}'</span></span></code></pre>
+<p>这会返回命中规则的结果，方便你在不实际访问的情况下验证规则是否正确。</p>
+<h2 id="进阶技巧让规则系统更智能">进阶技巧：让规则系统更智能</h2>
+<h3 id="技巧一使用-geosite-替代大量手动域名规则">技巧一：使用 GEOSITE 替代大量手动域名规则</h3>
+<p>与其手动维护上百条 <code>DOMAIN-SUFFIX</code> 规则，不如使用 Clash 内置的 GEOSITE 分类：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>GEOSITE,google,PROXY    # 覆盖所有 Google 相关域名</span></span>
+<span class="line"><span>GEOSITE,netflix,PROXY   # 覆盖所有 Netflix CDN 域名</span></span>
+<span class="line"><span>GEOSITE,openai,PROXY    # 覆盖所有 OpenAI 域名</span></span>
+<span class="line"><span>GEOSITE,cn,DIRECT       # 覆盖国内主流网站</span></span></code></pre>
+<p>GEOSITE 的数据来源是 v2fly 维护的 <a href="https://github.com/v2fly/domain-list-community">domain-list-community</a>，社区持续更新，新人也能轻松跟上。一条 <code>GEOSITE,cn,DIRECT</code> 抵得上你手写几百条国内规则。</p>
+<h3 id="技巧二利用-rule-set-分离规则与配置">技巧二：利用 RULE-SET 分离规则与配置</h3>
+<p>当你的规则量积累到几百上千条时，全部写在主配置文件里会严重影响可读性和可维护性。<code>RULE-SET</code> 允许你把规则拆分到独立文件中：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">rule-providers</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  proxy-sites</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    type</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">http</span></span>
+<span class="line"><span style="color:#85E89D">    behavior</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">domain</span></span>
+<span class="line"><span style="color:#85E89D">    url</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"https://your-server.com/rules/proxy.yaml"</span></span>
+<span class="line"><span style="color:#85E89D">    path</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">./rules/proxy.yaml</span></span>
+<span class="line"><span style="color:#85E89D">    interval</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">86400</span><span style="color:#6A737D">   # 每 24 小时更新一次</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">  cn-sites</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    type</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">http</span></span>
+<span class="line"><span style="color:#85E89D">    behavior</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">domain</span></span>
+<span class="line"><span style="color:#85E89D">    url</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"https://your-server.com/rules/cn.yaml"</span></span>
+<span class="line"><span style="color:#85E89D">    path</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">./rules/cn.yaml</span></span>
+<span class="line"><span style="color:#85E89D">    interval</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">86400</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">rules</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">RULE-SET,proxy-sites,PROXY</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">RULE-SET,cn-sites,DIRECT</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#9ECBFF">MATCH,PROXY</span></span></code></pre>
+<p>这样一来，更新规则只需要修改服务器上的规则文件，Clash 会自动拉取更新，不用手动改配置文件。配合 TUN 模式使用时，分流效果会更加显著——参考 <a href="/config/clash-tun-mode-guide/">Clash TUN 模式配置详解</a> 了解 TUN 与规则分流的最佳协同方式。</p>
+<h3 id="技巧三按应用行为分类代理">技巧三：按应用行为分类代理</h3>
+<p>现代应用不再是”这个软件走代理、那个软件不走代理”这么简单——很多应用内部混合了国内外请求。例如微信：聊天消息走国内服务器，但朋友圈中的外部链接可能指向海外 CDN。你可以通过分析日志，找出需要特殊处理的关键域名，然后为它们编写专属规则。</p>
+<p><img src="/images/clash-rules-debug-log.jpg" alt="Clash 规则调试日志截图">
+<em>图：通过 Clash 日志面板实时观察规则匹配结果</em></p>
+<h2 id="配置进阶">配置进阶</h2>
+<p>掌握规则分流的最终目标是让你的网络访问”无缝”——你自己都感觉不到代理的存在。该快的快、该直连的直连、该代理的代理，一切都是自动的、安静的、不需要任何手动切换。</p>
+<p>为此，推荐你把规则分流与以下配置搭配使用：</p>
+<ul>
+<li><strong>TUN 模式</strong>：确保所有应用流量都经过 Clash 规则引擎</li>
+<li><strong>DNS 配置</strong>：Fake-IP + DoH，确保 DNS 不泄漏且响应快</li>
+<li><strong>策略组</strong>：按需求分配不同节点（高速、低延迟、流量优先）</li>
+</ul>
+<p>关于 TUN 模式与规则分流的协同配置，可以参考本站的 <a href="/config/clash-tun-mode-guide/">Clash TUN 模式配置详解</a> 一文。</p>
+<h2 id="总结">总结</h2>
+<p>规则分流是 Clash 最核心的能力，也是 Clash 区别于普通 VPN 的关键所在。用好规则分流，你就不再是被动接受”全局开/关”的普通用户，而是能精准控制每一条网络连接走向的高级玩家。</p>
+<p>核心要点回顾：</p>
+<ul>
+<li>规则引擎自上而下匹配，命中即停——精确规则放前面，通用规则放后面</li>
+<li>域名规则优于 IP 规则——CDN 时代域名匹配更准确</li>
+<li><code>DOMAIN-SUFFIX</code> 是主力武器，<code>GEOIP</code> 和 <code>GEOSITE</code> 是批量利器</li>
+<li>私有地址和局域网网段务必加 <code>DIRECT</code> + <code>no-resolve</code></li>
+<li>调试规则靠日志面板和 IP 检测站点，不要靠”感觉”</li>
+<li>RULE-SET 和 GEOSITE 让规则维护从体力活变成脑力活</li>
+</ul>
+<p>当你完成了规则分流的优化，下一步可以考虑深入研究 <a href="/config/clash-tun-mode-guide/">Clash TUN 模式配置详解</a>，将网络层代理与分流策略结合起来，实现真正的”无感代理”。</p>
+<div class="faq-list">
+<details>
+<summary><strong>为什么我加了 DOMAIN-SUFFIX,google.com,PROXY 后 YouTube 还是打不开？</strong></summary>
+<p>YouTube 使用的是 <code>youtube.com</code> 域名，不是 <code>google.com</code>。你需要单独添加 <code>DOMAIN-SUFFIX,youtube.com,PROXY</code> 以及 YouTube 的 CDN 域名如 <code>DOMAIN-SUFFIX,googlevideo.com,PROXY</code>。或者更省事的办法是用 <code>GEOSITE,google,PROXY</code> 一次性覆盖所有 Google 系域名（YouTube、Google Drive、Gmail 等）。</p>
+</details>
+<details>
+<summary><strong>DOMAIN-KEYWORD 和 DOMAIN-SUFFIX 哪个更好？</strong></summary>
+<p>没有绝对的"更好"，只有"更适合"。<code>DOMAIN-SUFFIX</code> 更精确、性能更高，适合你明确知道域名结构的场景（如 <code>google.com</code> 匹配所有 Google 子域名）。<code>DOMAIN-KEYWORD</code> 更灵活，适合你不知道完整域名结构但知道关键词的场景（如 <code>DOMAIN-KEYWORD,tracker,PROXY</code> 匹配各种 tracker 服务器）。建议优先使用 <code>DOMAIN-SUFFIX</code>，只在确实需要模糊匹配时才用 <code>DOMAIN-KEYWORD</code>。</p>
+</details>
+<details>
+<summary><strong>GEOIP,CN,DIRECT 会把所有国内 IP 流量都直连吗？</strong></summary>
+<p>理论上是的，但实际效果取决于 GeoIP 数据库的准确性和时效性。GeoIP 数据库并非 100% 准确——尤其在处理跨国 CDN（如 Cloudflare、Akamai）时，同一个 IP 段可能同时分配给多个国家的用户。所以 GEOIP 适合作为兜底规则，不建议作为唯一的判断依据。建议配合域名规则一起使用。</p>
+</details>
+<details>
+<summary><strong>我的规则配置中有几千条规则，会影响性能吗？</strong></summary>
+<p>Clash 的规则匹配引擎经过高度优化，几千条规则的性能影响通常可以忽略不计（毫秒级延迟增加）。但如果规则超过万条且大量使用了 <code>IP-CIDR</code> 或 <code>DOMAIN-KEYWORD</code>（这两类规则的匹配效率低于 <code>DOMAIN-SUFFIX</code>），你可能在极端高并发场景下（如同时加载 50+ 个网页）感受到略微的延迟增加。建议使用 RULE-SET 管理大量规则，将更新和维护分离到外部文件。</p>
+</details>
+<details>
+<summary><strong>如何知道某个网站是否被我的规则正确匹配？</strong></summary>
+<p>打开 Clash Verge Rev 的日志面板（通常在「日志」标签页），然后访问目标网站。日志中会显示每条连接的匹配规则名称和最终走的是哪个策略。如果日志中没有出现该连接，说明 TUN 模式可能没有正常接管流量（检查 TUN 状态指示灯）；如果日志中出现了但走的不是预期的策略，说明规则需要调整。</p>
+</details>
+<details>
+<summary><strong>MATCH 应该设置为 DIRECT 还是 PROXY？</strong></summary>
+<p>取决于你的使用场景和风险偏好。如果设为 <code>PROXY</code>，未被前面规则覆盖的流量全部走代理——优点是保证了"该代理的一定能代理到"，缺点是可能有国内冷门网站误走代理。如果设为 <code>DIRECT</code>，未知流量全部直连——优点是省流量、国内体验更好，缺点是可能有小众国外网站漏网。一般推荐 <code>MATCH,PROXY</code>，同时配合充足的国内直连规则（<code>GEOSITE,cn</code> + <code>GEOIP,CN</code>），尽量减少误代理的情况。</p>
+</details>
+<details>
+<summary><strong>REJECT 规则能用来去广告吗？效果如何？</strong></summary>
+<p>可以，Clash 的 <code>REJECT</code> 规则确实能拦截广告域名的网络请求，效果类似于简易版 DNS 广告过滤。但它的能力有限：只能拦截独立广告域名请求，无法处理与正常内容混在一起的广告（如 YouTube 视频前贴片广告、微博信息流广告），也无法进行元素级过滤（如隐藏广告占位符）。如果需要更强的广告过滤，建议配合浏览器扩展（uBlock Origin）或 DNS 级广告过滤服务。</p>
+</details>
+</div> </div> </article> <!-- Sidebar --> <aside class="art-side" data-astro-cid-fzx4jmue> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>相关教程</h4> <a href="/config/clash-tun-mode-guide/" class="sb-rel-item" data-astro-cid-fzx4jmue> <h5 data-astro-cid-fzx4jmue>Clash TUN 模式配置详解 — 实现真正的全局代理</h5> </a> </div> <div class="sb-card" data-astro-cid-fzx4jmue> <h4 data-astro-cid-fzx4jmue>热门标签</h4> <div class="trend-tags" data-astro-cid-fzx4jmue> <a href="/articles/?category=download" data-astro-cid-fzx4jmue>下载安装</a><a href="/articles/?category=guide" data-astro-cid-fzx4jmue>入门教程</a><a href="/articles/?category=config" data-astro-cid-fzx4jmue>配置进阶</a><a href="/articles/?category=fix" data-astro-cid-fzx4jmue>故障排查</a> </div> </div> </aside> </div>  </main> <!-- Footer --> <footer class="site-footer"> <div class="footer-inner"> <div class="footer-brand"> <div class="footer-logo">Clash101</div> <p class="footer-desc">本站为独立教程站点。所有下载链接指向官方源，不托管安装包文件。</p> <span class="footer-badge">📚 独立教程网站</span> </div> <div class="footer-col"> <h4>快速导航</h4> <ul> <li><a href="/">首页</a></li> <li><a href="/articles/">所有教程</a></li> <li><a href="/about/">关于我们</a></li> <li><a href="/sitemap/">网站地图</a></li> </ul> </div> <div class="footer-col"> <h4>教程分类</h4> <ul> <li><a href="/articles/?category=download">下载安装</a></li><li><a href="/articles/?category=guide">入门教程</a></li><li><a href="/articles/?category=config">配置进阶</a></li><li><a href="/articles/?category=fix">故障排查</a></li> </ul> </div> <div class="footer-col"> <h4>支持</h4> <ul> <li><a href="/contact/">联系我们</a></li> <li><a href="/privacy/">隐私政策</a></li> </ul> </div> </div> <div class="footer-bottom"> <p>&copy; 2026 Clash101. All rights reserved.</p> </div> </footer> <!-- Inject global CSS (plain <style> avoids Astro's CSS processing) --> <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans SC',sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}a{color:#6366f1;text-decoration:none}a:hover{color:#818cf8}.site-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 24px}.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}.nav-logo{font-size:18px;font-weight:700;color:#6366f1;text-decoration:none}.nav-links{display:flex;gap:24px}.nav-links a{font-size:14px;color:#475569;text-decoration:none;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:#6366f1}.breadcrumb{max-width:1100px;margin:0 auto;padding:16px 24px 0;font-size:13px;color:#94a3b8}.breadcrumb a{color:#6366f1;text-decoration:none}.art-wrap{max-width:1100px;margin:0 auto;padding:24px;display:flex;gap:32px}.art-main{flex:1;min-width:0;background:#fff;border-radius:12px;padding:40px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.art-main h1{font-size:28px;font-weight:800;line-height:1.4;margin-bottom:16px;color:#1e293b}.art-meta{display:flex;gap:16px;align-items:center;margin-bottom:24px;font-size:13px;color:#94a3b8}.art-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px}.art-tag.download{background:#e0f2fe;color:#0369a1}.art-tag.guide{background:#ecfdf5;color:#065f46}.art-tag.config{background:#fef3c7;color:#92400e}.art-tag.fix{background:#f3e8ff;color:#7c3aed}.art-body{font-size:15px;line-height:1.9;color:#475569}.art-body h2{font-size:22px;font-weight:700;margin:36px 0 16px;color:#1e293b}.art-body h3{font-size:18px;font-weight:600;margin:28px 0 12px;color:#1e293b}.art-body p{margin-bottom:16px}.art-body ul,.art-body ol{margin:12px 0 16px 24px}.art-body li{margin-bottom:8px}.art-body code{background:#f5f7fa;padding:2px 6px;border-radius:4px;font-size:13px;color:#e11d48}.art-body pre{background:#1e293b;color:#e2e8f0;padding:20px;border-radius:8px;overflow-x:auto;margin:16px 0;font-size:13px}.art-side{width:300px;flex-shrink:0}.sb-card{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.sb-card h4{font-size:14px;font-weight:700;margin-bottom:12px;color:#1e293b}.sb-rel-item{display:flex;gap:10px;margin-bottom:12px;text-decoration:none;color:inherit}.sb-rel-item:hover h5{color:#6366f1}.sb-rel-item h5{font-size:13px;font-weight:500;line-height:1.4;transition:color .2s}.trend-tags{display:flex;flex-wrap:wrap;gap:8px}.trend-tags a{font-size:12px;padding:4px 12px;background:#f5f7fa;border-radius:16px;color:#475569;text-decoration:none;transition:all .2s}.trend-tags a:hover{background:#e0f2fe;color:#6366f1}.info-box{background:#f0f9ff;border-left:4px solid #6366f1;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box{background:#fffbeb;border-left:4px solid #f59e0b;padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;font-size:14px}.warn-box strong{color:#92400e}.step-list{counter-reset:step;margin:20px 0}.step-card{background:#fff;border:1px solid #e8ecf1;border-radius:10px;padding:20px;margin-bottom:16px;counter-increment:step;position:relative;padding-left:64px}.step-card::before{content:counter(step);position:absolute;left:16px;top:20px;width:32px;height:32px;background:#6366f1;color:#fff;border-radius:50%;text-align:center;line-height:32px;font-weight:700;font-size:14px}.faq-list{margin:24px 0}.faq-item{border:1px solid #e8ecf1;border-radius:8px;margin-bottom:8px;overflow:hidden}.faq-q{padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;background:#f5f7fa;user-select:none;display:flex;justify-content:space-between;align-items:center}.faq-q:hover{background:#f0f7ff}.faq-arrow{font-size:12px;transition:transform .3s;color:#94a3b8}.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}.faq-a-inner{padding:0 20px 16px;font-size:14px;color:#475569;line-height:1.7}.faq-item.open .faq-a{max-height:300px}.faq-item.open .faq-arrow{transform:rotate(180deg)}table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}th{background:#f0f7ff;padding:12px 16px;text-align:left;font-weight:600;border:1px solid #dce8f3}td{padding:12px 16px;border:1px solid #e8ecf1}.site-footer{background:#f0f7ff;border-top:1px solid #dce8f3;margin-top:80px}.footer-inner{max-width:1100px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}.footer-logo{font-size:20px;font-weight:700;color:#818cf8;margin-bottom:12px}.footer-desc{font-size:13px;line-height:1.8;margin-bottom:16px;color:#475569}.footer-badge{display:inline-block;font-size:12px;background:#fff;color:#6366f1;padding:6px 14px;border-radius:20px;font-weight:500;border:1px solid #b8ddf5}.footer-col h4{font-size:13px;font-weight:700;color:#1e293b;margin-bottom:16px;letter-spacing:.02em}.footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}.footer-col li a{font-size:13px;color:#475569;text-decoration:none;transition:color .2s}.footer-col li a:hover{color:#6366f1}.footer-bottom{border-top:1px solid #dce8f3;text-align:center;padding:20px 24px;font-size:12px;color:#94a3b8}@media(max-width:768px){.nav-links{display:none}.art-wrap{flex-direction:column}.art-main{padding:24px}.art-side{width:100%}.footer-inner{grid-template-columns:1fr 1fr;gap:32px}.footer-brand{grid-column:1/-1}}@media(max-width:480px){.footer-inner{grid-template-columns:1fr}}</style> <!-- FAQ accordion JS --> <script>
+    document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){var item=q.parentElement;var open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0'});if(!open){item.classList.add('open');item.querySelector('.faq-a').style.maxHeight='500px'}})})});
+  </script> </body> </html>
