@@ -4,201 +4,172 @@ import { siteConfig } from '@/data/siteConfig';
 import { getCollection } from 'astro:content';
 
 const articles = await getCollection('articles', ({ data }) => !data.draft);
-const sorted = articles
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 9);
-
-const c = siteConfig.colors;
-
-// Dynamic category tag styles
-const tagCSS = siteConfig.categories.map((cat, i) => {
-  const p = siteConfig.catTagPalette[i % siteConfig.catTagPalette.length];
-  return `.art-tag.${cat.id}{background:${p.bg};color:${p.color}}`;
-}).join('');
-
-const pageCSS = `
-.tl-main{position:relative;padding-bottom:60px}
-.tl-main .tl-news-float{position:absolute;top:80px;right:50px;border-left:5px solid ${c.primary};padding:20px}
-.news-float-title{font-weight:700;margin-bottom:10px}
-.news_1,.news_2,.news_3{font-size:13px;color:${c.textSecondary};line-height:1.8}
-
-.logo-container{text-align:center;overflow:hidden}
-.logo-zone{display:flex;justify-content:center;align-items:center;margin-top:50px}
-.logo{width:128px;height:128px;background-image:url(/images/window_img.png);background-repeat:no-repeat;background-size:cover;border-radius:24px;margin:0 auto}
-.logo-title{font-size:32px;font-weight:700;margin-top:5px;color:${c.textPrimary}}
-.logo-title img{vertical-align:middle}
-
-.download-container{overflow:hidden;display:flex;justify-content:center}
-.download-group{margin-top:40px;display:flex;justify-content:center;flex-wrap:wrap}
-.tl-main .download-group-item{margin-bottom:70px}
-.download-group-item-img-zone{display:flex;justify-content:center;cursor:pointer;align-items:center}
-.download_item_video_window{position:relative}
-.down_load_img{margin:10px 0}
-.download-group-item-content{display:flex;justify-content:center}
-.download-group-item-content a{color:${c.primary};font-weight:700;text-decoration:none}
-
-.myButton{background-color:${c.primary};border-radius:20px;border:1px solid ${c.btnBorder};display:inline-block;cursor:pointer;color:#fff;font-size:20px;padding:16px 31px;text-decoration:none;text-shadow:0 1px 0 rgba(107,212,253,0.55);transition:background .2s}
-.myButton:hover{background-color:${c.primaryHover}}
-.myButton:active{position:relative;top:1px}
-.myButton img{display:block;width:100%;max-width:350px;height:auto}
-
-.introduce-container{margin-bottom:50px}
-.tl-main .introduce-title{text-align:center;font-weight:700;font-size:20px;margin-bottom:30px;color:${c.textPrimary}}
-.introduce-main{display:flex;justify-content:center}
-.introduce-group{display:flex;flex-wrap:wrap;width:100%;justify-content:space-between;max-width:900px}
-.introduce-group-item{width:27%;margin:20px 0}
-.introduce-group-item-img-zone{display:flex;justify-content:center;align-items:center}
-.introduce-group-item-img{width:160px;height:160px}
-.introduce-group-item-img img{width:100%}
-.introduce-group-item-title{text-align:center;color:${c.featTitle};font-size:20px;margin-top:10px;margin-bottom:5px}
-.introduce-group-item-content{text-align:center;font-size:15px;margin-bottom:20px;color:${c.textSecondary}}
-.introduce-group-item-content img{vertical-align:middle;width:70px;height:19px}
-
-/* ── Articles section (after features, matches lccygs grid) ── */
-.articles{max-width:1100px;margin:0 auto;padding:0 24px 60px}
-.articles h2{text-align:center;font-size:22px;font-weight:700;margin-bottom:36px;color:${c.textPrimary}}
-.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.art-card{background:${c.bg};border-radius:12px;overflow:hidden;border:1px solid #e8ecf1;transition:transform .2s,box-shadow .2s;text-decoration:none;color:inherit;display:block}
-.art-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
-.art-card-body{padding:20px}
-.art-card .art-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px;margin-bottom:10px}
-${tagCSS}
-.art-card h3{font-size:15px;font-weight:700;line-height:1.4;margin-bottom:8px;color:${c.textPrimary};display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.art-card p{font-size:13px;color:${c.textMuted};line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
-@media(max-width:768px){
-  .tl-main .tl-news-float{display:none}
-  .logo-title{font-size:22px}
-  .download-group{flex-direction:column;align-items:center}
-  .introduce-group-item{width:45%}
-  .art-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:480px){
-  .introduce-group-item{width:100%}
-  .art-grid{grid-template-columns:1fr}
-}
-`;
+const sorted = articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 8);
+const primary = '#6366f1';
+const bgCard = '#f5f7fa';
+const textPrimary = '#1e293b';
 ---
 
 <BaseLayout>
-  <div class="tl-main">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
-    <!-- ── 更新浮窗 ── -->
-    <div class="tl-news-float">
-      <div class="news-float-title news-float-time">{siteConfig.newsFloat.date}</div>
-      <div class="news-float-title news-float-lable">{siteConfig.newsFloat.label}</div>
-      {siteConfig.newsFloat.items.map((item, i) => (
-        <div class={`news_${i + 1}`}>{item}</div>
-      ))}
+  <!-- ── Hero ── -->
+  <section class="text-white text-center" style="background:linear-gradient(135deg,#1a56db 0%,#1e40af 40%,#1e3a5f 100%);padding:80px 24px 64px">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">Clash 中文全知识库 — 从零入门到精通</h1>
+    <p class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto mb-8">最全面的 Clash Verge Rev 中文教程站。涵盖下载安装、订阅配置、规则分流、TUN模式、YAML语法、故障排查。支持 Windows / macOS / Linux / Android 全平台。</p>
+    <div class="flex flex-wrap justify-center gap-4 mb-8">
+      <a href="/guide/clash-xinshou-rumen/" class="bg-white text-blue-700 font-bold px-8 py-3 rounded-full text-lg hover:shadow-xl transition">🔥 新手入门教程</a>
+      <a href="/download/clash-verge-rev-download-install-all-platforms/" class="bg-green-500 text-white font-bold px-8 py-3 rounded-full text-lg hover:bg-green-600 transition">⬇ 立即下载</a>
     </div>
+    <div class="flex flex-wrap justify-center gap-3 text-sm opacity-80">
+      <span class="bg-white/10 px-3 py-1 rounded">🖥 Windows</span>
+      <span class="bg-white/10 px-3 py-1 rounded">🍎 macOS</span>
+      <span class="bg-white/10 px-3 py-1 rounded">🐧 Linux</span>
+      <span class="bg-white/10 px-3 py-1 rounded">📱 Android</span>
+    </div>
+  </section>
 
-    <!-- ── Logo 区 ── -->
-    <div class="logo-container">
-      <div class="logo-zone">
-        <div class="logo"></div>
+  <!-- ── 核心功能展示 ── -->
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-center mb-12" style={`color:${textPrimary}`}>为什么选择 Clash？六大核心能力</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white rounded-xl p-6 border hover:shadow-lg transition">
+        <div class="text-4xl mb-4">🧠</div>
+        <h3 class="text-lg font-bold mb-2" style={`color:${primary}`}>智能规则分流</h3>
+        <p class="text-sm text-gray-600">国内网站直连不减速，国外网站走代理通道，互不干扰。GEOIP自动识别，无需手动切换。</p>
       </div>
-      <h1 class="logo-title">{siteConfig.logo.text}<br><img src={`/images/${siteConfig.logo.img}`} width={siteConfig.logo.imgWidth} height={siteConfig.logo.imgHeight} alt={siteConfig.logo.text} /></h1>
+      <div class="bg-white rounded-xl p-6 border hover:shadow-lg transition">
+        <div class="text-4xl mb-4">🔐</div>
+        <h3 class="text-lg font-bold mb-2" style={`color:${primary}`}>TUN 全局接管</h3>
+        <p class="text-sm text-gray-600">虚拟网卡层接管所有流量——命令行、游戏、系统更新统统走代理，不漏任何一个请求。</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 border hover:shadow-lg transition">
+        <div class="text-4xl mb-4">📋</div>
+        <h3 class="text-lg font-bold mb-2" style={`color:${primary}`}>一键导入订阅</h3>
+        <p class="text-sm text-gray-600">粘贴机场订阅链接即可自动导入节点列表，支持 Clash/Shadowsocks/Trojan/V2Ray 多协议。</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 border hover:shadow-lg transition">
+        <div class="text-4xl mb-4">⚡</div>
+        <h3 class="text-lg font-bold mb-2" style={`color:${primary}`}>自动延迟测速</h3>
+        <p class="text-sm text-gray-600">定时检测所有节点延迟，自动切换到最快节点。支持自定义测速URL和间隔时间。</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 border hover:shadow-lg transition">
+        <div class="text-4xl mb-4">🔧</div>
+        <h3 class="text-lg font-bold mb-2" style={`color:${primary}`}>YAML配置文件</h3>
+        <p class="text-sm text-gray-600">完善的YAML配置语法，自定义规则链、代理组、DNS设置、脚本扩展。高级用户的终极武器。</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 border hover:shadow-lg transition">
+        <div class="text-4xl mb-4">🌍</div>
+        <h3 class="text-lg font-bold mb-2" style={`color:${primary}`}>开源免费</h3>
+        <p class="text-sm text-gray-600">基于 Clash Meta 内核，GPL-3.0 开源协议，社区驱动持续更新。拒绝捆绑和广告，安全可信。</p>
+      </div>
     </div>
+  </section>
 
-    <!-- ── 下载区 ── -->
-    <div class="download-container">
-      <div class="download-group">
-        {siteConfig.downloadButtons.map(btn => (
-          <div class="download-group-item">
-            <div class="download-group-item-img-zone download_item_video_window">
-              <img class="down_load_img" src={`/images/${btn.img}`} loading="lazy" alt="" />
-            </div>
-            <div class="download-group-item-content">
-              <a href="javascript:void(0)" onclick={btn.onClick}>
-                <div class="myButton">
-                  <img src={`/images/${btn.btnSvg}`} width="350" height="30" alt="下载" />
-                </div>
-              </a>
-            </div>
-          </div>
+  <!-- ── 分类导航卡片 ── -->
+  <section style={`background:${bgCard};padding:64px 24px`}>
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-12" style={`color:${textPrimary}`}>从零到精通，按需学习</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {siteConfig.categories.map((cat) => (
+          <a href={`/articles/?category=${cat.id}`} class="bg-white rounded-xl p-6 text-center border hover:border-blue-400 hover:shadow-md transition no-underline" style="color:inherit">
+            <div class="text-3xl mb-3">{cat.id === 'download' ? '📥' : cat.id === 'guide' ? '📖' : cat.id === 'config' ? '⚙️' : '🔧'}</div>
+            <h3 class="font-bold text-lg mb-1" style={`color:${primary}`}>{cat.name}</h3>
+            <p class="text-sm text-gray-500">{cat.id === 'download' ? '全平台下载安装教程' : cat.id === 'guide' ? '新手入门快速上手' : cat.id === 'config' ? '规则/TUN/DNS/订阅进阶' : '连不上/代理不生效/报错排错'}</p>
+          </a>
         ))}
       </div>
     </div>
+  </section>
 
-    <!-- ── Features 区 ── -->
-    <div class="introduce-container width">
-      <h2 class="introduce-title why_tg">
-        <img src="/images/TG2.svg" width="250" height="35" alt="" />
-      </h2>
-      <div class="introduce-main">
-        <div class="introduce-group">
-          {siteConfig.features.map((f, i) => (
-            <div class="introduce-group-item">
-              <div class="introduce-group-item-img-zone">
-                <div class={`introduce-group-item-img introduce-group-item-img-${i + 1}`}>
-                  <img class="img_gif" src={`/images/${f.gif}`} alt={f.title} loading="lazy" style="display:inline" />
-                </div>
-              </div>
-              <div class="introduce-group-item-title introduce_title_{i + 1}">{f.title}</div>
-              <h4 class="introduce-group-item-content">
-                <img src="/images/TT.svg" width="70" height="19" alt="" />
-                <span class={`introduce_${i + 1}`}> {f.desc}</span>
-              </h4>
-            </div>
-          ))}
+  <!-- ── 最新教程列表 ── -->
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <div class="flex justify-between items-center mb-10">
+      <h2 class="text-3xl font-bold" style={`color:${textPrimary}`}>📝 最新教程</h2>
+      <a href="/articles/" class="text-sm font-semibold no-underline" style={`color:${primary}`}>查看全部 →</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {sorted.map((article) => (
+        <a href={`/${article.id}/`} class="flex gap-4 bg-white rounded-xl p-5 border hover:shadow-md transition no-underline" style="color:inherit">
+          <div class="flex-1">
+            <span class="inline-block text-xs font-bold px-2 py-1 rounded mb-2">{siteConfig.catLabels?.[article.data.category] || article.data.category}</span>
+            <h3 class="font-bold text-base mb-1">{article.data.title}</h3>
+            <p class="text-sm text-gray-500 line-clamp-2">{article.data.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Clash 架构图解 ── -->
+  <section style="background:linear-gradient(135deg,#1e3a5f,#1e40af);color:#fff;padding:64px 24px">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-6">Clash 工作原理：一张图看懂</h2>
+      <p class="text-lg opacity-80 mb-10">你的每一个网络请求，Clash 都会这样处理</p>
+      <div class="bg-white/10 rounded-2xl p-8 backdrop-blur">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+          <div class="p-4"><div class="text-3xl mb-2">🖥</div><div class="font-bold">你的设备</div><div class="text-sm opacity-70 mt-1">发出网络请求</div></div>
+          <div class="p-4"><div class="text-3xl mb-2">➡️</div><div class="font-bold">规则匹配</div><div class="text-sm opacity-70 mt-1">DOMAIN / GEOIP / MATCH</div></div>
+          <div class="p-4"><div class="text-3xl mb-2">🔀</div><div class="font-bold">策略分流</div><div class="text-sm opacity-70 mt-1">直连/DIRECT 或 代理/PROXY</div></div>
+          <div class="p-4"><div class="text-3xl mb-2">🌍</div><div class="font-bold">访问目标</div><div class="text-sm opacity-70 mt-1">国内直连 · 国外走节点</div></div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ── 最新文章区 ── -->
-    <section class="articles">
-      <h2>最新教程</h2>
-      <div class="art-grid">
-        {sorted.map(article => {
-          const cat = article.data.category || 'guide';
-          return (
-            <a href={`/${article.id}/`} class="art-card">
-              <div class="art-card-body">
-                <span class={`art-tag ${cat}`}>{siteConfig.catLabels?.[cat] || article.data.category}</span>
-                <h3>{article.data.title}</h3>
-                <p>{article.data.description}</p>
-              </div>
-            </a>
-          );
-        })}
+  <!-- ── Clash 客户端对比 ── -->
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-center mb-4" style={`color:${textPrimary}`}>Clash 客户端横向对比</h2>
+    <p class="text-center text-gray-500 mb-10">选哪个客户端最适合你？一表对比</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse bg-white rounded-xl overflow-hidden border">
+        <thead style={`background:${primary};color:#fff`}>
+          <tr>
+            <th class="p-4 text-left">客户端</th>
+            <th class="p-4">平台</th>
+            <th class="p-4">内核</th>
+            <th class="p-4">TUN模式</th>
+            <th class="p-4">中文</th>
+            <th class="p-4">推荐人群</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b"><td class="p-4 font-bold">Clash Verge Rev</td><td class="p-4 text-center">Win/Mac/Linux</td><td class="p-4 text-center">Mihomo</td><td class="p-4 text-center">✅</td><td class="p-4 text-center">✅</td><td class="p-4 text-sm">⭐ 绝大多数用户首选</td></tr>
+          <tr class="border-b bg-gray-50"><td class="p-4 font-bold">Mihomo Party</td><td class="p-4 text-center">Win/Mac/Linux</td><td class="p-4 text-center">Mihomo</td><td class="p-4 text-center">✅</td><td class="p-4 text-center">✅</td><td class="p-4 text-sm">多机场管理/高级用户</td></tr>
+          <tr class="border-b"><td class="p-4 font-bold">FlClash</td><td class="p-4 text-center">Android</td><td class="p-4 text-center">Mihomo</td><td class="p-4 text-center">✅</td><td class="p-4 text-center">✅</td><td class="p-4 text-sm">安卓用户首选</td></tr>
+          <tr class="border-b bg-gray-50"><td class="p-4 font-bold">ClashX Meta</td><td class="p-4 text-center">macOS</td><td class="p-4 text-center">Mihomo</td><td class="p-4 text-center">✅</td><td class="p-4 text-center">✅</td><td class="p-4 text-sm">Mac 原生体验爱好者</td></tr>
+          <tr><td class="p-4 font-bold">Clash N</td><td class="p-4 text-center">Win/Mac/Linux</td><td class="p-4 text-center">Mihomo</td><td class="p-4 text-center">✅</td><td class="p-4 text-center">✅</td><td class="p-4 text-sm">追求简单/新手友好</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section style={`background:${bgCard};padding:64px 24px`}>
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-12" style={`color:${textPrimary}`}>常见问题</h2>
+      <div class="space-y-3">
+        <details class="bg-white rounded-xl p-5 border"><summary class="font-bold cursor-pointer">Clash 是什么？和普通 VPN 有什么区别？</summary><p class="mt-3 text-gray-600 text-sm">Clash 是一个基于规则的代理客户端，不是传统 VPN。它能智能分流国内外流量——国内网站直连、国外网站走代理。相比 VPN 的"全局代理"，Clash 更灵活、更快、对正常上网影响更小。</p></details>
+        <details class="bg-white rounded-xl p-5 border"><summary class="font-bold cursor-pointer">Clash Verge Rev 怎么导入订阅链接？</summary><p class="mt-3 text-gray-600 text-sm">打开 Clash Verge Rev → 点击左侧「订阅」→ 点击右上角「新建」→ 粘贴机场提供的订阅链接 → 保存。Clash 会自动拉取节点列表。</p></details>
+        <details class="bg-white rounded-xl p-5 border"><summary class="font-bold cursor-pointer">TUN 模式是什么？需要开启吗？</summary><p class="mt-3 text-gray-600 text-sm">TUN 模式会在系统网络层创建虚拟网卡，接管所有程序的流量。如果你发现某些软件不走代理（如命令行工具、游戏），开启 TUN 模式通常能解决。</p></details>
+        <details class="bg-white rounded-xl p-5 border"><summary class="font-bold cursor-pointer">Clash 连不上/代理不生效怎么办？</summary><p class="mt-3 text-gray-600 text-sm">先检查系统代理开关是否打开、节点是否在线、规则配置是否正确。常见解决方案：切换节点、开启TUN模式、检查防火墙、更新内核。</p></details>
+        <details class="bg-white rounded-xl p-5 border"><summary class="font-bold cursor-pointer">Clash 规则分流怎么配置才不影响国内网站？</summary><p class="mt-3 text-gray-600 text-sm">默认规则已内置 GEOIP 和常见域名分流。核心逻辑：GEOIP,CN,DIRECT 让中国IP直连；DOMAIN-SUFFIX,google.com,PROXY 让 Google 走代理。一般无需修改。</p></details>
+        <details class="bg-white rounded-xl p-5 border"><summary class="font-bold cursor-pointer">哪个 Clash 客户端最好用？</summary><p class="mt-3 text-gray-600 text-sm">Windows用户推荐 Clash Verge Rev（开源、稳定、中文界面）；macOS可选 ClashX Meta；Android推荐 FlClash。所有客户端兼容同一份订阅。</p></details>
       </div>
-      <div style="text-align:center;margin-top:32px">
-        <a href="/articles/" style={`display:inline-block;padding:12px 36px;background:${c.primary};color:#fff;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;transition:background .2s`}>查看全部教程 →</a>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ── 常见问题 FAQ ── -->
-    <section class="articles" style="padding-bottom:0">
-      <h2>常见问题</h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <div class="faq-q">Clash 是什么？和普通 VPN 有什么区别？ <span class="faq-arrow">▼</span></div>
-          <div class="faq-a"><div class="faq-a-inner">Clash 是一个基于规则的代理客户端，不是传统 VPN。它能智能分流国内外流量——国内网站直连访问、国外网站走代理通道，互不干扰。相比 VPN 的"全局代理"模式，Clash 的规则分流更灵活、速度更快、对正常上网影响更小。详见 <a href="/guide/clash-xinshou-rumen/">Clash 新手入门完全指南</a>。</div></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Clash Verge Rev 怎么导入订阅链接？ <span class="faq-arrow">▼</span></div>
-          <div class="faq-a"><div class="faq-a-inner">打开 Clash Verge Rev → 点击左侧「订阅」→ 点击右上角「新建」→ 粘贴机场提供的订阅链接 → 保存。Clash 会自动拉取节点列表。如果导入失败，检查链接是否完整、网络是否正常、机场是否支持 Clash 格式。详见 <a href="/guide/clash-verge-rev-shiyong/">Clash Verge Rev 使用教程</a>。</div></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">TUN 模式是什么？需要开启吗？ <span class="faq-arrow">▼</span></div>
-          <div class="faq-a"><div class="faq-a-inner">TUN 模式会在系统网络层创建虚拟网卡，接管所有程序的流量。普通模式下 Clash 只能代理浏览器和应用层流量，但开启 TUN 后，命令行工具、游戏、系统更新等也能走代理。如果你发现某些软件不走代理，开启 TUN 模式通常能解决。详见 <a href="/config/clash-tun-mode-guide/">Clash TUN 模式完整指南</a>。</div></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Clash 连不上/代理不生效怎么办？ <span class="faq-arrow">▼</span></div>
-          <div class="faq-a"><div class="faq-a-inner">先检查三点：1）系统代理开关是否打开；2）节点是否在线可选；3）规则配置是否正确。常见解决方案：切换节点、开启 TUN 模式、检查防火墙是否拦截、更新 Clash 内核。完整排查步骤见 <a href="/fix/clash-connection-troubleshooting/">Clash 连接故障排查指南</a>。</div></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Clash 规则分流怎么配置才能不干扰国内网站？ <span class="faq-arrow">▼</span></div>
-          <div class="faq-a"><div class="faq-a-inner">默认规则已内置 GEOIP 和常见域名分流，绝大多数情况下无需修改。核心逻辑：<code>GEOIP,CN,DIRECT</code> 让所有中国 IP 直连；<code>DOMAIN-SUFFIX,google.com,PROXY</code> 让 Google 走代理。如需自定义规则，在「规则」页面添加即可。详见 <a href="/config/clash-rule-routing-guide/">Clash 规则分流配置指南</a>。</div></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Clash Verge Rev、ClashX、Mihomo Party 哪个最好用？ <span class="faq-arrow">▼</span></div>
-          <div class="faq-a"><div class="faq-a-inner">Windows 用户推荐 Clash Verge Rev（开源、稳定、中文界面）；macOS 用户可选 ClashX Meta 或 Clash Verge Rev；Android 推荐 FlClash。Mihomo Party 适合需要多机场管理和高级配置的用户。所有客户端都可以导入相同的 Clash 订阅。详见 <a href="/guide/clash-verge-rev-shiyong/">Clash 客户端对比与选择指南</a>。</div></div>
-        </div>
-      </div>
-    </section>
+  <!-- ── 底部CTA ── -->
+  <section class="text-center text-white" style="background:linear-gradient(135deg,#1e40af,#6366f1);padding:64px 24px">
+    <h2 class="text-3xl font-bold mb-4">准备好开始了吗？</h2>
+    <p class="text-lg opacity-80 mb-8 max-w-xl mx-auto">15 分钟，从下载到流畅使用 Clash，轻松访问全球互联网。</p>
+    <a href="/guide/clash-xinshou-rumen/" class="inline-block bg-white text-blue-700 font-bold px-10 py-4 rounded-full text-lg hover:shadow-2xl transition">🚀 开始入门教程</a>
+  </section>
 
-  </div>
-
-  <style set:html={pageCSS} />
+  <style>
+    .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    details summary { list-style:none; }
+    details summary::-webkit-details-marker { display:none; }
+    details[open] summary { color:#6366f1; }
+  </style>
 </BaseLayout>
